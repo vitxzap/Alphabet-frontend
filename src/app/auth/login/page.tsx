@@ -10,7 +10,11 @@ import {
   Button,
   Text,
   Separator,
+  Icon,
 } from "@chakra-ui/react";
+import { FaGoogle } from "react-icons/fa";
+import { FaApple } from "react-icons/fa";
+
 import { motion } from "framer-motion";
 const MotionCard = motion(Card.Root);
 const MotionHeading = motion(Heading);
@@ -35,7 +39,7 @@ export default function Login() {
       </MotionHeading>
       <MotionCard
         size={"lg"}
-        w={"1/3"}
+        w={"1/4"}
         boxShadow={"xl"}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -75,20 +79,59 @@ export default function Login() {
           {/* End of fieldset */}
         </Card.Body>
         <Card.Footer>
-          <Flex width="full" justify={"end"} align={"end"}>
+          <Flex
+            width="full"
+            justify={"end"}
+            align={"center"}
+            direction={"column"}
+            gap="2"
+          >
             <MotionButton
               colorPalette={"green"}
-              whileHover={{ scale: 1.1 }}
+              width={"full"}
+              whileHover={{ scale: 1.025 }}
               whileTap={{ scale: 0.9 }}
               transition={{
                 duration: 0.02,
-                scale: { type: "spring", visualDuration: 0.02, bounce: 0.04 },
+                scale: { type: "spring", visualDuration: 0.02, bounce: 0.06 },
               }}
             >
               Login
             </MotionButton>
+            <Text color={"fg.muted"} fontSize={"sm"}>you can also</Text>
+            <MotionButton
+              variant={"outline"}
+              w="full"
+              whileHover={{ scale: 1.025 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{
+                duration: 0.02,
+                scale: { type: "spring", visualDuration: 0.02, bounce: 0.06 },
+              }}
+            >
+              <Icon size={"sm"}>
+                <FaGoogle />
+              </Icon>
+              Login with Google
+            </MotionButton>
+            <MotionButton
+              variant={"outline"}
+              w="full"
+              whileHover={{ scale: 1.025 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{
+                duration: 0.02,
+                scale: { type: "spring", visualDuration: 0.02, bounce: 0.06 },
+              }}
+            >
+              <Icon size={"md"}>
+                <FaApple />
+              </Icon>
+              Login with Apple
+            </MotionButton>
           </Flex>
         </Card.Footer>
+        <Separator />
       </MotionCard>
     </Flex>
   );
