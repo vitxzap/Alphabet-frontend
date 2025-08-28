@@ -1,4 +1,7 @@
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
+import { buttonRecipe } from "./recipes";
+
+
 
 const config = defineConfig({
   //configurating the project theme.
@@ -10,7 +13,16 @@ const config = defineConfig({
         heading: { value: `var(--font-dm-sans)` },
         mono: { value: "var(--font-jetbrains-mono)"}
       },
+      radii: {
+        sm: {value: ".475rem"},
+        md: {value: "0.525rem"},
+        lg: {value: ".825rem"},
+        xl: {value: "1rem"}
+      }
     },
+    recipes:{
+      button: buttonRecipe
+    }
   },
 });
 
