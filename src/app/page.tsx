@@ -1,11 +1,12 @@
 
-import { Code, Flex, Heading, Text } from "@chakra-ui/react";
+import { Code, Flex, Heading, Link, Text } from "@chakra-ui/react";
 export default function Home() {
   return (
     //testing
    <Flex>
-    <Heading>Project Alphabet</Heading>
-    <Code size={"lg"}>SELECT * FROM TB_TESTE</Code>
+    <Link href="/auth/login">
+      Login page
+    </Link>
    </Flex>
   );
 }
