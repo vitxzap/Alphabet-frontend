@@ -16,7 +16,7 @@ import { FaApple } from "react-icons/fa";
 import RegisterForm from "./register-form";
 import { MotionCard } from "@/components/motion-chakra/motion-chakra-components";
 
-export default function Login() {
+export default function Register() {
   return (
     <Flex
       w={"vw"}

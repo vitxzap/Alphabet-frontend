@@ -1,5 +1,6 @@
 import { JetBrains_Mono, DM_Sans, Inter } from "next/font/google";
 import { Provider } from "@/components/ui/provider";
+import NextQueryProvider from "./queryClientProvider";
 
 const inter = Inter({
   variable: "--font-dm-sans",
@@ -23,7 +24,9 @@ export default function RootLayout({
       className={`${inter.variable} ${jetBrains_Mono.variable} antialiased`}
     >
       <body>
-        <Provider>{children}</Provider>
+        <Provider>
+          <NextQueryProvider>{children}</NextQueryProvider>
+        </Provider>
       </body>
     </html>
   );
