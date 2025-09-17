@@ -1,6 +1,6 @@
 import { MotionButton } from "@/components/motion-chakra/motion-chakra-components";
 import { PasswordInput } from "@/components/ui/password-input";
-import { Fieldset, Field, InputGroup, Input } from "@chakra-ui/react";
+import { Fieldset, Field, InputGroup, Input, Center, Spinner } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -8,6 +8,10 @@ import { RiArrowRightLine } from "react-icons/ri";
 import { TbLockPassword } from "react-icons/tb";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { callRegisterEndpoint } from "../api";
+import { RegisterDto } from "../auth.dto";
+import { toaster, Toaster } from "@/components/ui/toaster";
 const registerSchema = z
   .object({
     name: z.string().min(3),
@@ -31,14 +35,37 @@ export default function RegisterForm() {
   const form = useForm<RegisterTypeSchema>({
     resolver: zodResolver(registerSchema), //using rhf integration with zod to resolve types and schemas
   });
+  const register = useMutation({
+    mutationFn: callRegisterEndpoint,
+    onError: (err) => {
+      toaster.create({
+        title: "Error",
+        closable: true,
+        type: "error",
+        description: err.message,
+      });
+    },
+    onSuccess: () => {
+      toaster.create({
+        title: "Created",
+        closable: true,
+        type: "success",
+        description: "Your account has been created."
+      })
+    }
+  });
 
-  function handleRegisterForm(data: RegisterTypeSchema) {
-    console.log(data);
+  function handleRegisterForm(form: RegisterTypeSchema | RegisterDto) {
+    register.mutate(form as RegisterDto);
   } //function to handle with data and submit
   return (
     <Fieldset.Root>
+      <Toaster />
       <Fieldset.Content gap={3} asChild>
-        <form onSubmit={form.handleSubmit(handleRegisterForm)} noValidate={true}>
+        <form
+          onSubmit={form.handleSubmit(handleRegisterForm)}
+          noValidate={true}
+        >
           {/* field name */}
           <Field.Root invalid={!!form.formState.errors.name?.message} required>
             <Field.Label>
@@ -75,7 +102,9 @@ export default function RegisterForm() {
 
           {/* field password */}
           <Field.Root invalid={!!form.formState.errors.password} required>
-            <Field.Label>Password <Field.RequiredIndicator /> </Field.Label>
+            <Field.Label>
+              Password <Field.RequiredIndicator />{" "}
+            </Field.Label>
             <InputGroup startElement={<TbLockPassword />}>
               <PasswordInput
                 {...form.register("password")}
@@ -109,6 +138,7 @@ export default function RegisterForm() {
           {/* Submit button */}
           <MotionButton
             type="submit"
+            disabled={register.isPending}
             colorPalette={"green"}
             variant="outline"
             width={"full"}
@@ -119,7 +149,15 @@ export default function RegisterForm() {
               scale: { type: "spring", visualDuration: 0.02, bounce: 0.06 },
             }}
           >
-            Create account <RiArrowRightLine />
+            {register.isPending === true ? (
+              <Center gap={3}>
+                <Spinner size={"sm"} /> Creating... 
+              </Center>
+            ) : (
+              <Center>
+                Create account <RiArrowRightLine />
+              </Center>
+            )}
           </MotionButton>
         </form>
       </Fieldset.Content>
