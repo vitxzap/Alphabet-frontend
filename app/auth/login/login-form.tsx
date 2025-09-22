@@ -12,13 +12,11 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import z from "zod";
-import { TextShimmer } from "@/components/motion-primitives/text-shimmer";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { callLoginEndpoint } from "@/app/auth/auth-api";
-import { LoginDto } from "@/app/auth/auth-dto";
 import { BorderTrail } from "@/components/motion-primitives/border-trail";
-import { LucideArrowRight } from "lucide-react";
+import { LucideArrowRight, LucideKeyRound, LucideMail } from "lucide-react";
+import { Field } from "@/components/Field";
+import { PasswordInput } from "@/components/ui/password-input";
 const loginSchema = z.object({
   email: z.email({ error: "Invalid: must be an email" }).nonempty(),
   password: z.string().min(8),
@@ -34,15 +32,7 @@ export default function LoginForm({
     resolver: zodResolver(loginSchema),
   });
 
-  const login = useMutation({
-    mutationFn: callLoginEndpoint,
-    onError: (err) => {},
-    onSuccess: () => {},
-  });
-
-  function handleLoginForm(form: LoginTypeSchema | LoginDto) {
-    login.mutate(form as LoginDto);
-  } //function to handle with data and submit
+  function handleLoginForm() {} //Handle with data and submit from forms
   return (
     <div className={cn("flex flex-col gap-6 relative", className)} {...props}>
       <Card className="relative">
@@ -68,43 +58,44 @@ export default function LoginForm({
           >
             <div className="grid gap-4">
               <div className="grid gap-4">
-                <div className="grid gap-3">
-                  <Label htmlFor="email">Email</Label>
+                <Field.Root>
+                  <Field.Label requiredIcon>Email</Field.Label>
                   <Input
+                    required
+                    invalid={!!form.formState.errors.email?.message}
                     {...form.register("email")}
-                    id="email"
-                    type="email"
-                    placeholder="email@example.com"
-                    required
+                    placeholder="Enter your email..."
+                    startElement={<LucideMail size={16} />}
                   />
-                </div>
-                <div className="grid gap-3">
-                  <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
-                    <a
-                      href="/auth/reset-password"
-                      className="ml-auto text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </a>
-                  </div>
-                  <Input
-                    id="password"
-                    type="password"
+                  <Field.ErrorText>
+                    {form.formState.errors.email?.message}
+                  </Field.ErrorText>
+                </Field.Root>
+                <Field.Root>
+                  <Field.Label requiredIcon additionalInfo="Forgot your password?">Password</Field.Label>
+                  <PasswordInput
                     required
+                    
+                    invalid={!!form.formState.errors.password?.message}
                     {...form.register("password")}
+                    placeholder="Enter your password..."
                   />
-                </div>
-
+                  <Field.ErrorText>
+                    {form.formState.errors.password?.message}
+                  </Field.ErrorText>
+                </Field.Root>
                 <div className="relative">
                   <Button type="submit" className="w-full relative">
-                      Continue <LucideArrowRight />
+                    Continue <LucideArrowRight />
                   </Button>
                 </div>
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="/auth/register" className="underline underline-offset-4">
+                <a
+                  href="/auth/register"
+                  className="underline underline-offset-4"
+                >
                   Sign up
                 </a>
               </div>
