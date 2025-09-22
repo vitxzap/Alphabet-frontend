@@ -12,14 +12,12 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { callRegisterEndpoint } from "@/app/auth/auth-api";
-import { RegisterDto } from "@/app/auth/auth-dto";
 import { BorderTrail } from "@/components/motion-primitives/border-trail";
-import { LucideArrowRight, LucideUser } from "lucide-react";
-import { useState } from "react";
+import { LucideArrowRight, LucideMail, LucideUser } from "lucide-react";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Field } from "@/components/Field";
+import { authClient, Session } from "@/lib/auth-client";
+import { RegisterDto } from "./register-dto";
 const registerSchema = z
   .object({
     name: z.string().min(3),
@@ -46,14 +44,17 @@ export default function RegisterForm({
   const form = useForm<RegisterTypeSchema>({
     resolver: zodResolver(registerSchema),
   });
-  const register = useMutation({
-    mutationFn: callRegisterEndpoint,
-    onError: (err) => {},
-    onSuccess: () => {},
-  });
+  
 
-  function handleRegisterForm(form: RegisterTypeSchema | RegisterDto) {
-    register.mutate(form as RegisterDto);
+  async function handleRegisterForm(formData: RegisterDto) {
+    console.log(formData)
+    const auth = await authClient.signUp.email({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      callbackURL: 'http://localhost:3000'
+    })
+    console.log(auth)
   } //function to handle with data and submit
   return (
     <div className={cn("flex flex-col gap-6 relative", className)} {...props}>
@@ -99,7 +100,7 @@ export default function RegisterForm({
                     placeholder="Enter your email..."
                     invalid={!!form.formState.errors.email?.message}
                     {...form.register("email")}
-                    startElement={<LucideUser size={16} />}
+                    startElement={<LucideMail size={16} />}
                   />
                   <Field.ErrorText>
                     {form.formState.errors.email?.message}
