@@ -14,7 +14,6 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BorderTrail } from "@/components/motion-primitives/border-trail";
 import {
-  LucideAlertCircle,
   LucideArrowRight,
   LucideCircleX,
   LucideMail,
@@ -27,7 +26,6 @@ import { authClient, Session } from "@/lib/auth-client";
 import { RegisterDto } from "./register-dto";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import { useMutation } from "@tanstack/react-query";
-import { LoginDto } from "../login/login-dto";
 import { toast } from "sonner";
 const registerSchema = z
   .object({
@@ -109,7 +107,7 @@ export default function RegisterForm({
       )}
       {...props}
     >
-      <Card className="relative min-w-1/4 max-w-1/2">
+      <Card>
         <BorderTrail size={100} />
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Nice to meet you!</CardTitle>
