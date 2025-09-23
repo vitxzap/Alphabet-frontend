@@ -8,18 +8,31 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BorderTrail } from "@/components/motion-primitives/border-trail";
-import { LucideArrowRight, LucideKeyRound, LucideMail } from "lucide-react";
+import {
+  LucideArrowRight,
+  LucideCircle,
+  LucideCircleX,
+  LucideMail,
+  LucideUserRoundCheck,
+} from "lucide-react";
 import { Field } from "@/components/Field";
 import { PasswordInput } from "@/components/ui/password-input";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { LoginDto } from "./login-dto";
+import { authClient } from "@/lib/auth-client";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 const loginSchema = z.object({
   email: z.email({ error: "Invalid: must be an email" }).nonempty(),
   password: z.string().min(8),
+  rememberMe: z.boolean(),
 }); //creating zod login schema to be used in the form
 
 type LoginTypeSchema = z.infer<typeof loginSchema>; //Defining zod type to use within typescript
@@ -30,24 +43,70 @@ export default function LoginForm({
 }: React.ComponentProps<"div">) {
   const form = useForm<LoginTypeSchema>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      rememberMe: true,
+    },
   });
 
-  function handleLoginForm() {} //Handle with data and submit from forms
+  const loginMutation = useMutation({
+    mutationFn: async (formData: LoginDto) => {
+      const response = await authClient.signIn.email({
+        email: formData.email,
+        password: formData.password,
+        rememberMe: formData.rememberMe,
+        callbackURL: "http://localhost:3050/api/auth/reference",
+      });
+      if (response.error) {
+        throw response.error;
+      }
+      return response;
+    },
+    onError: (err) => {
+      toast.error("Error", {
+        position: "bottom-center",
+        style: {
+          "--normal-bg":
+            "color-mix(in oklab, var(--destructive) 30%, var(--background) 70% )",
+          "--normal-text": "var(--destructive)",
+          "--normal-border": "var(--destructive)",
+        } as React.CSSProperties,
+        icon: <LucideCircleX />,
+        description: err.message,
+      });
+    },
+    onSuccess: (data) => {
+      toast.success("Success", {
+        position: "bottom-center",
+        style: {
+          "--normal-bg":
+            "color-mix(in oklab, var(--color-green-600) 30%, var(--background) 70%)",
+          "--normal-text":
+            "light-dark(var(--color-green-600), var(--color-green-400))",
+          "--normal-border":
+            "light-dark(var(--color-green-600), var(--color-green-400))",
+        } as React.CSSProperties,
+        icon: <LucideUserRoundCheck />,
+        description: "Logged in.",
+      });
+    },
+  });
+
+  async function handleLoginForm(formData: LoginDto) {
+    loginMutation.mutate(formData);
+  } //Handle with data and submit from forms
   return (
-    <div className={cn("flex flex-col gap-6 relative", className)} {...props}>
-      <Card className="relative">
-        <BorderTrail
-          className="bg-linear-to-l from-[#6769ff] to-[#696bfd]"
-          style={{
-            boxShadow:
-              "0px 0px 60px 30px #6366f1, 0 0 100px 60px #6366f1, 0 0 140px 90px #6366f1",
-          }}
-          size={100}
-        />
+    <div
+      className={cn(
+        "flex flex-col gap-6 relative w-full items-center justify-center"
+      )}
+      {...props}
+    >
+      <Card className="relative min-w-1/4">
+        <BorderTrail size={100} />
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>
-            Login with your Apple or Google account
+            Provide your information to continue.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -57,7 +116,7 @@ export default function LoginForm({
             noValidate={true}
           >
             <div className="grid gap-4">
-              <div className="grid gap-4">
+              <div className="grid gap-2">
                 <Field.Root>
                   <Field.Label requiredIcon>Email</Field.Label>
                   <Input
@@ -72,10 +131,14 @@ export default function LoginForm({
                   </Field.ErrorText>
                 </Field.Root>
                 <Field.Root>
-                  <Field.Label requiredIcon additionalInfo="Forgot your password?">Password</Field.Label>
+                  <Field.Label
+                    requiredIcon
+                    additionalInfo="Forgot your password?"
+                  >
+                    Password
+                  </Field.Label>
                   <PasswordInput
                     required
-                    
                     invalid={!!form.formState.errors.password?.message}
                     {...form.register("password")}
                     placeholder="Enter your password..."
@@ -84,9 +147,36 @@ export default function LoginForm({
                     {form.formState.errors.password?.message}
                   </Field.ErrorText>
                 </Field.Root>
+
+                <Controller
+                  name="rememberMe"
+                  control={form.control}
+                  render={({ field }) => (
+                    <div className="flex gap-2">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <Label>Remember me?</Label>
+                    </div>
+                  )}
+                ></Controller>
+
                 <div className="relative">
-                  <Button type="submit" className="w-full relative">
-                    Continue <LucideArrowRight />
+                  <Button
+                    type="submit"
+                    disabled={form.formState.isLoading}
+                    className="w-full relative"
+                  >
+                    {loginMutation.isPending ? (
+                      <>
+                        <Spinner variant="ring" /> Loading...
+                      </>
+                    ) : (
+                      <>
+                        Continue <LucideArrowRight />
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
@@ -102,7 +192,7 @@ export default function LoginForm({
             </div>
 
             <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-              <span className="bg-card text-muted-foreground relative z-10 px-2">
+              <span className=" text-muted-foreground relative z-10 px-2">
                 Or continue with
               </span>
             </div>

@@ -19,7 +19,7 @@ export default function FieldLabel({
       </Label>
       {additionalInfo ? (
         <div>
-          <a className="ml-auto text-sm underline-offset-4 hover:underline cursor-pointer">{additionalInfo}</a>
+          <a className="ml-auto text-sm underline-offset-4 hover:underline cursor-pointer" href="http://localhost:3000/auth/forgot-password">{additionalInfo}</a>
         </div>
       ) : (
         ""
