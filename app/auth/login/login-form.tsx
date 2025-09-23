@@ -50,16 +50,16 @@ export default function LoginForm({
 
   const loginMutation = useMutation({
     mutationFn: async (formData: LoginDto) => {
-      const response = await authClient.signIn.email({
+      const { data, error } = await authClient.signIn.email({
         email: formData.email,
         password: formData.password,
         rememberMe: formData.rememberMe,
         callbackURL: "http://localhost:3050/api/auth/reference",
       });
-      if (response.error) {
-        throw response.error;
+      if (error) {
+        throw error;
       }
-      return response;
+      return data;
     },
     onError: (err) => {
       toast.error("Error", {
@@ -74,24 +74,9 @@ export default function LoginForm({
         description: err.message,
       });
     },
-    onSuccess: (data) => {
-      toast.success("Success", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--color-green-600) 30%, var(--background) 70%)",
-          "--normal-text":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-          "--normal-border":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-        } as React.CSSProperties,
-        icon: <LucideUserRoundCheck />,
-        description: "Logged in.",
-      });
-    },
   });
 
-  async function handleLoginForm(formData: LoginDto) {
+  function handleLoginForm(formData: LoginDto) {
     loginMutation.mutate(formData);
   } //Handle with data and submit from forms
   return (

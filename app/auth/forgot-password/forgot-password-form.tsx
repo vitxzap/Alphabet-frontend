@@ -12,10 +12,9 @@ import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   LucideArrowRight,
-  LucideCircle,
   LucideCircleX,
   LucideMail,
   LucideUserRoundCheck,
@@ -43,14 +42,14 @@ export default function ForgotPasswordForm({
 
   const forgotPasswordMutation = useMutation({
     mutationFn: async (formData: ForgotPasswordSchemaType) => {
-      const response = await authClient.forgetPassword({
+      const {data, error} = await authClient.forgetPassword({
         email: formData.email,
-        redirectTo: "http://localhost:3000/auth/login",
+        redirectTo: `${process.env.NEXT_PUBLIC_RESET_PASSWORD_URL}`,
       });
-      if (response.error) {
-        throw response.error;
+      if (error) {
+        throw error;
       }
-      return response;
+      return data;
     },
     onError: (err) => {
       toast.error("Error", {
@@ -90,7 +89,7 @@ export default function ForgotPasswordForm({
         "flex flex-col gap-6 relative w-full items-center justify-center"
       )}
     >
-      <Card className="relative min-w-1/4">
+      <Card>
         <BorderTrail size={100} />
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Forgot your password?</CardTitle>
@@ -99,37 +98,35 @@ export default function ForgotPasswordForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-2">
-            <form
-              onSubmit={form.handleSubmit(handleForgotPasswordSubmit)}
-              className="grid gap-2"
-              noValidate={true}
-            >
-              <Field.Root>
-                <Field.Label requiredIcon>Email</Field.Label>
-                <Input
-                  {...form.register("email")}
-                  invalid={!!form.formState.errors.email?.message}
-                  startElement={<LucideMail size={16} />}
-                  placeholder="Enter your email..."
-                />
-                <Field.ErrorText>
-                  {form.formState.errors.email?.message}
-                </Field.ErrorText>
-              </Field.Root>
-              <Button type="submit" className="w-full relative">
-                {forgotPasswordMutation.isPending ? (
-                  <>
-                    <Spinner variant="ring" /> Loading...
-                  </>
-                ) : (
-                  <>
-                    Recover my password <LucideArrowRight />
-                  </>
-                )}
-              </Button>
-            </form>
-          </div>
+          <form
+            onSubmit={form.handleSubmit(handleForgotPasswordSubmit)}
+            className="grid gap-2"
+            noValidate={true}
+          >
+            <Field.Root>
+              <Field.Label requiredIcon>Email</Field.Label>
+              <Input
+                {...form.register("email")}
+                invalid={!!form.formState.errors.email?.message}
+                startElement={<LucideMail size={16} />}
+                placeholder="Enter your email..."
+              />
+              <Field.ErrorText>
+                {form.formState.errors.email?.message}
+              </Field.ErrorText>
+            </Field.Root>
+            <Button type="submit" className="w-full relative">
+              {forgotPasswordMutation.isPending ? (
+                <>
+                  <Spinner variant="ring" /> Loading...
+                </>
+              ) : (
+                <>
+                  Recover my password <LucideArrowRight />
+                </>
+              )}
+            </Button>
+          </form>
         </CardContent>
       </Card>
     </div>
