@@ -20,9 +20,11 @@ import { useState } from "react";
 import { AuthCardConfig, AuthCardScreen } from "./authConfig";
 import ResetPasswordForm from "./reset-password/reset-password-form";
 import ForgotPasswordForm from "./forgot-password/forgot-password-form";
+import { OTPCardConfig } from "./OTP/OTPConfig";
 
 export default function AuthPage() {
   const [state, send] = useMachine(AuthMachine);
+
   const [cardText, setCardText] = useState<AuthCardScreen>(); // Controls whats is going to be displayed in card texts e.g. title, description
   function renderForm() {
     switch (true) {
@@ -58,13 +60,23 @@ export default function AuthPage() {
       case state.matches("forgotPassword"):
         return (
           <ForgotPasswordForm
+            onRender={() => {
+              setCardText(AuthCardConfig.forgotPassword);
+            }}
             actions={{
               callOTP: {
-                callback: () => send({ type: "REQUEST_OTP_FORM", email: "", purpose: "email-verification" }),
+                callback: () =>
+                  send({
+                    type: "REQUEST_OTP_FORM",
+                    email: "",
+                    purpose: "email-verification",
+                  }),
               },
             }}
           />
         );
+      case state.matches({ otp: "forgotPassword" }):
+        return <OTPForm onRender={() => setCardText(OTPCardConfig.forgotPassword)} />
     }
   }
   return (
