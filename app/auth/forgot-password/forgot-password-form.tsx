@@ -25,24 +25,35 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ForgotPasswordDto } from "./forgot-password-dto";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { AuthMachineComponentProps } from "../authMachine";
+import { useEffect } from "react";
 
 const ForgotPasswordSchema = z.object({
   email: z.email(),
 });
 
 type ForgotPasswordSchemaType = z.infer<typeof ForgotPasswordSchema>;
+interface ForgotPasswordFormProps
+  extends React.ComponentProps<"div">,
+    AuthMachineComponentProps<{
+      callOTP: {
+        callback: () => void;
+      };
+    }> {} // extends onRender and onSend from AuthMachineComponentProps to be used in the component
 
 export default function ForgotPasswordForm({
   className,
+  onRender,
+  actions,
   ...props
-}: React.ComponentProps<"div">) {
+}: ForgotPasswordFormProps) {
   const form = useForm<ForgotPasswordSchemaType>({
     resolver: zodResolver(ForgotPasswordSchema),
   });
 
   const forgotPasswordMutation = useMutation({
     mutationFn: async (formData: ForgotPasswordSchemaType) => {
-      const {data, error} = await authClient.forgetPassword({
+      const { data, error } = await authClient.forgetPassword({
         email: formData.email,
         redirectTo: `${process.env.NEXT_PUBLIC_RESET_PASSWORD_URL}`,
       });
@@ -83,52 +94,44 @@ export default function ForgotPasswordForm({
   function handleForgotPasswordSubmit(formData: ForgotPasswordDto) {
     forgotPasswordMutation.mutate(formData);
   }
+  useEffect(() => {
+    if (onRender != undefined) {
+      onRender();
+    }
+  }, []);
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-6 relative w-full items-center justify-center"
-      )}
+    <form
+      onSubmit={form.handleSubmit(handleForgotPasswordSubmit)}
+      className="grid gap-2"
+      noValidate={true}
     >
-      <Card>
-        <BorderTrail size={100} />
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">Forgot your password?</CardTitle>
-          <CardDescription>
-            Provider your email to receive an message to recovery your account.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form
-            onSubmit={form.handleSubmit(handleForgotPasswordSubmit)}
-            className="grid gap-2"
-            noValidate={true}
-          >
-            <Field.Root>
-              <Field.Label requiredIcon>Email</Field.Label>
-              <Input
-                {...form.register("email")}
-                invalid={!!form.formState.errors.email?.message}
-                startElement={<LucideMail size={16} />}
-                placeholder="Enter your email..."
-              />
-              <Field.ErrorText>
-                {form.formState.errors.email?.message}
-              </Field.ErrorText>
-            </Field.Root>
-            <Button type="submit" className="w-full relative">
-              {forgotPasswordMutation.isPending ? (
-                <>
-                  <Spinner variant="ring" /> Loading...
-                </>
-              ) : (
-                <>
-                  Recover my password <LucideArrowRight />
-                </>
-              )}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+      <Field.Root>
+        <Field.Label requiredIcon>Email</Field.Label>
+        <Input
+          {...form.register("email")}
+          invalid={!!form.formState.errors.email?.message}
+          startElement={<LucideMail size={16} />}
+          placeholder="Enter your email..."
+        />
+        <Field.ErrorText>
+          {form.formState.errors.email?.message}
+        </Field.ErrorText>
+      </Field.Root>
+      <Button
+        type="submit"
+        className="w-full relative"
+        onClick={actions?.callOTP.callback}
+      >
+        {forgotPasswordMutation.isPending ? (
+          <>
+            <Spinner variant="ring" /> Loading...
+          </>
+        ) : (
+          <>
+            Recover my password <LucideArrowRight />
+          </>
+        )}
+      </Button>
+    </form>
   );
 }
