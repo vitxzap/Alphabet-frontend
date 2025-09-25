@@ -40,7 +40,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
   });
   const OTPFormMutate = useMutation({
     mutationFn: async (formData: OTPFormSchemaType) => {
-        const {data, error} = await authClient.
+        
     }
   })
   function handleOTPForm(formData: OTPFormSchemaType){
@@ -52,7 +52,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
     }
   }, []);
   return (
-    <form className="flex items-center justify-center" noValidate onSubmit={}>
+    <form className="flex items-center justify-center" noValidate >
       <div className="grid gap-2 items-center justify-center">
         <div>
           <Controller

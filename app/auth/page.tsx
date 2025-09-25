@@ -21,6 +21,7 @@ import { AuthCardConfig, AuthCardScreen } from "./authConfig";
 import ResetPasswordForm from "./reset-password/reset-password-form";
 import ForgotPasswordForm from "./forgot-password/forgot-password-form";
 import { OTPCardConfig } from "./OTP/OTPConfig";
+import { AnimatePresence, motion } from "motion/react";
 
 export default function AuthPage() {
   const [state, send] = useMachine(AuthMachine);
@@ -72,40 +73,78 @@ export default function AuthPage() {
                     purpose: "email-verification",
                   }),
               },
+              backToLoginPage: {
+                callback: () =>
+                  send({
+                    type: "REQUEST_LOGIN_FORM",
+                  }),
+              },
             }}
           />
         );
       case state.matches({ otp: "forgotPassword" }):
-        return <OTPForm onRender={() => setCardText(OTPCardConfig.forgotPassword)} />
+        return (
+          <OTPForm onRender={() => setCardText(OTPCardConfig.forgotPassword)} />
+        );
     }
   }
   return (
-    <WavyBackground className="w-full">
-      <div className="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-        <BlurFade
-          delay={0.25}
-          inView
-          className="flex items-center justify-center w-full"
-        >
-          <div className="flex w-full flex-col gap-6 justify-center items-center">
-            <a
-              href="#"
-              className="flex items-center gap-2 self-center font-medium"
-            >
-              <AnimatedThemeToggler />
-              Resum.it
-            </a>
+    <div className="flex items-center justify-center min-h-screen max-h-screen max-w-full  relative overflow-hidden">
+      <BlurFade
+        delay={0.25}
+        inView
+        className="flex items-center justify-center w-full"
+      >
+        <div className="flex w-full flex-col gap-6 justify-center items-center">
+          <a
+            href="#"
+            className="flex items-center gap-2 self-center font-medium"
+          >
+            <AnimatedThemeToggler />
+            Resum.it
+          </a>
+
+          <motion.div
+            className="flex flex-col gap-6 min-w-1/4 max-w-1/2"
+            layout
+            transition={{
+              layout: { type: "spring", stiffness: 300, damping: 50 },
+            }}
+          >
             <Card>
-              <BorderTrail size={100} />
               <CardHeader className="text-center">
-                <CardTitle className="text-xl">{cardText?.title}</CardTitle>
-                <CardDescription>{cardText?.description}</CardDescription>
+                <CardTitle className="text-2xl font-bold">
+                  <motion.div
+                    key={cardText?.title}
+                    initial={{ opacity: 0, x: -120 }}
+                    animate={{ opacity: 1, x: 0 }}
+                  >
+                    {cardText?.title}
+                  </motion.div>
+                </CardTitle>
+                <CardDescription>
+                  <motion.div
+                    key={cardText?.title}
+                    initial={{ opacity: 0, x: -60 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 }}
+                  >
+                    {cardText?.description}
+                  </motion.div>
+                </CardDescription>
               </CardHeader>
-              <CardContent>{renderForm()}</CardContent>
+              <motion.div
+                key={cardText?.title}
+                initial={{ opacity: 0, x: -120 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <CardContent>{renderForm()}</CardContent>
+              </motion.div>
             </Card>
-          </div>
-        </BlurFade>
-      </div>
-    </WavyBackground>
+          </motion.div>
+        </div>
+      </BlurFade>
+    </div>
   );
 }

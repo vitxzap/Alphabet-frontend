@@ -54,7 +54,6 @@ export default function RegisterForm({
   const form = useForm<RegisterTypeSchema>({
     resolver: zodResolver(registerSchema),
   });
-
   const registerMutation = useMutation({
     mutationFn: async (formData: RegisterDto) => {
       const c = await authClient.signUp.email({
@@ -108,6 +107,7 @@ export default function RegisterForm({
   }, []);
   return (
     <form
+      
       onSubmit={form.handleSubmit(handleRegisterForm)}
       className="grid gap-2"
       noValidate={true}
@@ -161,10 +161,10 @@ export default function RegisterForm({
             </Field.ErrorText>
           </Field.Root>
           <div className="relative">
-            <Button type="submit" className="w-full relative">
+            <Button type="submit" className="w-full relative" disabled={registerMutation.isPending}>
               {registerMutation.isPending ? (
                 <>
-                  <Spinner variant="ring" /> Loading...
+                  <Spinner variant="circle" /> Loading...
                 </>
               ) : (
                 <>
@@ -178,7 +178,8 @@ export default function RegisterForm({
           Already have an account?{" "}
           <a
             onClick={actions?.login.callback}
-            className="underline underline-offset-4"
+
+            className="hover:underline underline-offset-4 cursor-pointer text-primary font-semibold"
           >
             Log-in
           </a>

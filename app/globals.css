@@ -3,13 +3,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html {
+  font-size: 1.075rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
   --font-mono: Geist Mono, monospace;
   --font-serif: Georgia, serif;
-  --radius: 0.825rem;
+  --radius: 0.775rem;
   --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
   --tracking-tight: calc(var(--tracking-normal) - 0.025em);
   --tracking-wide: calc(var(--tracking-normal) + 0.025em);
@@ -69,14 +73,14 @@
 }
 
 :root {
-  --radius: 0.825rem;
+  --radius: 0.775rem;
   --background: oklch(0.9900 0 0);
   --foreground: oklch(0 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0 0 0);
   --popover: oklch(0.9900 0 0);
   --popover-foreground: oklch(0 0 0);
-  --primary: oklch(0.5540 0.0460 257.4170);
+  --primary: oklch(0.5850 0.2330 277.1170);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.9400 0 0);
   --secondary-foreground: oklch(0 0 0);
@@ -131,7 +135,7 @@
   --card-foreground: oklch(1 0 0);
   --popover: oklch(0.1800 0 0);
   --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.7040 0.0400 256.7880);
+  --primary: oklch(0.5850 0.2330 277.1170);
   --primary-foreground: oklch(0 0 0);
   --secondary: oklch(0.2500 0 0);
   --secondary-foreground: oklch(1 0 0);
@@ -157,7 +161,7 @@
   --sidebar-border: oklch(0.3200 0 0);
   --sidebar-ring: oklch(0.7200 0 0);
   --destructive-foreground: oklch(0 0 0);
-  --radius: 0.825rem;
+  --radius: 0.775rem;
   --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
   --font-serif: Georgia, serif;
   --font-mono: Geist Mono, monospace;

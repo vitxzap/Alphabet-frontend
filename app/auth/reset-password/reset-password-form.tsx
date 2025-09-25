@@ -112,7 +112,7 @@ export default function ResetPasswordForm() {
                 <Button type="submit" className="w-full relative">
                   {resetPasswordMutate.isPending ? (
                     <>
-                      <Spinner variant="ring" /> Loading...
+                      <Spinner variant="circle" /> Loading...
                     </>
                   ) : (
                     <>

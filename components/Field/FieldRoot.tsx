@@ -8,7 +8,7 @@ export default function FieldRoot({ children }: FieldRootProps) {
   return (
     <div
       className={cn(
-        `grid relative gap-1.25`
+        `grid relative gap-1.5`
       )}
     >
       {children}
