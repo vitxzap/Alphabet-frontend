@@ -25,31 +25,45 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ForgotPasswordDto } from "./forgot-password-dto";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { AuthMachineComponentProps } from "../authMachine";
+import { useEffect } from "react";
 
 const ForgotPasswordSchema = z.object({
-  email: z.email(),
+  email: z.email().nonempty(),
 });
 
 type ForgotPasswordSchemaType = z.infer<typeof ForgotPasswordSchema>;
+interface ForgotPasswordFormProps
+  extends React.ComponentProps<"div">,
+    AuthMachineComponentProps<{
+      callOTP: {
+        callback: () => void;
+      },
+      backToLoginPage: {
+        callback: () => void
+      }
+    }> {} // extends onRender and onSend from AuthMachineComponentProps to be used in the component
 
 export default function ForgotPasswordForm({
   className,
+  onRender,
+  actions,
   ...props
-}: React.ComponentProps<"div">) {
+}: ForgotPasswordFormProps) {
   const form = useForm<ForgotPasswordSchemaType>({
     resolver: zodResolver(ForgotPasswordSchema),
   });
 
   const forgotPasswordMutation = useMutation({
     mutationFn: async (formData: ForgotPasswordSchemaType) => {
-      const {data, error} = await authClient.forgetPassword({
+      const { error } = await authClient.forgetPassword({
         email: formData.email,
-        redirectTo: `${process.env.NEXT_PUBLIC_RESET_PASSWORD_URL}`,
       });
       if (error) {
         throw error;
+      } else {
+        actions?.callOTP.callback();
       }
-      return data;
     },
     onError: (err) => {
       toast.error("Error", {
@@ -64,7 +78,7 @@ export default function ForgotPasswordForm({
         description: err.message,
       });
     },
-    onSuccess: (data) => {
+    /* onSuccess: (data) => {
       toast.success("Success", {
         position: "bottom-center",
         style: {
@@ -78,57 +92,54 @@ export default function ForgotPasswordForm({
         icon: <LucideUserRoundCheck />,
         description: "Open your inbox to reset your password.",
       });
-    },
+    }, */
   });
   function handleForgotPasswordSubmit(formData: ForgotPasswordDto) {
     forgotPasswordMutation.mutate(formData);
   }
+  useEffect(() => {
+    if (onRender != undefined) {
+      onRender();
+    }
+  }, []);
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-6 relative w-full items-center justify-center"
-      )}
-    >
-      <Card>
-        <BorderTrail size={100} />
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">Forgot your password?</CardTitle>
-          <CardDescription>
-            Provider your email to receive an message to recovery your account.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form
-            onSubmit={form.handleSubmit(handleForgotPasswordSubmit)}
-            className="grid gap-2"
-            noValidate={true}
-          >
-            <Field.Root>
-              <Field.Label requiredIcon>Email</Field.Label>
-              <Input
-                {...form.register("email")}
-                invalid={!!form.formState.errors.email?.message}
-                startElement={<LucideMail size={16} />}
-                placeholder="Enter your email..."
-              />
-              <Field.ErrorText>
-                {form.formState.errors.email?.message}
-              </Field.ErrorText>
-            </Field.Root>
-            <Button type="submit" className="w-full relative">
-              {forgotPasswordMutation.isPending ? (
-                <>
-                  <Spinner variant="ring" /> Loading...
-                </>
-              ) : (
-                <>
-                  Recover my password <LucideArrowRight />
-                </>
-              )}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+    <div className="grid gap-2">
+      <form
+        onSubmit={form.handleSubmit(handleForgotPasswordSubmit)}
+        className="grid gap-1.5"
+        noValidate={true}
+      >
+        <Field.Root>
+          <Field.Label requiredIcon>Email</Field.Label>
+          <Input
+            {...form.register("email")}
+            invalid={!!form.formState.errors.email?.message}
+            startElement={<LucideMail size={16} />}
+            placeholder="Enter your email..."
+          />
+          <Field.ErrorText>
+            {form.formState.errors.email?.message}
+          </Field.ErrorText>
+        </Field.Root>
+        <Button
+          type="submit"
+          className="w-full relative"
+          disabled={forgotPasswordMutation.isPending}
+        >
+          {forgotPasswordMutation.isPending ? (
+            <>
+              <Spinner variant="circle" /> Loading...
+            </>
+          ) : (
+            <>
+              Recover my password <LucideArrowRight />
+            </>
+          )}
+        </Button>
+      </form>
+      <Button variant={"ghost"} onClick={actions?.backToLoginPage.callback} className="w-full relative font-semibold">
+        Go back to login page
+      </Button>
     </div>
   );
 }
