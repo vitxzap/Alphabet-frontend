@@ -3,9 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-html {
-  font-size: 1.075rem;
-}
 
 @theme inline {
   --color-background: var(--background);

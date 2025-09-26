@@ -13,15 +13,16 @@ import {
 } from "@/components/ui/card";
 import { useMachine } from "@xstate/react";
 import { BorderTrail } from "@/components/motion-primitives/border-trail";
-import OTPForm from "./OTP/OTPForm";
-import { AuthMachine } from "./authMachine";
+import OTPForm from "./OTP/otp-form";
+import { AuthMachine } from "./auth-machine";
 import LoginForm from "./login/login-form";
 import { useState } from "react";
-import { AuthCardConfig, AuthCardScreen } from "./authConfig";
+import { AuthCardConfig, AuthCardScreen } from "./auth-config";
 import ResetPasswordForm from "./reset-password/reset-password-form";
-import ForgotPasswordForm from "./forgot-password/forgot-password-form";
-import { OTPCardConfig } from "./OTP/OTPConfig";
+import ForgotPasswordForm from "./forgot-password/forget-password-form";
+import { OTPCardConfig } from "./OTP/otp-config";
 import { AnimatePresence, motion } from "motion/react";
+import { authClient } from "@/lib/auth-client";
 
 export default function AuthPage() {
   const [state, send] = useMachine(AuthMachine);
@@ -39,6 +40,12 @@ export default function AuthPage() {
               forgotPasswordAction: {
                 callback: () => send({ type: "REQUEST_FORGOT_PASSWORD_FORM" }),
               },
+              emailVerificationAction: {
+                callback: () => send({type: "REQUEST_EMAIL_VERIFICATION_OTP"})
+              },
+              authenticateUser: {
+                callback:() => send({type: "USER_AUTHENTICATED"})
+              }
             }}
             onRender={() => {
               setCardText(AuthCardConfig.login);
@@ -51,6 +58,12 @@ export default function AuthPage() {
             actions={{
               login: {
                 callback: () => send({ type: "REQUEST_LOGIN_FORM" }),
+              },
+              onRegister: {
+                callback: () =>
+                  send({
+                    type: "REQUEST_OTP_FORM",
+                  }),
               },
             }}
             onRender={() => {
@@ -69,8 +82,6 @@ export default function AuthPage() {
                 callback: () =>
                   send({
                     type: "REQUEST_OTP_FORM",
-                    email: "",
-                    purpose: "email-verification",
                   }),
               },
               backToLoginPage: {
@@ -84,12 +95,42 @@ export default function AuthPage() {
         );
       case state.matches({ otp: "forgotPassword" }):
         return (
-          <OTPForm onRender={() => setCardText(OTPCardConfig.forgotPassword)} />
+          <OTPForm
+            onRender={() => setCardText(OTPCardConfig.forgotPassword)}
+            actions={{
+              onOTPSuccess: {
+                callback: () => send({ type: "OTP_SUCCESS" }),
+              },
+            }}
+          />
         );
+      case state.matches({ otp: "register" }):
+        return (
+          <OTPForm
+            onRender={() => setCardText(OTPCardConfig.register)}
+            actions={{
+              onOTPSuccess: {
+                callback: () => send({ type: "OTP_SUCCESS" }),
+              },
+            }}
+          />
+        );
+      case state.matches("resetPassword"):
+        return (
+          <ResetPasswordForm
+            actions={{
+              onNewPassword: {
+                callback: () => send({ type: "NEW_PASSWORD_CHANGED" }),
+              },
+            }}
+          />
+        );
+      case state.matches("dashboard"):
+          return (<div>authenticated</div>);
     }
   }
   return (
-    <div className="flex items-center justify-center min-h-screen max-h-screen max-w-full  relative overflow-hidden">
+    <div className="flex items-center justify-center min-h-screen max-h-screen max-w-full relative overflow-hidden">
       <BlurFade
         delay={0.25}
         inView
@@ -105,7 +146,7 @@ export default function AuthPage() {
           </a>
 
           <motion.div
-            className="flex flex-col gap-6 min-w-1/4 max-w-1/2"
+            className="flex flex-col gap-6 min-w-1/4 max-md:w-full"
             layout
             transition={{
               layout: { type: "spring", stiffness: 300, damping: 50 },

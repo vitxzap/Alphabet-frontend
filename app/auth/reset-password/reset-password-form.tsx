@@ -24,22 +24,35 @@ import {
 } from "lucide-react";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import { toast } from "sonner";
+import { useAuthStore } from "../auth-global-state";
+import { AuthMachineComponentProps } from "../auth-machine";
 
 const resetPasswordSchema = z.object({
   newPassword: z.string().min(8),
 });
 type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
-export default function ResetPasswordForm() {
-  const searchParams = useSearchParams();
+interface ResetPasswordProps
+  extends AuthMachineComponentProps<{
+    onNewPassword: {
+      callback: () => void;
+    };
+  }> {}
+export default function ResetPasswordForm({
+  actions,
+  onRender,
+}: ResetPasswordProps) {
+  const { email, otp } = useAuthStore();
   const form = useForm<ResetPasswordSchemaType>({
     resolver: zodResolver(resetPasswordSchema),
   });
 
   const resetPasswordMutate = useMutation({
     mutationFn: async (formData: ResetPasswordDto) => {
-      const { data, error } = await authClient.resetPassword({
-        newPassword: formData.newPassword,
-        token: formData.token as string,
+      
+      const { data, error } = await authClient.emailOtp.resetPassword({
+        email: email,
+        otp: otp,
+        password: formData.newPassword,
       });
       if (error) {
         throw error;
@@ -60,7 +73,6 @@ export default function ResetPasswordForm() {
       });
     },
     onSuccess: () => {
-        
       toast.success("Success", {
         position: "bottom-center",
         style: {
@@ -72,59 +84,47 @@ export default function ResetPasswordForm() {
             "light-dark(var(--color-green-600), var(--color-green-400))",
         } as React.CSSProperties,
         icon: <LucideUserRoundCheck />,
-        description: "Your password has been changed.",
+        description: "Your password has been changed. Going back to login page...",
       });
+      setTimeout(() => {
+        actions?.onNewPassword.callback();
+      }, 3000);
     },
   });
 
   function handleResetPasswordSubmit(formData: ResetPasswordDto) {
-    const token = searchParams.get("token");
-    formData.token = token;
     resetPasswordMutate.mutate(formData);
   }
   return (
-    <div className="flex flex-col gap-6 relative w-full items-center justify-center">
-      <Card>
-        <BorderTrail size={100} />
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">Reset your password</CardTitle>
-          <CardDescription>
-            Create a new strongpassword that you can easily remember.
-          </CardDescription>
-          <CardContent>
-            <form
-              className="grid gap-2"
-              noValidate
-              onSubmit={form.handleSubmit(handleResetPasswordSubmit)}
-            >
-              <Field.Root>
-                <Field.Label requiredIcon>New password</Field.Label>
-                <PasswordInput
-                  invalid={!!form.formState.errors.newPassword?.message}
-                  {...form.register("newPassword")}
-                  placeholder="Enter your new password..."
-                />
-                <Field.ErrorText>
-                  {form.formState.errors.newPassword?.message}
-                </Field.ErrorText>
-              </Field.Root>
-              <div className="relative">
-                <Button type="submit" className="w-full relative">
-                  {resetPasswordMutate.isPending ? (
-                    <>
-                      <Spinner variant="circle" /> Loading...
-                    </>
-                  ) : (
-                    <>
-                      Continue <LucideArrowRight />
-                    </>
-                  )}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </CardHeader>
-      </Card>
-    </div>
+    <form
+      className="grid gap-2"
+      noValidate
+      onSubmit={form.handleSubmit(handleResetPasswordSubmit)}
+    >
+      <Field.Root>
+        <Field.Label requiredIcon>New password</Field.Label>
+        <PasswordInput
+          invalid={!!form.formState.errors.newPassword?.message}
+          {...form.register("newPassword")}
+          placeholder="Enter your new password..."
+        />
+        <Field.ErrorText>
+          {form.formState.errors.newPassword?.message}
+        </Field.ErrorText>
+      </Field.Root>
+      <div className="relative">
+        <Button type="submit" className="w-full relative">
+          {resetPasswordMutate.isPending ? (
+            <>
+              <Spinner variant="circle" /> Loading...
+            </>
+          ) : (
+            <>
+              Continue <LucideArrowRight />
+            </>
+          )}
+        </Button>
+      </div>
+    </form>
   );
 }

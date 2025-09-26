@@ -19,7 +19,8 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { AuthMachineComponentProps } from "../authMachine";
+import { AuthMachineComponentProps } from "../auth-machine";
+import { useAuthStore } from "../auth-global-state";
 const registerSchema = z
   .object({
     name: z.string().min(3),
@@ -43,6 +44,9 @@ interface RegisterFormProps
     AuthMachineComponentProps<{
       login: {
         callback: () => void;
+      },
+      onRegister: {
+        callback: () => void
       };
     }> {}
 export default function RegisterForm({
@@ -54,6 +58,7 @@ export default function RegisterForm({
   const form = useForm<RegisterTypeSchema>({
     resolver: zodResolver(registerSchema),
   });
+  const {setEmail, setType} = useAuthStore()
   const registerMutation = useMutation({
     mutationFn: async (formData: RegisterDto) => {
       const c = await authClient.signUp.email({
@@ -65,6 +70,8 @@ export default function RegisterForm({
       if (c.error) {
         throw c.error;
       }
+      setEmail(formData.email)
+      setType("email-verification")
       return c;
     },
     onError: (err) => {
@@ -94,6 +101,10 @@ export default function RegisterForm({
         icon: <LucideUserRoundCheck />,
         description: "Please check your inbox to verify your email.",
       });
+      
+      setTimeout(() => {
+        actions?.onRegister.callback()
+      }, 500)
     },
   });
 

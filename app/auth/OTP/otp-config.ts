@@ -18,7 +18,7 @@ export const OTPCardConfig: Readonly<Record<OTPVariants, OTPScreen>> = { //Set w
   },
   forgotPassword:{
     title: "Reset your password",
-    description: "We sent a code to your email so you can reset your password, please, check your inbox."
+    description: "We sent you a code to your email so you can reset your password, please, check your inbox."
   },
 };
 

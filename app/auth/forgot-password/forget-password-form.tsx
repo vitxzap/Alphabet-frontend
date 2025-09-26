@@ -1,33 +1,18 @@
 "use client";
 import { Field } from "@/components/Field";
-import { BorderTrail } from "@/components/motion-primitives/border-trail";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  LucideArrowRight,
-  LucideCircleX,
-  LucideMail,
-  LucideUserRoundCheck,
-} from "lucide-react";
+import { LucideArrowRight, LucideCircleX, LucideMail } from "lucide-react";
 import z from "zod";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ForgotPasswordDto } from "./forgot-password-dto";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
-import { AuthMachineComponentProps } from "../authMachine";
+import { AuthMachineComponentProps } from "../auth-machine";
 import { useEffect } from "react";
-
+import { useAuthStore } from "../auth-global-state";
 const ForgotPasswordSchema = z.object({
   email: z.email().nonempty(),
 });
@@ -38,10 +23,10 @@ interface ForgotPasswordFormProps
     AuthMachineComponentProps<{
       callOTP: {
         callback: () => void;
-      },
+      };
       backToLoginPage: {
-        callback: () => void
-      }
+        callback: () => void;
+      };
     }> {} // extends onRender and onSend from AuthMachineComponentProps to be used in the component
 
 export default function ForgotPasswordForm({
@@ -53,17 +38,20 @@ export default function ForgotPasswordForm({
   const form = useForm<ForgotPasswordSchemaType>({
     resolver: zodResolver(ForgotPasswordSchema),
   });
-
+  const authStore = useAuthStore();
   const forgotPasswordMutation = useMutation({
     mutationFn: async (formData: ForgotPasswordSchemaType) => {
-      const { error } = await authClient.forgetPassword({
+      const { data, error } = await authClient.emailOtp.sendVerificationOtp({
         email: formData.email,
+        type: "forget-password",
       });
+      console.log(error, data)
       if (error) {
         throw error;
-      } else {
-        actions?.callOTP.callback();
       }
+      authStore.setEmail(formData.email);
+      authStore.setType("forget-password");
+      actions?.callOTP.callback();
     },
     onError: (err) => {
       toast.error("Error", {
@@ -94,7 +82,7 @@ export default function ForgotPasswordForm({
       });
     }, */
   });
-  function handleForgotPasswordSubmit(formData: ForgotPasswordDto) {
+  function handleForgotPasswordSubmit(formData: ForgotPasswordSchemaType) {
     forgotPasswordMutation.mutate(formData);
   }
   useEffect(() => {
@@ -137,7 +125,11 @@ export default function ForgotPasswordForm({
           )}
         </Button>
       </form>
-      <Button variant={"ghost"} onClick={actions?.backToLoginPage.callback} className="w-full relative font-semibold">
+      <Button
+        variant={"ghost"}
+        onClick={actions?.backToLoginPage.callback}
+        className="w-full relative font-semibold"
+      >
         Go back to login page
       </Button>
     </div>

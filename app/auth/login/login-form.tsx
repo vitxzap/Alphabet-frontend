@@ -30,7 +30,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { AuthMachineComponentProps } from "../authMachine";
+import { AuthMachineComponentProps } from "../auth-machine";
+import { useAuthStore } from "../auth-global-state";
 const loginSchema = z.object({
   email: z.email({ error: "Invalid: must be an email" }).nonempty(),
   password: z.string().min(8),
@@ -44,9 +45,15 @@ interface LoginFormProps
       registerAction: {
         callback: () => void;
       };
+      emailVerificationAction: {
+        callback: () => void;
+      };
       forgotPasswordAction: {
         callback: () => void;
       };
+      authenticateUser: {
+        callback: () => void
+      }
     }> {}
 export default function LoginForm({
   className,
@@ -60,6 +67,7 @@ export default function LoginForm({
       rememberMe: true,
     },
   });
+  const { setEmail, setType } = useAuthStore();
 
   const loginMutation = useMutation({
     mutationFn: async (formData: LoginDto) => {
@@ -67,11 +75,16 @@ export default function LoginForm({
         email: formData.email,
         password: formData.password,
         rememberMe: formData.rememberMe,
-        callbackURL: "http://localhost:3050/api/auth/reference",
       });
-      if (error) {
-        throw error;
+      switch (true) {
+        case error?.code == "EMAIL_NOT_VERIFIED":
+          setEmail(formData.email);
+          setType("email-verification");
+          actions?.emailVerificationAction.callback();
+        case error?.code != undefined:
+          throw error;
       }
+      actions?.authenticateUser.callback()
       return data;
     },
     onError: (err) => {
@@ -112,7 +125,7 @@ export default function LoginForm({
               invalid={!!form.formState.errors.email?.message}
               {...form.register("email")}
               placeholder="Enter your email..."
-              startElement={<LucideMail size={16} />}
+              startElement={<LucideMail size={18} />}
             />
             <Field.ErrorText>
               {form.formState.errors.email?.message}
