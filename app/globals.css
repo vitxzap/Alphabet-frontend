@@ -3,7 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -126,9 +125,10 @@
 }
 
 .dark {
-  --background: oklch(0 0 0);
+  --background: oklch(17.764% 0.00002 271.152);
+  --sidebar-backgroud: oklch(26.9% 0 0);
   --foreground: oklch(1 0 0);
-  --card: oklch(0.1400 0 0);
+  --card: oklch(22.213% 0.00003 271.152);
   --card-foreground: oklch(1 0 0);
   --popover: oklch(0.1800 0 0);
   --popover-foreground: oklch(1 0 0);
