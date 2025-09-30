@@ -1,66 +1,51 @@
 "use client";
+
 import ResumitIcon from "@/components/logo/icon";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
-import { House, Settings, User } from "lucide-react";
-import { useState } from "react";
-
+import { ChartAreaIcon, User } from "lucide-react";
+import { MdDashboard, MdSettings } from "react-icons/md";
 export default function Dashboard() {
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
-    >
-      <Sidebar collapsible="offcanvas">
-        <SidebarHeader>
-          <SidebarMenu>
-            <SidebarMenuItem className="!flex !gap-1">
-                <AnimatedThemeToggler   />
-              <ResumitIcon className="!size-5" /> <span className="font-bold text-[16px]"> Resum.it</span>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup>
-            <House /> Dashboard
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
-      <div className="flex w-full max-w-full overflow-x-hidden h-full bg-neutral-100 dark:bg-neutral-800">
-        <div className="flex flex-1">
-          <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-background">
-            <div className="flex gap-2">
-              {[...new Array(4)].map((i, idx) => (
-                <div
-                  key={"first-array-demo-2" + idx}
-                  className="h-20 w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
-                ></div>
-              ))}
+    <div className="flex w-full h-full">
+      <div className="flex flex-col w-[250px]">
+        {/* -- Sidebar Header --  */}
+        <div className="flex font-bold  items-center w-full py-4 px-1.5 gap-2">
+          <div className="p-1.5 bg-primary rounded-md">
+            <ResumitIcon size={20} /> 
+          </div>
+          <span>Resum.it</span> <AnimatedThemeToggler className="scale-90" />
+        </div>
+
+        <div className="flex flex-col px-1.5 gap-2 h-full cursor-pointer">
+          <div className="flex items-center p-2 gap-2 dark:bg-neutral-800 bg-neutral-200 rounded-md">
+            <div className="">
+              <MdDashboard size={20} />
             </div>
-            <div className="flex flex-1 gap-2">
-              {[...new Array(2)].map((i, idx) => (
-                <div
-                  key={"second-array-demo-2" + idx}
-                  className="h-full w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
-                ></div>
-              ))}
+            <div className="flex text-sm h-full items-center justify-center">
+              Dashboard
             </div>
           </div>
+          <div className="flex items-center p-2 gap-2 dark:hover:bg-neutral-800 hover:bg-neutral-200 rounded-md">
+            <div className="">
+              <ChartAreaIcon size={20} />
+            </div>
+            <div className="flex text-sm h-full items-center justify-center">
+              Resumes
+            </div>
+          </div>
+          <div className="flex items-center p-2 gap-2 dark:hover:bg-neutral-800 hover:bg-neutral-200 rounded-md">
+            <div className="">
+              <MdSettings size={20} />
+            </div>
+            <div className="flex text-sm h-full items-center justify-center">
+              Settings
+            </div>
+          </div>
+          
         </div>
       </div>
-    </SidebarProvider>
+
+      <div className="flex w-full h-full bg-card border rounded-tl-4xl"></div>
+    </div>
   );
 }

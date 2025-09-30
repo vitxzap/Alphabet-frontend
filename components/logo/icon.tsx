@@ -15,6 +15,7 @@ export const ResumitIcon = React.forwardRef<SVGSVGElement, IconProps>(
         ref={ref}
         width={w}
         height={h}
+        className="shrink-0"
         viewBox="0 0 440 440"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +31,7 @@ export const ResumitIcon = React.forwardRef<SVGSVGElement, IconProps>(
              L 341,227 L 344,203 L 343,183 L 337,158 L 328,138 
              L 314,118 L 280,90 L 251,78 L 228,74 L 185,78 
              L 156,90 Z"
-          fill={theme == "light" ? "black" : "white"}
+          fill="white"
         />
       </svg>
     );
