@@ -4,6 +4,7 @@ import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const jetBrains = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -24,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${jetBrains.variable} antialiased h-dvh w-dvw`}>
+      <body
+        className={`${inter.variable} ${jetBrains.variable} antialiased h-dvh w-dvw`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

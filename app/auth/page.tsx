@@ -1,18 +1,15 @@
 "use client";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { WavyBackground } from "@/components/ui/wavy-background";
 import RegisterForm from "./register/register-form";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { useMachine } from "@xstate/react";
-import { BorderTrail } from "@/components/motion-primitives/border-trail";
 import OTPForm from "./OTP/otp-form";
 import { AuthMachine } from "./auth-machine";
 import LoginForm from "./login/login-form";
@@ -21,16 +18,15 @@ import { AuthCardConfig, AuthCardScreen } from "./auth-config";
 import ResetPasswordForm from "./reset-password/reset-password-form";
 import ForgotPasswordForm from "./forgot-password/forget-password-form";
 import { OTPCardConfig } from "./OTP/otp-config";
-import { AnimatePresence, motion } from "motion/react";
-import { authClient } from "@/lib/auth-client";
+import { motion } from "motion/react";
 
 export default function AuthPage() {
   const [state, send] = useMachine(AuthMachine);
 
   const [cardText, setCardText] = useState<AuthCardScreen>(); // Controls whats is going to be displayed in card texts e.g. title, description
   function renderForm() {
-    switch (true) {
-      case state.matches("login"):
+    switch (true) { 
+      case state.matches("login"): //each state of this machine controls whice form is being displayed inside the card
         return (
           <LoginForm
             actions={{
@@ -131,7 +127,7 @@ export default function AuthPage() {
   }
   return (
     <div className="flex items-center justify-center min-h-screen max-h-screen max-w-full relative overflow-hidden">
-      <BlurFade
+      <BlurFade //blur-in animation component
         delay={0.25}
         inView
         className="flex items-center justify-center w-full"
@@ -152,7 +148,7 @@ export default function AuthPage() {
               layout: { type: "spring", stiffness: 300, damping: 50 },
             }}
           >
-            <Card>
+            <Card> {/* The only thing that changes is the form inside the card */}
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold">
                   <motion.div
@@ -179,7 +175,7 @@ export default function AuthPage() {
                 initial={{ opacity: 0, x: -120 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
-              >
+              > 
                 <CardContent>{renderForm()}</CardContent>
               </motion.div>
             </Card>
