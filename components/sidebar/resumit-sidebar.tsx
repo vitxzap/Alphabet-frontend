@@ -1,7 +1,8 @@
 "use client";
-import { Sidebar } from "lucide-react";
 import {
+  Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -10,13 +11,13 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { sidebarItems } from "./items";
-
+import { UserFooter } from "./resumit-sidebar-footer";
 export default function ResumitSidebar() {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon" variant="inset">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Features</SidebarGroupLabel>
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {sidebarItems.map((item) => (
@@ -33,6 +34,13 @@ export default function ResumitSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <UserFooter user={{
+          avatar: "",
+          email: "test@email",
+          "name": "Victor"
+        }} />
+      </SidebarFooter>
     </Sidebar>
   );
 }
