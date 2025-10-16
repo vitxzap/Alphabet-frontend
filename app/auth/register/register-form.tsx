@@ -15,7 +15,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { Field } from "@/components/Field";
 import { authClient, Session } from "@/lib/auth-client";
 import { RegisterDto } from "./register-dto";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { Spinner } from "@/components/ui/spinner";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useEffect } from "react";
@@ -175,7 +175,7 @@ export default function RegisterForm({
             <Button type="submit" className="w-full relative" disabled={registerMutation.isPending}>
               {registerMutation.isPending ? (
                 <>
-                  <Spinner variant="circle" /> Loading...
+                  <Spinner /> Loading...
                 </>
               ) : (
                 <>

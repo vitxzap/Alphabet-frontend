@@ -21,7 +21,7 @@ import {
   LucideCircleX,
   LucideUserRoundCheck,
 } from "lucide-react";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { Spinner } from "@/components/ui/spinner";
 const OTPFormSchema = z.object({
   otp: z.string().min(6, {
     message: "Your verification code must be 6 digits",
@@ -85,7 +85,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
   const OTPFormMutate = useMutation({
     mutationFn: async (formData: OTPFormSchemaType) => {
       if (type === "email-verification") {
-        await authClient.signIn.emailOtp({
+        await authClient.emailOtp.verifyEmail({
           email: email,
           otp: formData.otp,
         });
@@ -99,6 +99,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
       if (error) {
         throw error;
       }
+      console.log(data)
       setOTP(formData.otp);
       actions?.onOTPSuccess.callback();
     },
@@ -158,7 +159,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
           <Button className="w-full" type="submit">
             {OTPFormMutate.isPending ? (
               <>
-                <Spinner variant="circle" /> Loading...
+                <Spinner/> Loading...
               </>
             ) : (
               <>
@@ -174,11 +175,11 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
           >
             {requestNewOTPCode.isPending ? (
               <>
-                <Spinner variant="circle" /> Loading...
+                <Spinner/> Loading...
               </>
             ) : (
               <>
-                Request another code <LucideArrowRight />
+                Request another code
               </>
             )}
           </Button>

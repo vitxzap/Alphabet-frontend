@@ -22,7 +22,7 @@ import {
   LucideCircleX,
   LucideUserRoundCheck,
 } from "lucide-react";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
 import { useAuthStore } from "../auth-global-state";
 import { AuthMachineComponentProps } from "../auth-machine";
@@ -116,7 +116,7 @@ export default function ResetPasswordForm({
         <Button type="submit" className="w-full relative">
           {resetPasswordMutate.isPending ? (
             <>
-              <Spinner variant="circle" /> Loading...
+              <Spinner /> Loading...
             </>
           ) : (
             <>

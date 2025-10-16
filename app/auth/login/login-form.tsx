@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { Field } from "@/components/Field";
 import { PasswordInput } from "@/components/ui/password-input";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { Spinner } from "@/components/ui/spinner";
 import { LoginDto } from "./login-dto";
 import { authClient } from "@/lib/auth-client";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -172,7 +172,7 @@ export default function LoginForm({
             >
               {loginMutation.isPending ? (
                 <>
-                  <Spinner variant="circle" /> Loading...
+                  <Spinner /> Loading...
                 </>
               ) : (
                 <>

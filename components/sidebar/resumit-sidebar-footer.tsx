@@ -25,6 +25,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 export function UserFooter({
   user,
 }: {
@@ -35,6 +37,7 @@ export function UserFooter({
   };
 }) {
   const { isMobile } = useSidebar();
+  const router = useRouter();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -46,7 +49,9 @@ export function UserFooter({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg"><UserRound size={16} /></AvatarFallback>
+                <AvatarFallback className="rounded-lg">
+                  <UserRound size={16} />
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -65,7 +70,9 @@ export function UserFooter({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg"><UserRound size={16} /></AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    <UserRound size={16} />
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -85,7 +92,17 @@ export function UserFooter({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                const { data, error } = await authClient.signOut({
+                  fetchOptions: {
+                    onSuccess: () => {
+                      router.push("/auth");
+                    },
+                  },
+                });
+              }}
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>

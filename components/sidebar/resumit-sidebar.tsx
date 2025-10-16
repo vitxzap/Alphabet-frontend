@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +13,18 @@ import {
 } from "../ui/sidebar";
 import { sidebarItems } from "./items";
 import { UserFooter } from "./resumit-sidebar-footer";
+import { useEffect } from "react";
+import { useUserStore } from "@/app/web/user-global-state";
 export default function ResumitSidebar() {
+  const { setUser, user } = useUserStore();
+  useEffect(() => {
+    async function fetchSession() {
+      const { data, error } = await authClient.getSession();
+      setUser(data?.user);
+      console.log(data?.user);
+    }
+    fetchSession();
+  }, []);
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarContent>
@@ -35,11 +47,13 @@ export default function ResumitSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <UserFooter user={{
-          avatar: "",
-          email: "test@email",
-          "name": "Victor"
-        }} />
+        <UserFooter
+          user={{
+            avatar: user.image as string,
+            email: user?.email as string,
+            name: user.name as string,
+          }}
+        />
       </SidebarFooter>
     </Sidebar>
   );
