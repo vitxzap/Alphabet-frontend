@@ -44,7 +44,6 @@ export default function ForgotPasswordForm({
       const { data, error } = await authClient.forgetPassword.emailOtp({
         email: formData.email,
       });
-      console.log(error, data)
       if (error) {
         throw error;
       }

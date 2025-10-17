@@ -15,16 +15,8 @@ import { sidebarItems } from "./items";
 import { UserFooter } from "./resumit-sidebar-footer";
 import { useEffect } from "react";
 import { useUserStore } from "@/app/web/user-global-state";
+import Link from "next/link";
 export default function ResumitSidebar() {
-  const { setUser, user } = useUserStore();
-  useEffect(() => {
-    async function fetchSession() {
-      const { data, error } = await authClient.getSession();
-      setUser(data?.user);
-      console.log(data?.user);
-    }
-    fetchSession();
-  }, []);
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarContent>
@@ -35,10 +27,10 @@ export default function ResumitSidebar() {
               {sidebarItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       {item.icon}
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -49,9 +41,9 @@ export default function ResumitSidebar() {
       <SidebarFooter>
         <UserFooter
           user={{
-            avatar: user.image as string,
-            email: user?.email as string,
-            name: user.name as string,
+            avatar: "",
+            email: "asd",
+            name: "user.name as string",
           }}
         />
       </SidebarFooter>

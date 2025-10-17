@@ -15,7 +15,6 @@ const jetBrains = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 export const queryClient = new QueryClient();
 
 export default function RootLayout({
