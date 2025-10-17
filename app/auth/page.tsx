@@ -26,10 +26,12 @@ export default function AuthPage() {
   const [state, send] = useMachine(AuthMachine);
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [cardText, setCardText] = useState<AuthCardScreen>(); // Controls whats is going to be displayed in card texts e.g. title, description
+  // Controls whats is going to be displayed in card texts e.g. title, description
+  const [cardText, setCardText] = useState<AuthCardScreen>(); 
   function renderForm() {
+    //each state of this machine controls whice form is being displayed inside the card
     switch (true) {
-      case state.matches("login"): //each state of this machine controls whice form is being displayed inside the card
+      case state.matches("login"): 
         return (
           <LoginForm
             actions={{

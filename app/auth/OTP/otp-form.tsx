@@ -84,6 +84,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
   });
   const OTPFormMutate = useMutation({
     mutationFn: async (formData: OTPFormSchemaType) => {
+      console.log(type)
       if (type === "email-verification") {
         await authClient.emailOtp.verifyEmail({
           email: email,

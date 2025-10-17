@@ -2,19 +2,16 @@ import ResumitSidebar from "@/components/sidebar/resumit-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import NavHeader from "@/components/web-header/header";
 import { authClient } from "@/lib/auth-client";
-import { getServerBaseUrl } from "@/lib/server/fetch";
 import { cookies, headers } from "next/headers";
 import { unauthorized } from "next/navigation";
 export default async function WebLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   // Verifies if the user session is valid
-  const c = cookies();
-  const h = headers();
   const { data, error } = await authClient.getSession({
     fetchOptions: {
-      cookies: c,
-      headers: h
+      cookies: cookies(),
+      headers: await headers(),
     }
   });
   if (!data || error) {

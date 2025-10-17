@@ -1,13 +1,5 @@
 "use client";
 import { Field } from "@/components/Field";
-import { BorderTrail } from "@/components/motion-primitives/border-trail";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { PasswordInput } from "@/components/ui/password-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -15,7 +7,6 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { ResetPasswordDto } from "./reset-password-dto";
 import { authClient } from "@/lib/auth-client";
-import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   LucideArrowRight,
@@ -48,7 +39,6 @@ export default function ResetPasswordForm({
 
   const resetPasswordMutate = useMutation({
     mutationFn: async (formData: ResetPasswordDto) => {
-      
       const { data, error } = await authClient.emailOtp.resetPassword({
         email: email,
         otp: otp,
@@ -88,7 +78,7 @@ export default function ResetPasswordForm({
       });
       setTimeout(() => {
         actions?.onNewPassword.callback();
-      }, 3000);
+      }, 2000);
     },
   });
 

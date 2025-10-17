@@ -11,7 +11,6 @@ export default async function middleware(req: NextRequest) {
   if (isProtectedRoute && !secureToken) {
     return NextResponse.redirect(new URL("/auth", req.url));
   }
-
   //if the user is already authenticated and tries to access auth page, he will be redirected to the dashboard
   if (secureToken && authRoute) {
     return NextResponse.redirect(new URL("/web/dashboard", req.url));
