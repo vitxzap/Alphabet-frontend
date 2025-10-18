@@ -156,7 +156,7 @@ export default function AuthPage() {
               className="flex items-center gap-2 self-center font-medium"
             >
               <AnimatedThemeToggler />
-              Resum.it
+              Edunis.dev
             </a>
             <motion.div
               className="flex flex-col gap-6 min-w-1/4 max-md:w-full"
