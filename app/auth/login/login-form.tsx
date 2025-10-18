@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { FaGoogle } from "react-icons/fa"
-import { BsMicrosoft } from "react-icons/bs"
+import { FaGoogle } from "react-icons/fa";
+import { BsMicrosoft } from "react-icons/bs";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -197,6 +197,12 @@ export default function LoginForm({
           variant="outline"
           type="button"
           className="w-full"
+          onClick={async () => {
+            const { data, error } = await authClient.signIn.social({
+              provider: "microsoft",
+              callbackURL: "http://localhost:3000/web/dashboard",
+            });
+          }}
           disabled={loginMutation.isPending}
         >
           <BsMicrosoft />
