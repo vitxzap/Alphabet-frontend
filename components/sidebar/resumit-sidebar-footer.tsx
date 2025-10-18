@@ -5,6 +5,7 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
+  Settings,
   Sparkles,
   User,
   UserRound,
@@ -83,8 +84,8 @@ export function UserFooter({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+                <Settings />
+                Settings
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
@@ -92,7 +93,7 @@ export function UserFooter({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
+            <DropdownMenuItem variant="destructive"
               onClick={async () => {
                 const { data, error } = await authClient.signOut({
                   fetchOptions: {

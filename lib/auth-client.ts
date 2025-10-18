@@ -7,3 +7,5 @@ export const authClient = createAuthClient({
         emailOTPClient()
     ],
 })
+
+export type Session = typeof authClient.$Infer.Session;

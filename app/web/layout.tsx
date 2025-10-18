@@ -8,6 +8,7 @@ export default async function WebLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   // Verifies if the user session is valid
+  
   const { data, error } = await authClient.getSession({
     fetchOptions: {
       cookies: cookies(),
@@ -18,9 +19,12 @@ export default async function WebLayout({
     // if the session is invalid, calls the unauthorized page
     unauthorized();
   }
+  else{
+    
+  }
   return (
-    <SidebarProvider className="p-2 pl-0!">
-      <ResumitSidebar />
+    <SidebarProvider className="p-2 pl-0!" >
+      <ResumitSidebar user={data.user} session={data.session} />
       <main className="flex flex-col w-full h-100% bg-background rounded-xl shadow-md">
         <NavHeader />
         {children}

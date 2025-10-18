@@ -1,5 +1,5 @@
 "use client";
-import { authClient } from "@/lib/auth-client";
+import { authClient, Session } from "@/lib/auth-client";
 import {
   Sidebar,
   SidebarContent,
@@ -13,10 +13,8 @@ import {
 } from "../ui/sidebar";
 import { sidebarItems } from "./items";
 import { UserFooter } from "./resumit-sidebar-footer";
-import { useEffect } from "react";
-import { useUserStore } from "@/app/web/user-global-state";
 import Link from "next/link";
-export default function ResumitSidebar() {
+export default function ResumitSidebar({ user, session }: Session) {
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarContent>
@@ -41,9 +39,9 @@ export default function ResumitSidebar() {
       <SidebarFooter>
         <UserFooter
           user={{
-            avatar: "",
-            email: "asd",
-            name: "user.name as string",
+            avatar: user?.image || "",
+            email: user?.email || "",
+            name: user?.name || "",
           }}
         />
       </SidebarFooter>
