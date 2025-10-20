@@ -26,20 +26,19 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { authClient } from "@/lib/auth-client";
+import { authClient, Session } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-export function UserFooter({
-  user,
-}: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}) {
+import { Button } from "../ui/button";
+import { useState } from "react";
+import UserSettings from "../user-settings";
+import { useUserSettingsStore } from "../user-settings/user-settings-state";
+
+interface UserFooterProps extends Session {}
+export function UserFooter({ user, session, ...props }: UserFooterProps) {
   const { isMobile } = useSidebar();
   const router = useRouter();
+  const { open, setOpen } = useUserSettingsStore();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -50,7 +49,7 @@ export function UserFooter({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage src={user?.image as string} alt={user.name} />
                 <AvatarFallback className="rounded-lg">
                   <UserRound size={16} />
                 </AvatarFallback>
@@ -71,7 +70,7 @@ export function UserFooter({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage src={user.image as string} alt={user.name} />
                   <AvatarFallback className="rounded-lg">
                     <UserRound size={16} />
                   </AvatarFallback>
@@ -84,11 +83,9 @@ export function UserFooter({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
-                <Link href="/web/user-settings">
-                  <Settings />
-                  Settings
-                </Link>
+              <DropdownMenuItem onClick={() => setOpen(!open)}>
+                <Settings />
+                Settings
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />

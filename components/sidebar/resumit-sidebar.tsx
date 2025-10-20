@@ -38,11 +38,8 @@ export default function ResumitSidebar({ user, session }: Session) {
       </SidebarContent>
       <SidebarFooter>
         <UserFooter
-          user={{
-            avatar: user?.image || "",
-            email: user?.email || "",
-            name: user?.name || "",
-          }}
+          user={user}
+          session={session}
         />
       </SidebarFooter>
     </Sidebar>
