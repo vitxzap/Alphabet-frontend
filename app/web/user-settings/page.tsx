@@ -6,17 +6,16 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { File } from "lucide-react";
-
-export default function Resumes() {
+import { Settings } from "lucide-react";
+export default function UserSettings() {
   return (
-    <div className="flex w-full h-full">
+    <div className="flex w-full h-full items-center justify-center">
       <Empty>
         <EmptyHeader>
           <EmptyMedia variant="icon">
-            <File />
+            <Settings />
           </EmptyMedia>
-          <EmptyTitle>Resumes Under Construction</EmptyTitle>
+          <EmptyTitle>Settings Under Construction</EmptyTitle>
           <EmptyDescription>
             This page is under construction and soon will be released to use.
             Feel free to explore the website.

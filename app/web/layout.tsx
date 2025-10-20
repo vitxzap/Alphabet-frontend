@@ -19,9 +19,6 @@ export default async function WebLayout({
     // if the session is invalid, calls the unauthorized page
     unauthorized();
   }
-  else{
-    
-  }
   return (
     <SidebarProvider className="p-2 pl-0!" >
       <ResumitSidebar user={data.user} session={data.session} />
