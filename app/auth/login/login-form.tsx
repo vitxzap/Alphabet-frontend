@@ -28,7 +28,7 @@ import { AuthMachineComponentProps } from "../auth-machine";
 import { useAuthStore } from "../auth-global-state";
 const loginSchema = z.object({
   email: z.email({ error: "Invalid: must be an email" }).nonempty(),
-  password: z.string().min(8),
+  password: z.string(),
   rememberMe: z.boolean(),
 }); //creating zod login schema to be used in the form
 
@@ -82,16 +82,8 @@ export default function LoginForm({
       return data;
     },
     onError: (err) => {
-      toast.error("Error", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--destructive) 30%, var(--background) 70% )",
-          "--normal-text": "var(--destructive)",
-          "--normal-border": "var(--destructive)",
-        } as React.CSSProperties,
-        icon: <LucideCircleX />,
-        description: err.message,
+      toast.error("Oops...", {
+        description: err.message
       });
     },
   });

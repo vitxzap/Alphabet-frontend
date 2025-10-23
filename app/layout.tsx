@@ -3,8 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { Toast } from "@/components/ui/toast";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -34,8 +33,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryClientProvider client={queryClient}>
+            <Toast/>
             {children}
-            <Toaster />
+            
           </QueryClientProvider>
         </ThemeProvider>
       </body>

@@ -13,14 +13,18 @@ import { useMachine } from "@xstate/react";
 import OTPForm from "../OTP/otp-form";
 import { AuthMachine } from "../auth-machine";
 import LoginForm from "../login/login-form";
-import { Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { AuthCardConfig, AuthCardScreen } from "../auth-config";
 import ResetPasswordForm from "../reset-password/reset-password-form";
 import ForgotPasswordForm from "../forgot-password/forget-password-form";
 import { OTPCardConfig } from "../OTP/otp-config";
 import { motion } from "motion/react";
+import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/ui/spinner";
+const LazyLogin = lazy(() => import("../login/login-form"));
 export default function AuthCard() {
   const [state, send] = useMachine(AuthMachine);
+  const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   // Controls whats is going to be displayed in card texts e.g. title, description
   const [cardText, setCardText] = useState<AuthCardScreen>();
@@ -29,7 +33,7 @@ export default function AuthCard() {
     switch (true) {
       case state.matches("login"):
         return (
-          <LoginForm
+          <LazyLogin
             actions={{
               registerAction: {
                 callback: () => send({ type: "REQUEST_REGISTER_FORM" }),
@@ -153,7 +157,6 @@ export default function AuthCard() {
               key={cardText?.title}
               initial={{ opacity: 0, x: -60 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.05 }}
             >
               {cardText?.description}
             </motion.div>
@@ -161,9 +164,8 @@ export default function AuthCard() {
         </CardHeader>
         <motion.div
           key={cardText?.title}
-          initial={{ opacity: 0, x: -120 }}
+          initial={{ opacity: 0, x: -60 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
         >
           <CardContent>{renderForm()}</CardContent>
         </motion.div>

@@ -53,44 +53,22 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
         type: type,
       });
     },
-    onSuccess: () => {
-      toast.success("Success", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--color-green-600) 30%, var(--background) 70%)",
-          "--normal-text":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-          "--normal-border":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-        } as React.CSSProperties,
-        icon: <LucideUserRoundCheck />,
-        description: "A new verification code was send to your email inbox.",
-      });
-    },
+    onSuccess: () => {},
     onError: (err) => {
-      toast.error("Error", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--destructive) 30%, var(--background) 70% )",
-          "--normal-text": "var(--destructive)",
-          "--normal-border": "var(--destructive)",
-        } as React.CSSProperties,
-        icon: <LucideCircleX />,
+      toast.error("Oops...", {
         description: err.message,
       });
     },
   });
   const OTPFormMutate = useMutation({
     mutationFn: async (formData: OTPFormSchemaType) => {
-      console.log(type)
+      console.log(type);
       if (type === "email-verification") {
         await authClient.emailOtp.verifyEmail({
           email: email,
           otp: formData.otp,
         });
-        return
+        return;
       }
       const { data, error } = await authClient.emailOtp.checkVerificationOtp({
         otp: formData.otp,
@@ -100,7 +78,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
       if (error) {
         throw error;
       }
-      console.log(data)
+      console.log(data);
       setOTP(formData.otp);
       actions?.onOTPSuccess.callback();
     },
@@ -160,7 +138,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
           <Button className="w-full" type="submit">
             {OTPFormMutate.isPending ? (
               <>
-                <Spinner/> Loading...
+                <Spinner /> Loading...
               </>
             ) : (
               <>
@@ -176,12 +154,10 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
           >
             {requestNewOTPCode.isPending ? (
               <>
-                <Spinner/> Loading...
+                <Spinner /> Loading...
               </>
             ) : (
-              <>
-                Request another code
-              </>
+              <>Request another code</>
             )}
           </Button>
         </div>

@@ -52,33 +52,10 @@ export default function ForgotPasswordForm({
       actions?.callOTP.callback();
     },
     onError: (err) => {
-      toast.error("Error", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--destructive) 30%, var(--background) 70% )",
-          "--normal-text": "var(--destructive)",
-          "--normal-border": "var(--destructive)",
-        } as React.CSSProperties,
-        icon: <LucideCircleX />,
+      toast.error("Oops...", {
         description: err.message,
       });
     },
-    /* onSuccess: (data) => {
-      toast.success("Success", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--color-green-600) 30%, var(--background) 70%)",
-          "--normal-text":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-          "--normal-border":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-        } as React.CSSProperties,
-        icon: <LucideUserRoundCheck />,
-        description: "Open your inbox to reset your password.",
-      });
-    }, */
   });
   function handleForgotPasswordSubmit(formData: ForgotPasswordSchemaType) {
     forgotPasswordMutation.mutate(formData);

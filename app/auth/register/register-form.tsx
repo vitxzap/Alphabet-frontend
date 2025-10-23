@@ -44,9 +44,9 @@ interface RegisterFormProps
     AuthMachineComponentProps<{
       login: {
         callback: () => void;
-      },
+      };
       onRegister: {
-        callback: () => void
+        callback: () => void;
       };
     }> {}
 export default function RegisterForm({
@@ -58,7 +58,7 @@ export default function RegisterForm({
   const form = useForm<RegisterTypeSchema>({
     resolver: zodResolver(registerSchema),
   });
-  const {setEmail, setType} = useAuthStore()
+  const { setEmail, setType } = useAuthStore();
   const registerMutation = useMutation({
     mutationFn: async (formData: RegisterDto) => {
       const c = await authClient.signUp.email({
@@ -70,41 +70,19 @@ export default function RegisterForm({
       if (c.error) {
         throw c.error;
       }
-      setEmail(formData.email)
-      setType("email-verification")
+      setEmail(formData.email);
+      setType("email-verification");
       return c;
     },
     onError: (err) => {
-      toast.error("Error", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--destructive) 30%, var(--background) 70% )",
-          "--normal-text": "var(--destructive)",
-          "--normal-border": "var(--destructive)",
-        } as React.CSSProperties,
-        icon: <LucideCircleX />,
+      toast.error("Oops...", {
         description: err.message,
       });
     },
     onSuccess: (data) => {
-      toast.success("Success", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--color-green-600) 30%, var(--background) 70%)",
-          "--normal-text":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-          "--normal-border":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-        } as React.CSSProperties,
-        icon: <LucideUserRoundCheck />,
-        description: "Please check your inbox to verify your email.",
-      });
-      
       setTimeout(() => {
-        actions?.onRegister.callback()
-      }, 500)
+        actions?.onRegister.callback();
+      }, 500);
     },
   });
 
@@ -118,7 +96,6 @@ export default function RegisterForm({
   }, []);
   return (
     <form
-      
       onSubmit={form.handleSubmit(handleRegisterForm)}
       className="grid gap-2"
       noValidate={true}
@@ -172,7 +149,11 @@ export default function RegisterForm({
             </Field.ErrorText>
           </Field.Root>
           <div className="relative">
-            <Button type="submit" className="w-full relative" disabled={registerMutation.isPending}>
+            <Button
+              type="submit"
+              className="w-full relative"
+              disabled={registerMutation.isPending}
+            >
               {registerMutation.isPending ? (
                 <>
                   <Spinner /> Loading...
@@ -189,7 +170,6 @@ export default function RegisterForm({
           Already have an account?{" "}
           <a
             onClick={actions?.login.callback}
-
             className="hover:underline underline-offset-4 cursor-pointer text-primary font-semibold"
           >
             Log-in

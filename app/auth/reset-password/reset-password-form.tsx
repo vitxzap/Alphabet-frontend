@@ -14,9 +14,9 @@ import {
   LucideUserRoundCheck,
 } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
-import { toast } from "sonner";
 import { useAuthStore } from "../auth-global-state";
 import { AuthMachineComponentProps } from "../auth-machine";
+import { toast } from "sonner";
 
 const resetPasswordSchema = z.object({
   newPassword: z.string().min(8),
@@ -50,35 +50,14 @@ export default function ResetPasswordForm({
       return data;
     },
     onError: (err) => {
-      toast.error("Error", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--destructive) 30%, var(--background) 70% )",
-          "--normal-text": "var(--destructive)",
-          "--normal-border": "var(--destructive)",
-        } as React.CSSProperties,
-        icon: <LucideCircleX />,
+      toast.error("Oops...", {
         description: err.message,
       });
     },
     onSuccess: () => {
-      toast.success("Success", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--color-green-600) 30%, var(--background) 70%)",
-          "--normal-text":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-          "--normal-border":
-            "light-dark(var(--color-green-600), var(--color-green-400))",
-        } as React.CSSProperties,
-        icon: <LucideUserRoundCheck />,
-        description: "Your password has been changed. Going back to login page...",
-      });
       setTimeout(() => {
         actions?.onNewPassword.callback();
-      }, 2000);
+      }, 1500);
     },
   });
 

@@ -1,6 +1,5 @@
-import { Suspense } from "react";
+
 import AuthCard from "./components/card";
-import { Spinner } from "@/components/ui/spinner";
 
 export default function AuthPage() {
   return (
@@ -9,7 +8,6 @@ export default function AuthPage() {
         <a href="#" className="flex items-center gap-2 self-center font-medium">
           Classy
         </a>
-
         <AuthCard />
       </div>
     </div>
