@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-export default async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
   // gets the better auth session token and stores it to use later
   const secureToken = req.cookies.get("better-auth.session_token");
   // web prefix pages are the protected routes from the application

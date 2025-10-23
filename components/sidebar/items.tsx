@@ -1,4 +1,3 @@
-"use client"
 import z from "zod";
 import { MdDashboard } from "react-icons/md"
 import { HiDocument } from "react-icons/hi"
