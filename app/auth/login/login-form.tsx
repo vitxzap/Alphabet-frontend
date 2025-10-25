@@ -7,14 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BorderTrail } from "@/components/motion-primitives/border-trail";
-import {
-  LucideArrowRight,
-  LucideCircle,
-  LucideCircleX,
-  LucideMail,
-  LucideUserRoundCheck,
-} from "lucide-react";
+import { LucideArrowRight, LucideMail } from "lucide-react";
 import { Field } from "@/components/Field";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Spinner } from "@/components/ui/spinner";
@@ -26,6 +19,7 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 import { AuthMachineComponentProps } from "../auth-machine";
 import { useAuthStore } from "../auth-global-state";
+import LoadingButton from "../components/loading-button";
 const loginSchema = z.object({
   email: z.email({ error: "Invalid: must be an email" }).nonempty(),
   password: z.string(),
@@ -83,7 +77,8 @@ export default function LoginForm({
     },
     onError: (err) => {
       toast.error("Oops...", {
-        description: err.message
+        description: err.message,
+        position: "top-center",
       });
     },
   });
@@ -151,21 +146,9 @@ export default function LoginForm({
           ></Controller>
 
           <div className="relative">
-            <Button
-              type="submit"
-              disabled={loginMutation.isPending}
-              className="w-full relative"
-            >
-              {loginMutation.isPending ? (
-                <>
-                  <Spinner /> Loading...
-                </>
-              ) : (
-                <>
-                  Continue <LucideArrowRight />
-                </>
-              )}
-            </Button>
+            <LoadingButton isLoading={loginMutation.isPending}>
+              Continue <LucideArrowRight />
+            </LoadingButton>
           </div>
         </div>
         <div className="text-center text-sm">

@@ -1,4 +1,3 @@
-
 import AuthCard from "./components/card";
 
 export default function AuthPage() {

@@ -33,7 +33,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryClientProvider client={queryClient}>
-            <Toast/>
+            <Toast position="top-center"/>
             {children}
             
           </QueryClientProvider>

@@ -55,9 +55,12 @@ export default function ResetPasswordForm({
       });
     },
     onSuccess: () => {
+      toast.success("Success!", {
+        description: "Your password was successfully changed!",
+      });
       setTimeout(() => {
         actions?.onNewPassword.callback();
-      }, 1500);
+      }, 1800);
     },
   });
 

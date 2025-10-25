@@ -1,5 +1,4 @@
 import { assign, setup } from "xstate";
-import { OTPPurpose } from "./OTP/otp-config";
 
 export type authMode =
   | "login"
@@ -15,7 +14,7 @@ type authEvent =
   | { type: "REQUEST_REGISTER_FORM" }
   | { type: "REQUEST_FORGOT_PASSWORD_FORM" }
   | { type: "OTP_SUCCESS" }
-  | { type: "OTP_FAILED" }
+  | { type: "OTP_MISS_CLICKED" }
   | { type: "NEW_PASSWORD_CHANGED" }
   | {
       type: "REQUEST_OTP_FORM";
@@ -67,13 +66,22 @@ export const AuthMachine = setup({
       initial: "login",
       states: {
         login: {
-          on: { OTP_SUCCESS: "#auth.dashboard" },
+          on: {
+            OTP_SUCCESS: "#auth.dashboard",
+            OTP_MISS_CLICKED: "#auth.login",
+          },
         },
         register: {
-          on: { OTP_SUCCESS: "#auth.dashboard" },
+          on: {
+            OTP_SUCCESS: "#auth.dashboard",
+            OTP_MISS_CLICKED: "#auth.login",
+          },
         },
         forgotPassword: {
-          on: { OTP_SUCCESS: "#auth.resetPassword" },
+          on: {
+            OTP_SUCCESS: "#auth.resetPassword",
+            OTP_MISS_CLICKED: "#auth.forgotPassword",
+          },
         },
       },
     },

@@ -1,6 +1,4 @@
 "use client";
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
-import { BlurFade } from "@/components/ui/blur-fade";
 import RegisterForm from "../register/register-form";
 import {
   Card,
@@ -12,19 +10,15 @@ import {
 import { useMachine } from "@xstate/react";
 import OTPForm from "../OTP/otp-form";
 import { AuthMachine } from "../auth-machine";
-import LoginForm from "../login/login-form";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useState } from "react";
 import { AuthCardConfig, AuthCardScreen } from "../auth-config";
 import ResetPasswordForm from "../reset-password/reset-password-form";
 import ForgotPasswordForm from "../forgot-password/forget-password-form";
 import { OTPCardConfig } from "../OTP/otp-config";
 import { motion } from "motion/react";
-import { useRouter } from "next/navigation";
-import { Spinner } from "@/components/ui/spinner";
-const LazyLogin = lazy(() => import("../login/login-form"));
+import LoginForm from "../login/login-form";
 export default function AuthCard() {
   const [state, send] = useMachine(AuthMachine);
-  const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   // Controls whats is going to be displayed in card texts e.g. title, description
   const [cardText, setCardText] = useState<AuthCardScreen>();
@@ -33,7 +27,7 @@ export default function AuthCard() {
     switch (true) {
       case state.matches("login"):
         return (
-          <LazyLogin
+          <LoginForm
             actions={{
               registerAction: {
                 callback: () => send({ type: "REQUEST_REGISTER_FORM" }),
@@ -103,6 +97,9 @@ export default function AuthCard() {
               onOTPSuccess: {
                 callback: () => send({ type: "OTP_SUCCESS" }),
               },
+              onOTPMissClicked: {
+                callback: () => send({ type: "OTP_MISS_CLICKED" }),
+              },
             }}
           />
         );
@@ -113,6 +110,9 @@ export default function AuthCard() {
             actions={{
               onOTPSuccess: {
                 callback: () => send({ type: "OTP_SUCCESS" }),
+              },
+              onOTPMissClicked: {
+                callback: () => send({ type: "OTP_MISS_CLICKED" }),
               },
             }}
           />

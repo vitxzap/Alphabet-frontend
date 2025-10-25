@@ -13,6 +13,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { AuthMachineComponentProps } from "../auth-machine";
 import { useEffect } from "react";
 import { useAuthStore } from "../auth-global-state";
+import LoadingButton from "../components/loading-button";
 const ForgotPasswordSchema = z.object({
   email: z.email().nonempty(),
 });
@@ -84,21 +85,12 @@ export default function ForgotPasswordForm({
             {form.formState.errors.email?.message}
           </Field.ErrorText>
         </Field.Root>
-        <Button
+        <LoadingButton
+          isLoading={forgotPasswordMutation.isPending}
           type="submit"
-          className="w-full relative"
-          disabled={forgotPasswordMutation.isPending}
         >
-          {forgotPasswordMutation.isPending ? (
-            <>
-              <Spinner /> Loading...
-            </>
-          ) : (
-            <>
-              Recover my password <LucideArrowRight />
-            </>
-          )}
-        </Button>
+          Recover my password
+        </LoadingButton>
       </form>
       <Button
         variant={"ghost"}

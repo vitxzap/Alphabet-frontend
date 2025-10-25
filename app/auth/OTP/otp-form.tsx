@@ -1,8 +1,7 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { AuthMachineComponentProps } from "../auth-machine";
 import { useEffect } from "react";
-import z, { email } from "zod";
+import z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -16,12 +15,9 @@ import { useMutation } from "@tanstack/react-query";
 import { authClient } from "@/lib/auth-client";
 import { useAuthStore } from "../auth-global-state";
 import { toast } from "sonner";
-import {
-  LucideArrowRight,
-  LucideCircleX,
-  LucideUserRoundCheck,
-} from "lucide-react";
-import { Spinner } from "@/components/ui/spinner";
+import { LucideArrowRight, LucideCircleX } from "lucide-react";
+import LoadingButton from "../components/loading-button";
+import { Button } from "@/components/ui/button";
 const OTPFormSchema = z.object({
   otp: z.string().min(6, {
     message: "Your verification code must be 6 digits",
@@ -34,6 +30,9 @@ interface OTPFormProps
   extends React.ComponentProps<"form">,
     AuthMachineComponentProps<{
       onOTPSuccess: {
+        callback: () => void;
+      };
+      onOTPMissClicked: {
         callback: () => void;
       };
     }> {}
@@ -53,10 +52,16 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
         type: type,
       });
     },
-    onSuccess: () => {},
+    onSuccess: () => {
+      toast.success("Success!", {
+        description: "A new verification code was sent to your inbox.",
+        position: "top-center",
+      });
+    },
     onError: (err) => {
       toast.error("Oops...", {
         description: err.message,
+        position: "top-center",
       });
     },
   });
@@ -78,21 +83,13 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
       if (error) {
         throw error;
       }
-      console.log(data);
       setOTP(formData.otp);
       actions?.onOTPSuccess.callback();
     },
     onError: (err) => {
-      toast.error("Error", {
-        position: "bottom-center",
-        style: {
-          "--normal-bg":
-            "color-mix(in oklab, var(--destructive) 30%, var(--background) 70% )",
-          "--normal-text": "var(--destructive)",
-          "--normal-border": "var(--destructive)",
-        } as React.CSSProperties,
-        icon: <LucideCircleX />,
+      toast.error("Oops...", {
         description: err.message,
+        position: "top-center",
       });
     },
   });
@@ -111,12 +108,17 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
       noValidate
       onSubmit={form.handleSubmit(handleOTPForm)}
     >
-      <div className="grid gap-2 items-center justify-center">
+      <div className="flex flex-col gap-2 items-center justify-center">
         <div>
           <Controller
             name="otp"
             render={({ field }) => (
-              <InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS}>
+              <InputOTP
+                maxLength={6}
+                {...field}
+                pattern={REGEXP_ONLY_DIGITS}
+                className="w-full"
+              >
                 <InputOTPGroup>
                   <InputOTPSlot index={0} />
                   <InputOTPSlot index={1} />
@@ -134,32 +136,30 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
           />
           {!!form.formState.errors.otp}
         </div>
-        <div className="grid gap-2">
-          <Button className="w-full" type="submit">
-            {OTPFormMutate.isPending ? (
-              <>
-                <Spinner /> Loading...
-              </>
-            ) : (
-              <>
-                Verify code <LucideArrowRight />
-              </>
-            )}
-          </Button>
-          <Button
-            className="w-full"
+        <div className="flex flex-col gap-2">
+          <LoadingButton isLoading={OTPFormMutate.isPending} type="submit">
+            Verify code <LucideArrowRight />
+          </LoadingButton>
+          <LoadingButton
             variant={"ghost"}
+            isLoading={requestNewOTPCode.isPending}
             onClick={() => requestNewOTPCode.mutate()}
-            disabled={requestNewOTPCode.isPending}
           >
-            {requestNewOTPCode.isPending ? (
-              <>
-                <Spinner /> Loading...
-              </>
-            ) : (
-              <>Request another code</>
-            )}
-          </Button>
+            Request new code
+          </LoadingButton>
+          <div>
+            <span className="text-sm text-muted-foreground">
+              Dont know what are you doing here?{" "}
+              <a
+                className="text-primary cursor-pointer underline-offset-4 hover:underline"
+                onClick={() => {
+                  actions?.onOTPMissClicked.callback();
+                }}
+              >
+                Bring me back
+              </a>
+            </span>
+          </div>
         </div>
       </div>
     </form>

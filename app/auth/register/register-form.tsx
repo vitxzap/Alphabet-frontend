@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 import { AuthMachineComponentProps } from "../auth-machine";
 import { useAuthStore } from "../auth-global-state";
+import LoadingButton from "../components/loading-button";
 const registerSchema = z
   .object({
     name: z.string().min(3),
@@ -149,21 +150,9 @@ export default function RegisterForm({
             </Field.ErrorText>
           </Field.Root>
           <div className="relative">
-            <Button
-              type="submit"
-              className="w-full relative"
-              disabled={registerMutation.isPending}
-            >
-              {registerMutation.isPending ? (
-                <>
-                  <Spinner /> Loading...
-                </>
-              ) : (
-                <>
-                  Continue <LucideArrowRight />
-                </>
-              )}
-            </Button>
+            <LoadingButton isLoading={registerMutation.isPending}>
+              Continue <LucideArrowRight />
+            </LoadingButton>
           </div>
         </div>
         <div className="text-center text-sm">
