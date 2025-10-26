@@ -1,11 +1,4 @@
-import { assign, setup } from "xstate";
-
-export type authMode =
-  | "login"
-  | "register"
-  | "forgotPassword"
-  | "newPassword"
-  | { otp: "login" | "register" | "forgotPassword" };
+import { setup } from "xstate";
 type authEvent =
   | { type: "REQUEST_LOGIN_FORM" }
   | { type: "REQUEST_ERROR_CARD" }
@@ -20,13 +13,8 @@ type authEvent =
       type: "REQUEST_OTP_FORM";
     };
 
-interface authContext {
-  email?: string;
-}
-
 export const AuthMachine = setup({
   types: {
-    context: {} as authContext,
     events: {} as authEvent,
   },
 }).createMachine({

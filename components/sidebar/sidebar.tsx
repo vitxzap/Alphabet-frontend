@@ -12,9 +12,9 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { sidebarItems } from "./items";
-import { UserFooter } from "./resumit-sidebar-footer";
+import { UserFooter } from "./sidebar-footer";
 import Link from "next/link";
-export default function ResumitSidebar({ user, session }: Session) {
+export default function AppSidebar({ user, session }: Session) {
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarContent>

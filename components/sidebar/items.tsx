@@ -1,6 +1,7 @@
 import z from "zod";
-import { MdDashboard } from "react-icons/md"
+import { MdDashboard, MdFilePresent } from "react-icons/md"
 import { HiDocument } from "react-icons/hi"
+import { Book, LayoutGrid } from "lucide-react";
 const sidebarSchema = z.object({
     title: z.string().nonempty(),
     url: z.string(),
@@ -14,10 +15,10 @@ type SidebarType = z.infer<typeof zodArray>
 export const sidebarItems: SidebarType = [{
     title: "Dashboard",
     url: "/web/dashboard",
-    icon: <MdDashboard />,
+    icon: <LayoutGrid />,
 },
 {
     title: "Resumes",
     url: "/web/resumes",
-    icon: <HiDocument />
+    icon: <Book />
 }]

@@ -1,13 +1,9 @@
 "use client";
 import {
-  BadgeCheck,
   Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
   Settings,
-  Sparkles,
-  User,
   UserRound,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,17 +24,14 @@ import {
 } from "@/components/ui/sidebar";
 import { authClient, Session } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { Button } from "../ui/button";
-import { useState } from "react";
-import UserSettings from "../user-settings";
-import { useUserSettingsStore } from "../user-settings/user-settings-state";
+import { SettingsDialog } from "../settings/settings";
+import { useSettingsDialogStore } from "../settings/settings-global-state";
 
 interface UserFooterProps extends Session {}
 export function UserFooter({ user, session, ...props }: UserFooterProps) {
   const { isMobile } = useSidebar();
+  const { open, setOpen } = useSettingsDialogStore();
   const router = useRouter();
-  const { open, setOpen } = useUserSettingsStore();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -83,9 +76,8 @@ export function UserFooter({ user, session, ...props }: UserFooterProps) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => setOpen(!open)}>
-                <Settings />
-                Settings
+              <DropdownMenuItem onClick={() => setOpen(true)}>
+                <Settings /> Settings
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />

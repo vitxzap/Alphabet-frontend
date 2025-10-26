@@ -5,7 +5,7 @@ interface UserSettingsSchema {
   setOpen: (open: boolean) => void;
 }
 
-export const useUserSettingsStore = create<UserSettingsSchema>()((set) => ({
+export const useSettingsDialogStore = create<UserSettingsSchema>()((set) => ({
   open: false,
   setOpen: (open: boolean) => set({ open: open }),
 }));
