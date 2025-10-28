@@ -79,7 +79,7 @@ export default function LoginForm({
       });
     },
     onSuccess: () => {
-      router.push("/web/v");
+      router.push("/web/classes");
     },
   });
 
