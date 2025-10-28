@@ -79,7 +79,7 @@ export default function LoginForm({
       });
     },
     onSuccess: () => {
-      router.push("/web/dashboard");
+      router.push("/web/v");
     },
   });
 
@@ -176,7 +176,7 @@ export default function LoginForm({
           onClick={async () => {
             const { data, error } = await authClient.signIn.social({
               provider: "microsoft",
-              callbackURL: "http://localhost:3000/web/dashboard",
+              callbackURL: "http://localhost:3000/web/classes",
             });
           }}
           disabled={loginMutation.isPending}
@@ -189,9 +189,9 @@ export default function LoginForm({
           type="button"
           className="w-full"
           onClick={async () => {
-            const { data, error } = await authClient.signIn.social({
+            await authClient.signIn.social({
               provider: "google",
-              callbackURL: "http://localhost:3000/web/dashboard",
+              callbackURL: "http://localhost:3000/web/classes",
             });
           }}
           disabled={loginMutation.isPending}

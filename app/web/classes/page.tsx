@@ -2,7 +2,7 @@
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { MdDashboard } from "react-icons/md";
 
-export default function Dashboard() {
+export default function Classes() {
   return (
     <div className="flex w-full h-full items-center justify-center">
       <Empty>
@@ -10,7 +10,7 @@ export default function Dashboard() {
           <EmptyMedia variant="icon">
             <MdDashboard />
           </EmptyMedia>
-          <EmptyTitle>Dashboard Under Construction</EmptyTitle>
+          <EmptyTitle>Classes Under Construction</EmptyTitle>
           <EmptyDescription>
             This page is under construction and soon will be released to use. Feel free to explore the website.
           </EmptyDescription>

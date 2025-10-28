@@ -31,6 +31,8 @@ import {
 import { useSettingsDialogStore } from "./settings-global-state";
 import { SettingsMachine } from "./settings-machine";
 import { useMachine } from "@xstate/react";
+import Sessions from "./components/sessions";
+import Profile from "./components/profile";
 const data = {
   nav: [
     { name: "Profile", icon: User },
@@ -40,6 +42,14 @@ const data = {
 export function SettingsDialog() {
   const { open, setOpen } = useSettingsDialogStore();
   const [state, send] = useMachine(SettingsMachine);
+  function renderComponent() {
+    switch (true) {
+      case state.matches("profile"):
+        return <Profile />;
+      case state.matches("session"):
+        return <Sessions />;
+    }
+  }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="overflow-hidden p-0 md:max-h-[600px] md:max-w-[700px] lg:max-w-[1000px]">
@@ -58,13 +68,13 @@ export function SettingsDialog() {
                       <SidebarMenuItem key={item.name}>
                         <SidebarMenuButton
                           asChild
-                          isActive={item.name === state.value}
+                          isActive={item.name.toLowerCase() === state.value}
                           onClick={() =>
                             send({ type: "SET", value: item.name })
                           }
                         >
                           <span className="cursor-pointer">
-                            <item.icon /> {item.name}
+                            <item.icon /> {item.name} 
                           </span>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
@@ -87,7 +97,9 @@ export function SettingsDialog() {
               </div>
             </header>
 
-            <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0"></div>
+            <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
+              {renderComponent()}
+            </div>
           </main>
         </SidebarProvider>
       </DialogContent>

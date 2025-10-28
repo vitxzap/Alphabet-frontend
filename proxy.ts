@@ -13,7 +13,7 @@ export default async function proxy(req: NextRequest) {
   }
   //if the user is already authenticated and tries to access auth page, he will be redirected to the dashboard
   if (secureToken && authRoute) {
-    return NextResponse.redirect(new URL("/web/dashboard", req.url));
+    return NextResponse.redirect(new URL("/web/classes", req.url));
   }
   return NextResponse.next();
 }

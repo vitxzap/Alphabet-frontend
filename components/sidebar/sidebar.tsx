@@ -14,7 +14,9 @@ import {
 import { sidebarItems } from "./items";
 import { UserFooter } from "./sidebar-footer";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 export default function AppSidebar({ user, session }: Session) {
+  const path = usePathname();
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarContent>
@@ -24,7 +26,7 @@ export default function AppSidebar({ user, session }: Session) {
             <SidebarMenu>
               {sidebarItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={item.title.toLowerCase() === path.slice(5)}>
                     <Link href={item.url}>
                       {item.icon}
                       <span>{item.title}</span>
