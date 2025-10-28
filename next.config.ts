@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
   experimental: {
     authInterrupts: true,
   },
+  reactCompiler: true,
 };
 
 export default nextConfig;

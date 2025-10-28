@@ -19,7 +19,6 @@ import { motion } from "motion/react";
 import LoginForm from "../login/login-form";
 export default function AuthCard() {
   const [state, send] = useMachine(AuthMachine);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   // Controls whats is going to be displayed in card texts e.g. title, description
   const [cardText, setCardText] = useState<AuthCardScreen>();
   function renderForm() {
@@ -38,9 +37,6 @@ export default function AuthCard() {
               emailVerificationAction: {
                 callback: () =>
                   send({ type: "REQUEST_EMAIL_VERIFICATION_OTP" }),
-              },
-              authenticateUser: {
-                callback: () => send({ type: "USER_AUTHENTICATED" }),
               },
             }}
             onRender={() => {
@@ -127,8 +123,6 @@ export default function AuthCard() {
             }}
           />
         );
-      case state.matches("dashboard"):
-        setIsAuthenticated(true);
     }
   }
   return (

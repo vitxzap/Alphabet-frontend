@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { AuthMachineComponentProps } from "../auth-machine";
 import { useAuthStore } from "../auth-global-state";
 import LoadingButton from "../components/loading-button";
+import { useRouter } from "next/navigation";
 const loginSchema = z.object({
   email: z.email({ error: "Invalid: must be an email" }).nonempty(),
   password: z.string(),
@@ -39,9 +40,6 @@ interface LoginFormProps
       forgotPasswordAction: {
         callback: () => void;
       };
-      authenticateUser: {
-        callback: () => void;
-      };
     }> {}
 export default function LoginForm({
   className,
@@ -56,7 +54,7 @@ export default function LoginForm({
     },
   });
   const { setEmail, setType } = useAuthStore();
-
+  const router = useRouter();
   const loginMutation = useMutation({
     mutationFn: async (formData: LoginDto) => {
       const { data, error } = await authClient.signIn.email({
@@ -72,7 +70,6 @@ export default function LoginForm({
         case error?.code != undefined:
           throw error;
       }
-      actions?.authenticateUser.callback();
       return data;
     },
     onError: (err) => {
@@ -81,11 +78,15 @@ export default function LoginForm({
         position: "top-center",
       });
     },
+    onSuccess: () => {
+      router.push("/web/dashboard");
+    },
   });
 
+  //Handle with data and submit from forms
   function handleLoginForm(formData: LoginDto) {
     loginMutation.mutate(formData);
-  } //Handle with data and submit from forms
+  }
   useEffect(() => {
     if (onRender != undefined) {
       onRender();
