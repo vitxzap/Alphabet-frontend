@@ -1,5 +1,5 @@
 import { SettingsDialog } from "@/components/settings/settings";
-import AppSidebar from "@/components/sidebar/sidebar";
+import AppSidebar from "@/app/web/components/sidebar/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import NavHeader from "@/components/web-header/header";
 import { authClient } from "@/lib/auth-client";

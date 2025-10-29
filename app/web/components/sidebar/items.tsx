@@ -8,9 +8,9 @@ const sidebarSchema = z.object({
 
 const zodArray = z.array(sidebarSchema);
 
-type SidebarType = z.infer<typeof zodArray>;
+export type SidebarType = z.infer<typeof zodArray>;
 
-export const sidebarItems: SidebarType = [
+export const userSidebarItems: SidebarType = [
   {
     title: "Classes",
     url: "/web/classes",

@@ -19,7 +19,7 @@ import {
 export default function NavHeader() {
   let pathName = usePathname().slice(5); //get the pathname and then remote the "/web/" from it using slice(5)
   pathName = pathName[0].toUpperCase() + pathName.slice(1); //This will capitalize the current user's page
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   function changeTheme(selectedTheme: "dark" | "light") {
     setTheme(selectedTheme);
   }
@@ -29,7 +29,7 @@ export default function NavHeader() {
         <SidebarTrigger />
         <Separator
           orientation="vertical"
-          className="mr-2 data-[orientation=vertical]:h-4"
+          className="mr-2 orientation-vertical:h-4"
         />
         <Breadcrumb>
           <BreadcrumbItem className="text-sm font-semibold">

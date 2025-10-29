@@ -10,8 +10,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "../ui/sidebar";
-import { sidebarItems } from "./items";
+} from "../../../../components/ui/sidebar";
+import { userSidebarItems } from "./items";
 import { UserFooter } from "./sidebar-footer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -24,7 +24,7 @@ export default function AppSidebar({ user, session }: Session) {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {sidebarItems.map((item) => (
+              {userSidebarItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={item.title.toLowerCase() === path.slice(5)}>
                     <Link href={item.url}>
