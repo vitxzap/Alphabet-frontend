@@ -4,7 +4,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import NavHeader from "@/components/web-header/header";
 import { authClient } from "@/lib/auth-client";
 import { cookies, headers } from "next/headers";
-import { unauthorized } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 export default async function WebLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -16,6 +16,9 @@ export default async function WebLayout({
       headers: await headers(),
     },
   });
+  if (data?.user.role !== "user") {
+    redirect("/admin/dashboard");
+  }
   if (!data || error) {
     // if the session is invalid, calls the unauthorized page
     unauthorized();

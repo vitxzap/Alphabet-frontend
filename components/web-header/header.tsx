@@ -17,9 +17,14 @@ import {
 } from "../ui/dropdown-menu";
 
 export default function NavHeader() {
-  let pathName = usePathname().slice(5); //get the pathname and then remote the "/web/" from it using slice(5)
-  pathName = pathName[0].toUpperCase() + pathName.slice(1); //This will capitalize the current user's page
+  let pathname = usePathname();
+  //If the pathname startwith admin it will slice 7 characters, if not, it will slice 5 characters
+  let slicedPath = pathname.slice(pathname.startsWith("/admin") ? 7 : 5);
+  //This will capitalize the current page name
+  slicedPath = slicedPath[0].toUpperCase() + slicedPath.slice(1);
+
   const { setTheme } = useTheme();
+  
   function changeTheme(selectedTheme: "dark" | "light") {
     setTheme(selectedTheme);
   }
@@ -33,7 +38,7 @@ export default function NavHeader() {
         />
         <Breadcrumb>
           <BreadcrumbItem className="text-sm font-semibold">
-            {pathName}
+            {slicedPath}
           </BreadcrumbItem>
         </Breadcrumb>
       </div>

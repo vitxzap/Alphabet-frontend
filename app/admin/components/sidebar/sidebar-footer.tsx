@@ -26,6 +26,7 @@ import { authClient, Session } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { SettingsDialog } from "../../../../components/settings/settings";
 import { useSettingsDialogStore } from "../../../../components/settings/settings-global-state";
+import { Badge } from "@/components/ui/badge";
 
 interface UserFooterProps extends Session {}
 export function UserFooter({ user, session, ...props }: UserFooterProps) {
@@ -69,8 +70,10 @@ export function UserFooter({ user, session, ...props }: UserFooterProps) {
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                    
+                  <span className="truncate font-medium">{user.name}  <Badge variant={'secondary'}>Admin</Badge></span>
                   <span className="truncate text-xs">{user.email}</span>
+                  
                 </div>
               </div>
             </DropdownMenuLabel>

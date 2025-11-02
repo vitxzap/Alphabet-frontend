@@ -1,8 +1,21 @@
-interface AdminDashboardProps extends React.ComponentProps<"div"> {}
-export default function AdminDashboard({ ...props }: AdminDashboardProps) {
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
+import { LucideGrid2x2 } from "lucide-react";
+import { MdDashboard } from "react-icons/md";
+
+export default function Classes() {
   return (
-    <div>
-      <h1>admin dashboard page</h1>
+    <div className="flex w-full h-full items-center justify-center">
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <LucideGrid2x2 />
+          </EmptyMedia>
+          <EmptyTitle>Dashboard Under Construction</EmptyTitle>
+          <EmptyDescription>
+            This page is under construction and soon will be released to use. Feel free to explore the website.
+          </EmptyDescription>
+        </EmptyHeader>
+      </Empty>
     </div>
   );
 }

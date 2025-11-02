@@ -15,6 +15,7 @@ import { userSidebarItems } from "./items";
 import { UserFooter } from "./sidebar-footer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 export default function AppSidebar({ user, session }: Session) {
   const path = usePathname();
   return (
@@ -26,7 +27,10 @@ export default function AppSidebar({ user, session }: Session) {
             <SidebarMenu>
               {userSidebarItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={item.title.toLowerCase() === path.slice(5)}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={item.title.toLowerCase() === path.slice(5)}
+                  >
                     <Link href={item.url}>
                       {item.icon}
                       <span>{item.title}</span>
@@ -38,12 +42,11 @@ export default function AppSidebar({ user, session }: Session) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <UserFooter
-          user={user}
-          session={session}
-        />
-      </SidebarFooter>
+      <Suspense fallback={<>loading...</>}>
+        <SidebarFooter>
+          <UserFooter user={user} session={session} />
+        </SidebarFooter>
+      </Suspense>
     </Sidebar>
   );
 }

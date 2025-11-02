@@ -1,37 +1,52 @@
 "use client";
+import { authClient, Session } from "@/lib/auth-client";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "../../../../components/ui/sidebar";
 import { adminSidebarItems } from "./items";
+import { UserFooter } from "./sidebar-footer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-export default function AdminSidebar() {
+import { Suspense } from "react";
+export default function AppSidebar({ user, session }: Session) {
   const path = usePathname();
   return (
-    <Sidebar>
-      <SidebarHeader>Header</SidebarHeader>
+    <Sidebar collapsible="icon" variant="inset">
       <SidebarContent>
-        {adminSidebarItems.map((item) => (
-          <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton
-              asChild
-              isActive={item.title.toLowerCase() === path.slice(8)}
-            >
-              <Link href={item.url}>
-                {item.icon}
-                <span>{item.title}</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        ))}
+        <SidebarGroup>
+          <SidebarGroupLabel>Admin</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {adminSidebarItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={item.title.toLowerCase() === path.slice(5)}
+                  >
+                    <Link href={item.url}>
+                      {item.icon}
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>Footer</SidebarFooter>
+      <Suspense fallback={<>loading...</>}>
+        <SidebarFooter>
+          <UserFooter user={user} session={session} />
+        </SidebarFooter>
+      </Suspense>
     </Sidebar>
   );
 }
