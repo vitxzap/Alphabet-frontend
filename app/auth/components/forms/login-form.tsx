@@ -10,16 +10,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LucideArrowRight, LucideMail } from "lucide-react";
 import { Field } from "@/components/Field";
 import { PasswordInput } from "@/components/ui/password-input";
-import { Spinner } from "@/components/ui/spinner";
-import { LoginDto } from "./login-dto";
-import { authClient } from "@/lib/auth-client";
+import { LoginDto } from "./dtos/login-dto";
+import { authClient } from "@/lib/auth/client";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { AuthMachineComponentProps } from "../auth-machine";
-import { useAuthStore } from "../auth-global-state";
-import LoadingButton from "../components/loading-button";
+import { AuthMachineComponentProps } from "../../auth-machine";
+import { useAuthStore } from "../../auth-global-state";
+import LoadingButton from "../loading-button";
 import { useRouter } from "next/navigation";
 const loginSchema = z.object({
   email: z.email({ error: "Invalid: must be an email" }).nonempty(),
@@ -71,12 +70,6 @@ export default function LoginForm({
           throw error;
       }
       return data;
-    },
-    onError: (err) => {
-      toast.error("Oops...", {
-        description: err.message,
-        position: "top-center",
-      });
     },
     onSuccess: () => {
       router.push("/web/classes");

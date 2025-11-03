@@ -1,5 +1,5 @@
 "use client";
-import RegisterForm from "../register/register-form";
+import RegisterForm from "./forms/register-form";
 import {
   Card,
   CardContent,
@@ -8,17 +8,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useMachine } from "@xstate/react";
-import OTPForm from "../OTP/otp-form";
+import OTPForm from "./forms/otp-form";
 import { AuthMachine } from "../auth-machine";
 import { useState } from "react";
 import { AuthCardConfig, AuthCardScreen } from "../auth-config";
-import ResetPasswordForm from "../reset-password/reset-password-form";
-import ForgotPasswordForm from "../forgot-password/forget-password-form";
-import { OTPCardConfig } from "../OTP/otp-config";
+import ResetPasswordForm from "./forms/reset-password-form";
+import ForgotPasswordForm from "./forms/forget-password-form";
+import { OTPCardConfig } from "../otp-config";
 import { motion } from "motion/react";
-import LoginForm from "../login/login-form";
+import LoginForm from "./forms/login-form";
+import { useRouter } from "next/navigation";
 export default function AuthCard() {
   const [state, send] = useMachine(AuthMachine);
+  const router = useRouter();
   // Controls whats is going to be displayed in card texts e.g. title, description
   const [cardText, setCardText] = useState<AuthCardScreen>();
   function renderForm() {
@@ -123,6 +125,8 @@ export default function AuthCard() {
             }}
           />
         );
+      case state.matches("dashboard"):
+        router.push("/web/dashboard");
     }
   }
   return (

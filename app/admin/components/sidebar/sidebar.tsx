@@ -1,5 +1,5 @@
 "use client";
-import { authClient, Session } from "@/lib/auth-client";
+import { authClient, Session } from "@/lib/auth/client";
 import {
   Sidebar,
   SidebarContent,

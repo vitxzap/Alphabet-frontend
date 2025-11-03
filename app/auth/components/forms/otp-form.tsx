@@ -1,5 +1,5 @@
 "use client";
-import { AuthMachineComponentProps } from "../auth-machine";
+import { AuthMachineComponentProps } from "../../auth-machine";
 import { useEffect } from "react";
 import z from "zod";
 import { Controller, useForm } from "react-hook-form";
@@ -12,12 +12,11 @@ import {
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useMutation } from "@tanstack/react-query";
-import { authClient } from "@/lib/auth-client";
-import { useAuthStore } from "../auth-global-state";
+import { authClient } from "@/lib/auth/client";
+import { useAuthStore } from "../../auth-global-state";
 import { toast } from "sonner";
-import { LucideArrowRight, LucideCircleX } from "lucide-react";
-import LoadingButton from "../components/loading-button";
-import { Button } from "@/components/ui/button";
+import { LucideArrowRight } from "lucide-react";
+import LoadingButton from "../loading-button";
 const OTPFormSchema = z.object({
   otp: z.string().min(6, {
     message: "Your verification code must be 6 digits",
@@ -47,10 +46,13 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
   const { email, type, setOTP } = useAuthStore();
   const requestNewOTPCode = useMutation({
     mutationFn: async () => {
-      await authClient.emailOtp.sendVerificationOtp({
+      const { error } = await authClient.emailOtp.sendVerificationOtp({
         email: email,
         type: type,
       });
+      if (error) {
+        throw error;
+      }
     },
     onSuccess: () => {
       toast.success("Success!", {
@@ -58,24 +60,20 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
         position: "top-center",
       });
     },
-    onError: (err) => {
-      toast.error("Oops...", {
-        description: err.message,
-        position: "top-center",
-      });
-    },
   });
   const OTPFormMutate = useMutation({
     mutationFn: async (formData: OTPFormSchemaType) => {
-      console.log(type);
       if (type === "email-verification") {
-        await authClient.emailOtp.verifyEmail({
+        const { error } = await authClient.emailOtp.verifyEmail({
           email: email,
           otp: formData.otp,
         });
+        if (error) {
+          throw error;
+        }
         return;
       }
-      const { data, error } = await authClient.emailOtp.checkVerificationOtp({
+      const { error } = await authClient.emailOtp.checkVerificationOtp({
         otp: formData.otp,
         email: email,
         type: type,
@@ -85,12 +83,6 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
       }
       setOTP(formData.otp);
       actions?.onOTPSuccess.callback();
-    },
-    onError: (err) => {
-      toast.error("Oops...", {
-        description: err.message,
-        position: "top-center",
-      });
     },
   });
 
@@ -142,6 +134,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
           </LoadingButton>
           <LoadingButton
             variant={"ghost"}
+            type="button"
             isLoading={requestNewOTPCode.isPending}
             onClick={() => requestNewOTPCode.mutate()}
           >

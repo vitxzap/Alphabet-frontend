@@ -1,7 +1,7 @@
 "use client";
 import { Field } from "@/components/Field";
 import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LucideArrowRight, LucideCircleX, LucideMail } from "lucide-react";
@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
-import { AuthMachineComponentProps } from "../auth-machine";
+import { AuthMachineComponentProps } from "../../auth-machine";
 import { useEffect } from "react";
-import { useAuthStore } from "../auth-global-state";
-import LoadingButton from "../components/loading-button";
+import { useAuthStore } from "../../auth-global-state";
+import LoadingButton from "../loading-button";
 const ForgotPasswordSchema = z.object({
   email: z.email().nonempty(),
 });
@@ -42,7 +42,7 @@ export default function ForgotPasswordForm({
   const authStore = useAuthStore();
   const forgotPasswordMutation = useMutation({
     mutationFn: async (formData: ForgotPasswordSchemaType) => {
-      const { data, error } = await authClient.forgetPassword.emailOtp({
+      const { error } = await authClient.forgetPassword.emailOtp({
         email: formData.email,
       });
       if (error) {
@@ -51,11 +51,6 @@ export default function ForgotPasswordForm({
       authStore.setEmail(formData.email);
       authStore.setType("forget-password");
       actions?.callOTP.callback();
-    },
-    onError: (err) => {
-      toast.error("Oops...", {
-        description: err.message,
-      });
     },
   });
   function handleForgotPasswordSubmit(formData: ForgotPasswordSchemaType) {

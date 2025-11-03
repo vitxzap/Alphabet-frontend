@@ -4,6 +4,7 @@ import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toast } from "@/components/ui/toast";
+import { TanstackProvider } from "@/components/providers/tanstackProvider";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -14,7 +15,6 @@ const jetBrains = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-export const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -32,11 +32,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <QueryClientProvider client={queryClient}>
-            <Toast position="top-center"/>
+          <TanstackProvider>
+            <Toast position="top-center" />
             {children}
-            
-          </QueryClientProvider>
+          </TanstackProvider>
         </ThemeProvider>
       </body>
     </html>

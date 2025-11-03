@@ -22,7 +22,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { authClient, Session } from "@/lib/auth-client";
+import { authClient, Session } from "@/lib/auth/client";
 import { useRouter } from "next/navigation";
 import { SettingsDialog } from "../../../../components/settings/settings";
 import { useSettingsDialogStore } from "../../../../components/settings/settings-global-state";

@@ -1,27 +1,19 @@
+"use server";
 import { SettingsDialog } from "@/components/settings/settings";
 import AppSidebar from "@/app/web/components/sidebar/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import NavHeader from "@/components/web-header/header";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/client";
 import { cookies, headers } from "next/headers";
 import { redirect, unauthorized } from "next/navigation";
+import { verifySession } from "@/lib/dal";
 export default async function WebLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   // Verifies if the user session is valid
-
-  const { data, error } = await authClient.getSession({
-    fetchOptions: {
-      cookies: cookies(),
-      headers: await headers(),
-    },
-  });
-  if (data?.user.role !== "user") {
+  const { data, authenticated, isAdmin } = await verifySession();
+  if (isAdmin === true) {
     redirect("/admin/dashboard");
-  }
-  if (!data || error) {
-    // if the session is invalid, calls the unauthorized page
-    unauthorized();
   }
   return (
     <main>

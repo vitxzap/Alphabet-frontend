@@ -13,15 +13,15 @@ import {
 } from "lucide-react";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Field } from "@/components/Field";
-import { authClient, Session } from "@/lib/auth-client";
-import { RegisterDto } from "./register-dto";
+import { authClient, Session } from "@/lib/auth/client";
+import { RegisterDto } from "./dtos/register-dto";
 import { Spinner } from "@/components/ui/spinner";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { AuthMachineComponentProps } from "../auth-machine";
-import { useAuthStore } from "../auth-global-state";
-import LoadingButton from "../components/loading-button";
+import { AuthMachineComponentProps } from "../../auth-machine";
+import { useAuthStore } from "../../auth-global-state";
+import LoadingButton from "../loading-button";
 const registerSchema = z
   .object({
     name: z.string().min(3),
@@ -75,15 +75,8 @@ export default function RegisterForm({
       setType("email-verification");
       return c;
     },
-    onError: (err) => {
-      toast.error("Oops...", {
-        description: err.message,
-      });
-    },
-    onSuccess: (data) => {
-      setTimeout(() => {
-        actions?.onRegister.callback();
-      }, 500);
+    onSuccess: () => {
+      actions?.onRegister.callback();
     },
   });
 

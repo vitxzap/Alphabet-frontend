@@ -5,8 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { ResetPasswordDto } from "./reset-password-dto";
-import { authClient } from "@/lib/auth-client";
+import { ResetPasswordDto } from "./dtos/reset-password-dto";
+import { authClient } from "@/lib/auth/client";
 import { Button } from "@/components/ui/button";
 import {
   LucideArrowRight,
@@ -14,8 +14,8 @@ import {
   LucideUserRoundCheck,
 } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
-import { useAuthStore } from "../auth-global-state";
-import { AuthMachineComponentProps } from "../auth-machine";
+import { useAuthStore } from "../../auth-global-state";
+import { AuthMachineComponentProps } from "../../auth-machine";
 import { toast } from "sonner";
 
 const resetPasswordSchema = z.object({
@@ -48,11 +48,6 @@ export default function ResetPasswordForm({
         throw error;
       }
       return data;
-    },
-    onError: (err) => {
-      toast.error("Oops...", {
-        description: err.message,
-      });
     },
     onSuccess: () => {
       toast.success("Success!", {
