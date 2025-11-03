@@ -16,9 +16,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { AuthMachineComponentProps } from "../../auth-machine";
-import { useAuthStore } from "../../auth-global-state";
-import LoadingButton from "../loading-button";
+import { AuthMachineComponentProps } from "../../config/auth-machine";
+import { useAuthStore } from "../../config/auth-global-state";
+import LoadingButton from "../../../../components/ui/loading-button";
 import { useRouter } from "next/navigation";
 const loginSchema = z.object({
   email: z.email({ error: "Invalid: must be an email" }).nonempty(),

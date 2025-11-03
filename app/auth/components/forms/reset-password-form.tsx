@@ -14,8 +14,8 @@ import {
   LucideUserRoundCheck,
 } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
-import { useAuthStore } from "../../auth-global-state";
-import { AuthMachineComponentProps } from "../../auth-machine";
+import { useAuthStore } from "../../config/auth-global-state";
+import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { toast } from "sonner";
 
 const resetPasswordSchema = z.object({

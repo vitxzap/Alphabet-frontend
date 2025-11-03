@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
-import { AuthMachineComponentProps } from "../../auth-machine";
+import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { useEffect } from "react";
-import { useAuthStore } from "../../auth-global-state";
-import LoadingButton from "../loading-button";
+import { useAuthStore } from "../../config/auth-global-state";
+import LoadingButton from "../../../../components/ui/loading-button";
 const ForgotPasswordSchema = z.object({
   email: z.email().nonempty(),
 });

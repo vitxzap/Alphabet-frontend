@@ -19,9 +19,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { AuthMachineComponentProps } from "../../auth-machine";
-import { useAuthStore } from "../../auth-global-state";
-import LoadingButton from "../loading-button";
+import { AuthMachineComponentProps } from "../../config/auth-machine";
+import { useAuthStore } from "../../config/auth-global-state";
+import LoadingButton from "../../../../components/ui/loading-button";
 const registerSchema = z
   .object({
     name: z.string().min(3),

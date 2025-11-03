@@ -1,5 +1,5 @@
 "use client";
-import { AuthMachineComponentProps } from "../../auth-machine";
+import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { useEffect } from "react";
 import z from "zod";
 import { Controller, useForm } from "react-hook-form";
@@ -13,10 +13,10 @@ import {
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useMutation } from "@tanstack/react-query";
 import { authClient } from "@/lib/auth/client";
-import { useAuthStore } from "../../auth-global-state";
+import { useAuthStore } from "../../config/auth-global-state";
 import { toast } from "sonner";
 import { LucideArrowRight } from "lucide-react";
-import LoadingButton from "../loading-button";
+import LoadingButton from "../../../../components/ui/loading-button";
 const OTPFormSchema = z.object({
   otp: z.string().min(6, {
     message: "Your verification code must be 6 digits",

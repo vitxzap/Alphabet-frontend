@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/card";
 import { useMachine } from "@xstate/react";
 import OTPForm from "./forms/otp-form";
-import { AuthMachine } from "../auth-machine";
+import { AuthMachine } from "../config/auth-machine";
 import { useState } from "react";
-import { AuthCardConfig, AuthCardScreen } from "../auth-config";
+import { AuthCardConfig, AuthCardScreen } from "../config/auth-config";
 import ResetPasswordForm from "./forms/reset-password-form";
 import ForgotPasswordForm from "./forms/forget-password-form";
-import { OTPCardConfig } from "../otp-config";
+import { OTPCardConfig } from "../config/otp-config";
 import { motion } from "motion/react";
 import LoginForm from "./forms/login-form";
 import { useRouter } from "next/navigation";
