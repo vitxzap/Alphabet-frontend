@@ -12,6 +12,7 @@ export default async function WebLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   // Verifies if the user session is valid
   const { data, authenticated, isAdmin } = await verifySession();
+  console.log(data.user)
   if (isAdmin === true) {
     redirect("/admin/dashboard");
   }

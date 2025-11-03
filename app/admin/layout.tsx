@@ -10,6 +10,7 @@ export default async function AdminLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const { data, authenticated, isAdmin } = await verifySession();
+  
   if (isAdmin === false) {
     redirect("/web/classes");
   }

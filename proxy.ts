@@ -12,7 +12,6 @@ export default async function proxy(req: NextRequest) {
 
   const isProtectedRoute = protectedRoutes.includes(path);
   const isPublicRoute = publicRoutes.includes(path);
-  console.log(isProtectedRoute, path);
   if (!session && isProtectedRoute) {
     return NextResponse.redirect(new URL("/auth", req.nextUrl));
   }
