@@ -10,22 +10,27 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "../../../../components/ui/sidebar";
-import { adminSidebarItems } from "./items";
+} from "../ui/sidebar";
 import { UserFooter } from "./sidebar-footer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
-export default function AppSidebar({ user, session }: Session) {
+import { SidebarItemsType } from "./types";
+
+type AppSidebarProps = Session & {
+  items: SidebarItemsType;
+};
+
+export default function AppSidebar({ user, session, items }: AppSidebarProps) {
   const path = usePathname();
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Admin</SidebarGroupLabel>
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {adminSidebarItems.map((item) => (
+              {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
