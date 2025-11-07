@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,8 +11,6 @@ import {
   LucideUser,
   LucideUserRoundCheck,
 } from "lucide-react";
-import { PasswordInput } from "@/components/ui/password-input";
-import { Field } from "@/components/Field";
 import { authClient, Session } from "@/lib/auth/client";
 import { RegisterDto } from "./dtos/register-dto";
 import { Spinner } from "@/components/ui/spinner";
@@ -22,12 +20,20 @@ import { useEffect } from "react";
 import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { useAuthStore } from "../../config/auth-global-state";
 import LoadingButton from "../../../../components/ui/loading-button";
+import { PasswordGroup } from "@/components/ui/password-input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 const registerSchema = z
   .object({
-    name: z.string().min(3),
+    name: z.string({ error: "Invalid: must not be empty" }).min(3),
     email: z.email({ error: "Invalid: must be an email" }).nonempty(),
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
+    password: z.string({ error: "Invalid: must not be empty" }).min(8),
+    confirmPassword: z.string({ error: "Invalid: must not be empty" }).min(8),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: "Invalid: passwords do not match",
@@ -96,52 +102,86 @@ export default function RegisterForm({
     >
       <div className="grid gap-4">
         <div className="grid gap-2">
-          <Field.Root>
-            <Field.Label requiredIcon>Name</Field.Label>
-            <Input
-              placeholder="Enter your name..."
-              invalid={!!form.formState.errors.name?.message}
-              {...form.register("name")}
-              startElement={<LucideUser size={16} />}
-            />
-            <Field.ErrorText>
-              {form.formState.errors.name?.message}
-            </Field.ErrorText>
-          </Field.Root>
-          <Field.Root>
-            <Field.Label requiredIcon>Email</Field.Label>
-            <Input
-              placeholder="Enter your email..."
-              invalid={!!form.formState.errors.email?.message}
-              {...form.register("email")}
-              startElement={<LucideMail size={16} />}
-            />
-            <Field.ErrorText>
-              {form.formState.errors.email?.message}
-            </Field.ErrorText>
-          </Field.Root>
-          <Field.Root>
-            <Field.Label requiredIcon>Password</Field.Label>
-            <PasswordInput
-              invalid={!!form.formState.errors.password?.message}
-              {...form.register("password")}
-              placeholder="Enter your password..."
-            />
-            <Field.ErrorText>
-              {form.formState.errors.password?.message}
-            </Field.ErrorText>
-          </Field.Root>
-          <Field.Root>
-            <Field.Label requiredIcon>Confirm password</Field.Label>
-            <PasswordInput
-              invalid={!!form.formState.errors.confirmPassword?.message}
-              {...form.register("confirmPassword")}
-              placeholder="Confirm your password..."
-            />
-            <Field.ErrorText>
-              {form.formState.errors.confirmPassword?.message}
-            </Field.ErrorText>
-          </Field.Root>
+          <Controller
+            name="name"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel>Name</FieldLabel>
+                <InputGroup>
+                  <InputGroupInput
+                    {...field}
+                    placeholder="Jonh Doe"
+                    aria-invalid={fieldState.invalid}
+                  />
+                  <InputGroupAddon>
+                    <LucideUser />
+                  </InputGroupAddon>
+                </InputGroup>
+                {fieldState.invalid && (
+                  <FieldError>{fieldState.error?.message}</FieldError>
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel>Email</FieldLabel>
+                <InputGroup>
+                  <InputGroupInput
+                    {...field}
+                    placeholder="jonhdoe@email.com"
+                    aria-invalid={fieldState.invalid}
+                  />
+                  <InputGroupAddon>
+                    <LucideMail />
+                  </InputGroupAddon>
+                </InputGroup>
+
+                {fieldState.invalid && (
+                  <FieldError>{fieldState.error?.message}</FieldError>
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="password"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel>Password</FieldLabel>
+                <InputGroup>
+                  <PasswordGroup {...field} aria-invalid={fieldState.invalid} />
+                </InputGroup>
+                {fieldState.invalid && (
+                  <FieldError>{fieldState.error?.message}</FieldError>
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="confirmPassword"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel>Confirm password</FieldLabel>
+                <InputGroup>
+                  <PasswordGroup
+                    {...field}
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Confirm your password"
+                  />
+                </InputGroup>
+                {fieldState.invalid && (
+                  <FieldError>{fieldState.error?.message}</FieldError>
+                )}
+              </Field>
+            )}
+          />
+
           <div className="relative">
             <LoadingButton isLoading={registerMutation.isPending}>
               Continue <LucideArrowRight />

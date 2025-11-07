@@ -138,14 +138,14 @@ export default function AuthCard() {
       }}
     >
       <Card className="w-full">
-        {" "}
         {/* The only thing that changes is the form inside the card */}
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">
             <motion.div
               key={cardText?.title}
               initial={{ opacity: 0, x: -120 }}
-              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.05 }}
+              animate={{ opacity: 1, x: 0, transitionDelay: 300 }}
             >
               {cardText?.title}
             </motion.div>
@@ -153,7 +153,8 @@ export default function AuthCard() {
           <CardDescription>
             <motion.div
               key={cardText?.title}
-              initial={{ opacity: 0, x: -60 }}
+              transition={{ delay: 0.1 }}
+              initial={{ opacity: 0, x: -120 }}
               animate={{ opacity: 1, x: 0 }}
             >
               {cardText?.description}

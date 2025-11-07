@@ -1,9 +1,7 @@
 "use client";
-import { Field } from "@/components/Field";
-import { PasswordInput } from "@/components/ui/password-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { ResetPasswordDto } from "./dtos/reset-password-dto";
 import { authClient } from "@/lib/auth/client";
@@ -17,9 +15,11 @@ import { Spinner } from "@/components/ui/spinner";
 import { useAuthStore } from "../../config/auth-global-state";
 import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { toast } from "sonner";
+import { PasswordGroup } from "@/components/ui/password-input";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 
 const resetPasswordSchema = z.object({
-  newPassword: z.string().min(8),
+  newPassword: z.string({ error: "Invalid: must not be empty" }).min(8),
 });
 type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
 interface ResetPasswordProps
@@ -68,17 +68,19 @@ export default function ResetPasswordForm({
       noValidate
       onSubmit={form.handleSubmit(handleResetPasswordSubmit)}
     >
-      <Field.Root>
-        <Field.Label requiredIcon>New password</Field.Label>
-        <PasswordInput
-          invalid={!!form.formState.errors.newPassword?.message}
-          {...form.register("newPassword")}
-          placeholder="Enter your new password..."
-        />
-        <Field.ErrorText>
-          {form.formState.errors.newPassword?.message}
-        </Field.ErrorText>
-      </Field.Root>
+      <Controller
+        name="newPassword"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel>New password</FieldLabel>
+            <PasswordGroup {...field} aria-invalid={fieldState.invalid} />
+            {fieldState.invalid && (
+              <FieldError>{fieldState.error?.message}</FieldError>
+            )}
+          </Field>
+        )}
+      />
       <div className="relative">
         <Button type="submit" className="w-full relative">
           {resetPasswordMutate.isPending ? (
