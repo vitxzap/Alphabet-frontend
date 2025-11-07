@@ -107,7 +107,7 @@ export default function RegisterForm({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>Name</FieldLabel>
+                <FieldLabel aria-required>Name</FieldLabel>
                 <InputGroup>
                   <InputGroupInput
                     {...field}
@@ -129,7 +129,7 @@ export default function RegisterForm({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>Email</FieldLabel>
+                <FieldLabel aria-required>Email</FieldLabel>
                 <InputGroup>
                   <InputGroupInput
                     {...field}
@@ -152,7 +152,7 @@ export default function RegisterForm({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>Password</FieldLabel>
+                <FieldLabel aria-required>Password</FieldLabel>
                 <InputGroup>
                   <PasswordGroup {...field} aria-invalid={fieldState.invalid} />
                 </InputGroup>
@@ -167,7 +167,7 @@ export default function RegisterForm({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>Confirm password</FieldLabel>
+                <FieldLabel aria-required>Confirm password</FieldLabel>
                 <InputGroup>
                   <PasswordGroup
                     {...field}

@@ -8,7 +8,7 @@ import { adminSidebarItems } from "@/components/sidebar/items/admin-items";
 export default async function AdminLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const { data, authenticated, isAdmin } = await verifySession();
+  const { data, isAdmin } = await verifySession();
 
   if (isAdmin === false) {
     redirect("/web/classes");

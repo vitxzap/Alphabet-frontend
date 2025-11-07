@@ -71,7 +71,7 @@ export default function ForgotPasswordForm({
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel>Email</FieldLabel>
+              <FieldLabel aria-required>Email</FieldLabel>
               <InputGroup>
                 <InputGroupInput
                   {...field}

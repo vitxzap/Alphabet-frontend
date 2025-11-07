@@ -107,7 +107,7 @@ export default function LoginForm({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>Email</FieldLabel>
+                <FieldLabel aria-required>Email</FieldLabel>
                 <InputGroup>
                   <InputGroupInput
                     {...field}
@@ -129,8 +129,8 @@ export default function LoginForm({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className="flex justify-between">
-                  Password{" "}
+                <FieldLabel className="flex justify-between" aria-required>
+                  <p>Password </p>
                   <a
                     className="underline-offset-4 hover:underline cursor-pointer"
                     onClick={actions?.forgotPasswordAction.callback}

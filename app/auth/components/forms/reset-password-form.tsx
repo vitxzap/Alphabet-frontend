@@ -73,7 +73,7 @@ export default function ResetPasswordForm({
         control={form.control}
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel>New password</FieldLabel>
+            <FieldLabel aria-required>New password</FieldLabel>
             <PasswordGroup {...field} aria-invalid={fieldState.invalid} />
             {fieldState.invalid && (
               <FieldError>{fieldState.error?.message}</FieldError>
