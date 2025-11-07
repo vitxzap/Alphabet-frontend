@@ -77,10 +77,10 @@ export function UserFooter({ user, session, ...props }: UserFooterProps) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => setOpen(true)}>
-                <Settings className="text-inherit" /> Settings
+                <Settings /> Settings
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Bell className="text-inherit" />
+                <Bell />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>

@@ -22,12 +22,6 @@ export default function NavHeader() {
   let slicedPath = pathname.slice(pathname.startsWith("/admin") ? 7 : 5);
   //This will capitalize the current page name
   slicedPath = slicedPath[0].toUpperCase() + slicedPath.slice(1);
-
-  const { setTheme } = useTheme();
-  
-  function changeTheme(selectedTheme: "dark" | "light") {
-    setTheme(selectedTheme);
-  }
   return (
     <div className="flex w-full p-3 items-center justify-between border-b">
       <div className="flex gap-1 items-center">
@@ -42,27 +36,6 @@ export default function NavHeader() {
           </BreadcrumbItem>
         </Breadcrumb>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <MonitorCog />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="mr-4">
-          <DropdownMenuLabel>Change Theme</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem onClick={() => changeTheme("light")}>
-              <Sun />
-              Light
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => changeTheme("dark")}>
-              <Moon />
-              Dark
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </div>
   );
 }

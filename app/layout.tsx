@@ -26,12 +26,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetBrains.variable} antialiased h-dvh w-dvw`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" disableTransitionOnChange enableSystem>
           <TanstackProvider>
             <Toast position="top-center" />
             {children}

@@ -292,6 +292,11 @@
   --sidebar-accent-fg: oklch(0.985 0 0);
 }
 
+
+.lucide{
+  color: inherit
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -5,14 +5,16 @@ export const SettingsMachine = setup({
   },
 }).createMachine({
   id: "settings",
-  initial: "profile",
+  initial: "general",
   states: {
     session: {},
     profile: {},
+    general: {},
   },
   on: {
     SET: [
       { target: ".session", guard: ({ event }) => event.value === "Session" },
+      { target: ".general", guard: ({ event }) => event.value === "General" },
       { target: ".profile", guard: ({ event }) => event.value === "Profile" },
     ],
   },

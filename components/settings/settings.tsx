@@ -1,6 +1,13 @@
 "use client";
 import * as React from "react";
-import { Menu, Shield, ShieldAlert, User, UserLock } from "lucide-react";
+import {
+  Menu,
+  Settings,
+  Shield,
+  ShieldAlert,
+  User,
+  UserLock,
+} from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -33,8 +40,10 @@ import { SettingsMachine } from "./settings-machine";
 import { useMachine } from "@xstate/react";
 import Sessions from "./components/sessions";
 import Profile from "./components/profile";
+import { General } from "./components/general";
 const data = {
   nav: [
+    { name: "General", icon: Settings },
     { name: "Profile", icon: User },
     { name: "Session", icon: Shield },
   ],
@@ -48,6 +57,8 @@ export function SettingsDialog() {
         return <Profile />;
       case state.matches("session"):
         return <Sessions />;
+      case state.matches("general"):
+        return <General />;
     }
   }
   return (
@@ -74,7 +85,7 @@ export function SettingsDialog() {
                           }
                         >
                           <span className="cursor-pointer">
-                            <item.icon /> {item.name} 
+                            <item.icon /> {item.name}
                           </span>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
@@ -89,8 +100,8 @@ export function SettingsDialog() {
               <div className="flex items-center gap-2 px-4">
                 <Breadcrumb>
                   <BreadcrumbList>
-                    <BreadcrumbItem className="hidden md:block">
-                      {state.value as string}
+                    <BreadcrumbItem className="text-base text-fg">
+                      {state.value.charAt(0).toUpperCase() + state.value.slice(1) as string}
                     </BreadcrumbItem>
                   </BreadcrumbList>
                 </Breadcrumb>
