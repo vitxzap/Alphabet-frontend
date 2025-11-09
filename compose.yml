@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  front:
+    container_name: frontend
+
+    build: 
+      context: ./source
+      dockerfile: Dockerfile
+
+    watch: 
+      - action: sync
+        path: ./
+        target: /front
+        ignore: 
+          - node_modules
+          - .next
+      - action: rebuild
+        path: package.json
+
+    environment:
+      NEXT_PUBLIC_HOST: ${NEXT_PUBLIC_HOST}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      NEXT_PUBLIC_AUTH_URL: ${NEXT_PUBLIC_AUTH_URL}
+      NEXT_PUBLIC_PROTECTED_ROUTE_PREFIX: ${NEXT_PUBLIC_PROTECTED_ROUTE_PREFIX}
+      NEXT_PUBLIC_HOME_URL: ${NEXT_PUBLIC_HOME_URL}
+      BETTER_AUTH_COOKIE_NAME: ${BETTER_AUTH_COOKIE_NAME}
+
+    env_file:
+      - .env
+
+    restart: always
+
+    volumes:
+      - ./source/app:/front/app
+      - ./source/components:/front/components
+      - ./source/lib:/front/lib
+
+    ports:
+      - '${PORT}:${PORT}'    
