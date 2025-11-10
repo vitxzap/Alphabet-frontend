@@ -4,7 +4,7 @@ services:
     container_name: frontend
 
     build: 
-      context: ./source
+      context: .
       dockerfile: Dockerfile
 
     watch: 
@@ -31,9 +31,9 @@ services:
     restart: always
 
     volumes:
-      - ./source/app:/front/app
-      - ./source/components:/front/components
-      - ./source/lib:/front/lib
+      - ./app:/front/app
+      - ./components:/front/components
+      - ./lib:/front/lib
 
     ports:
       - '${PORT}:${PORT}'    
