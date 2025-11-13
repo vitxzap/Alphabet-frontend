@@ -1,33 +1,29 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  LucideArrowRight,
-  LucideCircleX,
-  LucideMail,
-  LucideUser,
-  LucideUserRoundCheck,
-} from "lucide-react";
-import { authClient, Session } from "@/lib/auth/client";
-import { RegisterDto } from "./dtos/register-dto";
-import { Spinner } from "@/components/ui/spinner";
+import { LucideArrowRight } from "lucide-react";
+import { authClient } from "@/lib/auth/client";
+import { RegisterDto } from "../../config/dtos/register-dto";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { useEffect } from "react";
 import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { useAuthStore } from "../../config/auth-global-state";
 import LoadingButton from "../../../../components/ui/loading-button";
 import { PasswordGroup } from "@/components/ui/password-input";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
-import { Label } from "@radix-ui/react-dropdown-menu";
+import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import {
+  AuthHeader,
+  AuthHeaderDescription,
+  AuthHeaderLink,
+  AuthHeaderTitle,
+} from "../header";
+import {
+  AuthForm,
+  AuthFormContent,
+  AuthFormContentInputs,
+} from "../form-template";
 const registerSchema = z
   .object({
     name: z.string({ error: "Invalid: must not be empty" }).min(3),
@@ -95,13 +91,18 @@ export default function RegisterForm({
     }
   }, []);
   return (
-    <form
-      onSubmit={form.handleSubmit(handleRegisterForm)}
-      className="grid gap-2"
-      noValidate={true}
-    >
-      <div className="grid gap-4">
-        <div className="grid gap-2">
+    <AuthForm onSubmit={form.handleSubmit(handleRegisterForm)} name="register">
+      <AuthHeader>
+        <AuthHeaderTitle>Nice to meet you</AuthHeaderTitle>
+        <AuthHeaderDescription>
+          Already have an account?{" "}
+          <AuthHeaderLink onClick={actions?.login.callback}>
+            Log in
+          </AuthHeaderLink>
+        </AuthHeaderDescription>
+      </AuthHeader>
+      <AuthFormContent>
+        <AuthFormContentInputs>
           <Controller
             name="name"
             control={form.control}
@@ -114,9 +115,6 @@ export default function RegisterForm({
                     placeholder="Jonh Doe"
                     aria-invalid={fieldState.invalid}
                   />
-                  <InputGroupAddon>
-                    <LucideUser />
-                  </InputGroupAddon>
                 </InputGroup>
                 {fieldState.invalid && (
                   <FieldError>{fieldState.error?.message}</FieldError>
@@ -136,9 +134,6 @@ export default function RegisterForm({
                     placeholder="jonhdoe@email.com"
                     aria-invalid={fieldState.invalid}
                   />
-                  <InputGroupAddon>
-                    <LucideMail />
-                  </InputGroupAddon>
                 </InputGroup>
 
                 {fieldState.invalid && (
@@ -153,9 +148,9 @@ export default function RegisterForm({
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel aria-required>Password</FieldLabel>
-                <InputGroup>
-                  <PasswordGroup {...field} aria-invalid={fieldState.invalid} />
-                </InputGroup>
+
+                <PasswordGroup {...field} aria-invalid={fieldState.invalid} />
+
                 {fieldState.invalid && (
                   <FieldError>{fieldState.error?.message}</FieldError>
                 )}
@@ -168,36 +163,27 @@ export default function RegisterForm({
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel aria-required>Confirm password</FieldLabel>
-                <InputGroup>
-                  <PasswordGroup
-                    {...field}
-                    aria-invalid={fieldState.invalid}
-                    placeholder="Confirm your password"
-                  />
-                </InputGroup>
+
+                <PasswordGroup
+                  {...field}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="Confirm your password"
+                />
+
                 {fieldState.invalid && (
                   <FieldError>{fieldState.error?.message}</FieldError>
                 )}
               </Field>
             )}
           />
-
-          <div className="relative">
-            <LoadingButton isLoading={registerMutation.isPending}>
-              Continue <LucideArrowRight />
-            </LoadingButton>
-          </div>
-        </div>
-        <div className="text-center text-sm">
-          Already have an account?{" "}
-          <a
-            onClick={actions?.login.callback}
-            className="hover:underline underline-offset-4 cursor-pointer text-primary font-semibold"
-          >
-            Log-in
-          </a>
-        </div>
-      </div>
-    </form>
+        </AuthFormContentInputs>
+        <LoadingButton
+          isLoading={registerMutation.isPending}
+          disabled={!form.formState.isValid}
+        >
+          Create account
+        </LoadingButton>
+      </AuthFormContent>
+    </AuthForm>
   );
 }

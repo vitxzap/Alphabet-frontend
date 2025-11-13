@@ -19,9 +19,7 @@ export function PasswordGroup({
         type={visible ? "text" : "password"}
         placeholder={placeholder ? placeholder : "********"}
       />
-      <InputGroupAddon>
-        <LucideKeyRound />
-      </InputGroupAddon>
+
       <InputGroupAddon align={"inline-end"}>
         <InputGroupButton size={"icon-xs"} onClick={() => setVisible(!visible)}>
           {visible ? <EyeOffIcon /> : <EyeIcon />}

@@ -17,6 +17,12 @@ import { useAuthStore } from "../../config/auth-global-state";
 import { toast } from "sonner";
 import { LucideArrowRight } from "lucide-react";
 import LoadingButton from "../../../../components/ui/loading-button";
+import {
+  AuthForm,
+  AuthFormContent,
+  AuthFormContentInputs,
+} from "../form-template";
+import { AuthHeader, AuthHeaderDescription, AuthHeaderTitle } from "../header";
 const OTPFormSchema = z.object({
   otp: z.string().min(6, {
     message: "Your verification code must be 6 digits",
@@ -71,7 +77,8 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
         if (error) {
           throw error;
         }
-        return;
+        setOTP(formData.otp);
+        actions?.onOTPSuccess.callback();
       }
       const { error } = await authClient.emailOtp.checkVerificationOtp({
         otp: formData.otp,
@@ -95,66 +102,67 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
     }
   }, []);
   return (
-    <form
-      className="flex items-center justify-center"
-      noValidate
-      onSubmit={form.handleSubmit(handleOTPForm)}
-    >
-      <div className="flex flex-col gap-2 items-center justify-center">
-        <div>
-          <Controller
-            name="otp"
-            render={({ field }) => (
-              <InputOTP
-                maxLength={6}
-                {...field}
-                pattern={REGEXP_ONLY_DIGITS}
-                className="w-full"
-              >
-                <InputOTPGroup>
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                </InputOTPGroup>
-                <InputOTPSeparator />
-                <InputOTPGroup>
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
-                </InputOTPGroup>
-              </InputOTP>
-            )}
-            control={form.control}
-          />
-          {!!form.formState.errors.otp}
-        </div>
-        <div className="flex flex-col gap-2">
-          <LoadingButton isLoading={OTPFormMutate.isPending} type="submit">
-            Verify code <LucideArrowRight />
+    <AuthForm onSubmit={form.handleSubmit(handleOTPForm)} name="verificationCode">
+      <AuthHeader>
+        <AuthHeaderTitle>Verification code</AuthHeaderTitle>
+        <AuthHeaderDescription>
+          We've sent you an one-time password, please provide it to continue.
+        </AuthHeaderDescription>
+      </AuthHeader>
+      <AuthFormContent>
+        <AuthFormContentInputs>
+          <div className="flex w-full items-center justify-center">
+            <Controller
+              name="otp"
+              render={({ field }) => (
+                <InputOTP
+                  maxLength={6}
+                  {...field}
+                  pattern={REGEXP_ONLY_DIGITS}
+                  className="w-full"
+                >
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                  </InputOTPGroup>
+                  <InputOTPSeparator />
+                  <InputOTPGroup>
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                  </InputOTPGroup>
+                </InputOTP>
+              )}
+              control={form.control}
+            />
+            {!!form.formState.errors.otp}
+          </div>
+        </AuthFormContentInputs>
+        <div className="flex flex-col gap-2 w-full">
+          <LoadingButton
+            disabled={!form.formState.isReady}
+            isLoading={OTPFormMutate.isPending}
+            type="submit"
+          >
+            Verify code
           </LoadingButton>
           <LoadingButton
+            disabled={!form.formState.isReady}
             variant={"ghost"}
             type="button"
             isLoading={requestNewOTPCode.isPending}
             onClick={() => requestNewOTPCode.mutate()}
           >
-            Request new code
+            Request a new code
           </LoadingButton>
-          <div>
-            <span className="text-sm text-muted-foreground">
-              Dont know what are you doing here?{" "}
-              <a
-                className="text-primary cursor-pointer underline-offset-4 hover:underline"
-                onClick={() => {
-                  actions?.onOTPMissClicked.callback();
-                }}
-              >
-                Bring me back
-              </a>
-            </span>
-          </div>
         </div>
-      </div>
-    </form>
+      </AuthFormContent>
+    </AuthForm>
+    /*  */
+
+    /*   */
+
+    /*  */
   );
 }

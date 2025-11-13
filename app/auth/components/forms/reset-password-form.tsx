@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
-import { ResetPasswordDto } from "./dtos/reset-password-dto";
+import { ResetPasswordDto } from "../../config/dtos/reset-password-dto";
 import { authClient } from "@/lib/auth/client";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,13 @@ import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { toast } from "sonner";
 import { PasswordGroup } from "@/components/ui/password-input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import LoadingButton from "@/components/ui/loading-button";
+import {
+  AuthForm,
+  AuthFormContent,
+  AuthFormContentInputs,
+} from "../form-template";
+import { AuthHeader, AuthHeaderDescription, AuthHeaderTitle } from "../header";
 
 const resetPasswordSchema = z.object({
   newPassword: z.string({ error: "Invalid: must not be empty" }).min(8),
@@ -63,37 +70,36 @@ export default function ResetPasswordForm({
     resetPasswordMutate.mutate(formData);
   }
   return (
-    <form
-      className="grid gap-2"
-      noValidate
-      onSubmit={form.handleSubmit(handleResetPasswordSubmit)}
-    >
-      <Controller
-        name="newPassword"
-        control={form.control}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel aria-required>New password</FieldLabel>
-            <PasswordGroup {...field} aria-invalid={fieldState.invalid} />
-            {fieldState.invalid && (
-              <FieldError>{fieldState.error?.message}</FieldError>
+    <AuthForm onSubmit={form.handleSubmit(handleResetPasswordSubmit)} name="resetPassword">
+      <AuthHeader>
+        <AuthHeaderTitle>Changing your password</AuthHeaderTitle>
+        <AuthHeaderDescription>
+          Choose a new secure password to finish resetting your account.
+        </AuthHeaderDescription>
+      </AuthHeader>
+      <AuthFormContent>
+        <AuthFormContentInputs>
+          <Controller
+            name="newPassword"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel aria-required>New password</FieldLabel>
+                <PasswordGroup {...field} aria-invalid={fieldState.invalid} />
+                {fieldState.invalid && (
+                  <FieldError>{fieldState.error?.message}</FieldError>
+                )}
+              </Field>
             )}
-          </Field>
-        )}
-      />
-      <div className="relative">
-        <Button type="submit" className="w-full relative">
-          {resetPasswordMutate.isPending ? (
-            <>
-              <Spinner /> Loading...
-            </>
-          ) : (
-            <>
-              Continue <LucideArrowRight />
-            </>
-          )}
-        </Button>
-      </div>
-    </form>
+          />
+        </AuthFormContentInputs>
+        <LoadingButton
+          disabled={!form.formState.isReady}
+          isLoading={resetPasswordMutate.isPending}
+        >
+          Change password
+        </LoadingButton>
+      </AuthFormContent>
+    </AuthForm>
   );
 }

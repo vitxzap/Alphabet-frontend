@@ -10,8 +10,18 @@ import { useEffect } from "react";
 import { useAuthStore } from "../../config/auth-global-state";
 import LoadingButton from "../../../../components/ui/loading-button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import { LucideMail } from "lucide-react";
+import {
+  AuthForm,
+  AuthFormContent,
+  AuthFormContentInputs,
+} from "../form-template";
+import { AuthHeader, AuthHeaderDescription, AuthHeaderTitle } from "../header";
 const ForgotPasswordSchema = z.object({
   email: z.email().nonempty(),
 });
@@ -60,49 +70,52 @@ export default function ForgotPasswordForm({
     }
   }, []);
   return (
-    <div className="grid gap-2">
-      <form
-        onSubmit={form.handleSubmit(handleForgotPasswordSubmit)}
-        className="grid gap-1.5"
-        noValidate={true}
-      >
-        <Controller
-          name="email"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel aria-required>Email</FieldLabel>
-              <InputGroup>
-                <InputGroupInput
-                  {...field}
-                  aria-invalid={fieldState.invalid}
-                  placeholder="jonhdoe@email.com"
-                />
-                <InputGroupAddon>
-                  <LucideMail />
-                </InputGroupAddon>
-              </InputGroup>
-              {fieldState.invalid && (
-                <FieldError>{fieldState.error?.message}</FieldError>
-              )}
-            </Field>
-          )}
-        />
-
-        <LoadingButton
-          isLoading={forgotPasswordMutation.isPending}
-          type="submit"
-        >
-          Recover my password
-        </LoadingButton>
-      </form>
-      <Button
-        variant={"ghost"}
-        onClick={actions?.backToLoginPage.callback}
-        className="w-full relative font-semibold"
-      >
-        Go back to login page
-      </Button>
-    </div>
+    <AuthForm onSubmit={form.handleSubmit(handleForgotPasswordSubmit)} name="forgotPassword">
+      <AuthHeader>
+        <AuthHeaderTitle>Forgot your password?</AuthHeaderTitle>
+        <AuthHeaderDescription>
+          Please, provide your email to receive a code to reset your password.
+        </AuthHeaderDescription>
+      </AuthHeader>
+      <AuthFormContent>
+        <AuthFormContentInputs>
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel aria-required>Email</FieldLabel>
+                <InputGroup>
+                  <InputGroupInput
+                    {...field}
+                    aria-invalid={fieldState.invalid}
+                    placeholder="jonhdoe@email.com"
+                  />
+                </InputGroup>
+                {fieldState.invalid && (
+                  <FieldError>{fieldState.error?.message}</FieldError>
+                )}
+              </Field>
+            )}
+          />
+        </AuthFormContentInputs>
+        <div className="flex flex-col w-full gap-2">
+          <LoadingButton
+            disabled={!form.formState.isReady}
+            isLoading={forgotPasswordMutation.isPending}
+            type="submit"
+          >
+            Recover my password
+          </LoadingButton>
+          <Button
+            variant={"ghost"}
+            onClick={actions?.backToLoginPage.callback}
+            className="w-full relative font-semibold"
+          >
+            Go back to login page
+          </Button>
+        </div>
+      </AuthFormContent>
+    </AuthForm>
   );
 }

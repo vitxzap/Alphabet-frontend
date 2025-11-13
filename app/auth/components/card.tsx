@@ -16,8 +16,11 @@ import ResetPasswordForm from "./forms/reset-password-form";
 import ForgotPasswordForm from "./forms/forget-password-form";
 import { OTPCardConfig } from "../config/otp-config";
 import { motion } from "motion/react";
+import { LightRays } from "@/components/ui/light-rays";
 import LoginForm from "./forms/login-form";
 import { useRouter } from "next/navigation";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 export default function AuthCard() {
   const [state, send] = useMachine(AuthMachine);
   const router = useRouter();
@@ -126,49 +129,12 @@ export default function AuthCard() {
           />
         );
       case state.matches("dashboard"):
-        router.push("/web/dashboard");
+        toast.success("Passou");
     }
   }
   return (
-    <motion.div
-      className="flex flex-col gap-6 min-w-1/4 max-md:w-full items-center justify-center"
-      layout
-      transition={{
-        layout: { type: "spring", stiffness: 300, damping: 50 },
-      }}
-    >
-      <Card className="w-full">
-        {/* The only thing that changes is the form inside the card */}
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">
-            <motion.div
-              key={cardText?.title}
-              initial={{ opacity: 0, x: -120 }}
-              transition={{ delay: 0.05 }}
-              animate={{ opacity: 1, x: 0, transitionDelay: 300 }}
-            >
-              {cardText?.title}
-            </motion.div>
-          </CardTitle>
-          <CardDescription>
-            <motion.div
-              key={cardText?.title}
-              transition={{ delay: 0.1 }}
-              initial={{ opacity: 0, x: -120 }}
-              animate={{ opacity: 1, x: 0 }}
-            >
-              {cardText?.description}
-            </motion.div>
-          </CardDescription>
-        </CardHeader>
-        <motion.div
-          key={cardText?.title}
-          initial={{ opacity: 0, x: -60 }}
-          animate={{ opacity: 1, x: 0 }}
-        >
-          <CardContent>{renderForm()}</CardContent>
-        </motion.div>
-      </Card>
+    <motion.div className="flex flex-col min-w-full items-center justify-center">
+      {renderForm()}
     </motion.div>
   );
 }

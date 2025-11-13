@@ -8,15 +8,17 @@ import React, { ReactNode } from "react";
 interface LoadingButtonProps
   extends React.ComponentProps<"button">,
     VariantProps<typeof buttonVariants> {
-  isLoading?: boolean;
+  isLoading: boolean;
   children: ReactNode;
   asChild?: boolean;
+  disabled: boolean,
   loadingLabel?: string;
 }
 export default function LoadingButton({
   isLoading = false,
   loadingLabel = "Loading...",
   children,
+  disabled,
   asChild = false,
   size,
   variant,
@@ -30,7 +32,7 @@ export default function LoadingButton({
       asChild={asChild}
       {...props}
       className={cn("w-full relative", className)}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
     >
       {isLoading ? (
         <>

@@ -1,29 +1,35 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { FaGoogle } from "react-icons/fa";
-import { BsMicrosoft } from "react-icons/bs";
 import { Controller, useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LucideArrowRight, LucideMail } from "lucide-react";
+import { LucideArrowRight } from "lucide-react";
 import { PasswordGroup } from "@/components/ui/password-input";
-import { LoginDto } from "./dtos/login-dto";
+import { LoginDto } from "../../config/dtos/login-dto";
 import { authClient } from "@/lib/auth/client";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { useAuthStore } from "../../config/auth-global-state";
 import LoadingButton from "../../../../components/ui/loading-button";
 import { useRouter } from "next/navigation";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import LoginProviders from "../login-providers";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { SynapseIcon } from "@/components/icon";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  AuthHeader,
+  AuthHeaderDescription,
+  AuthHeaderDivider,
+  AuthHeaderLink,
+  AuthHeaderTitle,
+} from "../header";
+import {
+  AuthForm,
+  AuthFormContent,
+  AuthFormContentInputs,
+} from "../form-template";
 
 const loginSchema = z.object({
   email: z
@@ -49,12 +55,7 @@ interface LoginFormProps
         callback: () => void;
       };
     }> {}
-export default function LoginForm({
-  className,
-  actions,
-  onRender,
-  ...props
-}: LoginFormProps) {
+export default function LoginForm({ actions, onRender }: LoginFormProps) {
   const form = useForm<LoginTypeSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -95,13 +96,20 @@ export default function LoginForm({
     }
   }, []);
   return (
-    <form
-      onSubmit={form.handleSubmit(handleLoginForm)}
-      className="grid gap-2"
-      noValidate
-    >
-      <div className="grid gap-4">
-        <div className="grid gap-2">
+    <AuthForm onSubmit={form.handleSubmit(handleLoginForm)} name="login">
+      <AuthHeader>
+        <AuthHeaderTitle>Welcome back</AuthHeaderTitle>
+        <AuthHeaderDescription>
+          Dont have an account?{" "}
+          <AuthHeaderLink onClick={actions?.registerAction.callback}>
+            Sign up
+          </AuthHeaderLink>
+        </AuthHeaderDescription>
+      </AuthHeader>
+      <LoginProviders />
+      <AuthHeaderDivider>You can also</AuthHeaderDivider>
+      <AuthFormContent>
+        <AuthFormContentInputs>
           <Controller
             name="email"
             control={form.control}
@@ -114,9 +122,6 @@ export default function LoginForm({
                     aria-invalid={fieldState.invalid}
                     placeholder="jonhdoe@email.com"
                   />
-                  <InputGroupAddon>
-                    <LucideMail />
-                  </InputGroupAddon>
                 </InputGroup>
                 {fieldState.invalid && (
                   <FieldError>{fieldState.error?.message}</FieldError>
@@ -145,26 +150,27 @@ export default function LoginForm({
               </Field>
             )}
           />
-          <LoadingButton isLoading={loginMutation.isPending}>
-            Continue <LucideArrowRight />
-          </LoadingButton>
-        </div>
-        <div className="text-center text-sm">
-          Don't have an account?{" "}
-          <a
-            onClick={actions?.registerAction.callback}
-            className="hover:underline underline-offset-4 cursor-pointer text-primary font-semibold"
-          >
-            Sign up
-          </a>
-        </div>
-      </div>
-      <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-        <span className="bg-card text-muted-foreground relative z-10 px-2">
-          Or continue with
-        </span>
-      </div>
-      <LoginProviders />
-    </form>
+          <Controller
+            name="rememberMe"
+            control={form.control}
+            render={({ field }) => (
+              <div className="flex gap-2">
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+                <Label>Remember me?</Label>
+              </div>
+            )}
+          ></Controller>
+        </AuthFormContentInputs>
+        <LoadingButton
+          isLoading={loginMutation.isPending}
+          disabled={!form.formState.isValid}
+        >
+          Log in
+        </LoadingButton>
+      </AuthFormContent>
+    </AuthForm>
   );
 }

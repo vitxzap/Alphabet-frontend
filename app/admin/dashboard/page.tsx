@@ -13,10 +13,7 @@ import { Suspense } from "react";
 
 
 export default async function Classes() {
-const payload = await fetch("http://localhost:3050/role/admin", {
-    headers: await headers(),
-  });
-  const data = await payload.text()
+
   return (
     <div className="flex w-full h-full items-center justify-center">
       <Empty>
@@ -30,11 +27,6 @@ const payload = await fetch("http://localhost:3050/role/admin", {
             Feel free to explore the website.
           </EmptyDescription>
         </EmptyHeader>
-        <EmptyContent>
-          <Suspense fallback={<>Loading...</>}>
-            {data}
-          </Suspense>
-        </EmptyContent>
       </Empty>
     </div>
   );
