@@ -1,7 +1,6 @@
 "use client";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toast } from "@/components/ui/toast";
 import { TanstackProvider } from "@/components/providers/tanstackProvider";

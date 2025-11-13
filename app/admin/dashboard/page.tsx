@@ -1,15 +1,12 @@
-import { Button } from "@/components/ui/button";
+
 import {
   Empty,
-  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
 import { LucideGrid2x2 } from "lucide-react";
-import { headers } from "next/headers";
-import { Suspense } from "react";
 
 
 export default async function Classes() {

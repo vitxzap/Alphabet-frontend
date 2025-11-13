@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/sidebar";
 import { authClient, Session } from "@/lib/auth/client";
 import { useRouter } from "next/navigation";
-import { SettingsDialog } from "../settings/settings";
 import { useSettingsDialogStore } from "../settings/settings-global-state";
 
 interface UserFooterProps extends Session {}

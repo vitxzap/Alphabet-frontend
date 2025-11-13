@@ -1,5 +1,4 @@
 import z from "zod";
-import { Book, House } from "lucide-react";
 const sidebarSchema = z.object({
   title: z.string().nonempty(),
   url: z.string(),
