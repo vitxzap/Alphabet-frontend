@@ -6,16 +6,10 @@ import z from "zod";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { AuthMachineComponentProps } from "../../config/auth-machine";
-import { useEffect } from "react";
 import { useAuthStore } from "../../config/auth-global-state";
 import LoadingButton from "../../../../components/ui/loading-button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
-import { LucideMail } from "lucide-react";
+import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import {
   AuthForm,
   AuthFormContent,
@@ -64,13 +58,11 @@ export default function ForgotPasswordForm({
   function handleForgotPasswordSubmit(formData: ForgotPasswordSchemaType) {
     forgotPasswordMutation.mutate(formData);
   }
-  useEffect(() => {
-    if (onRender != undefined) {
-      onRender();
-    }
-  }, []);
   return (
-    <AuthForm onSubmit={form.handleSubmit(handleForgotPasswordSubmit)} name="forgotPassword">
+    <AuthForm
+      onSubmit={form.handleSubmit(handleForgotPasswordSubmit)}
+      name="forgotPassword"
+    >
       <AuthHeader>
         <AuthHeaderTitle>Forgot your password?</AuthHeaderTitle>
         <AuthHeaderDescription>

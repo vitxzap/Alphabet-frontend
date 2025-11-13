@@ -3,12 +3,10 @@ import { Controller, useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LucideArrowRight } from "lucide-react";
 import { PasswordGroup } from "@/components/ui/password-input";
 import { LoginDto } from "../../config/dtos/login-dto";
 import { authClient } from "@/lib/auth/client";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { useAuthStore } from "../../config/auth-global-state";
 import LoadingButton from "../../../../components/ui/loading-button";
@@ -16,7 +14,6 @@ import { useRouter } from "next/navigation";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import LoginProviders from "../login-providers";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { SynapseIcon } from "@/components/icon";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   AuthHeader,
@@ -90,11 +87,6 @@ export default function LoginForm({ actions, onRender }: LoginFormProps) {
   function handleLoginForm(formData: LoginDto) {
     loginMutation.mutate(formData);
   }
-  useEffect(() => {
-    if (onRender != undefined) {
-      onRender();
-    }
-  }, []);
   return (
     <AuthForm onSubmit={form.handleSubmit(handleLoginForm)} name="login">
       <AuthHeader>

@@ -11,10 +11,8 @@ import { useMachine } from "@xstate/react";
 import OTPForm from "./forms/otp-form";
 import { AuthMachine } from "../config/auth-machine";
 import { useState } from "react";
-import { AuthCardConfig, AuthCardScreen } from "../config/auth-config";
 import ResetPasswordForm from "./forms/reset-password-form";
 import ForgotPasswordForm from "./forms/forget-password-form";
-import { OTPCardConfig } from "../config/otp-config";
 import { motion } from "motion/react";
 import { LightRays } from "@/components/ui/light-rays";
 import LoginForm from "./forms/login-form";
@@ -23,9 +21,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 export default function AuthCard() {
   const [state, send] = useMachine(AuthMachine);
-  const router = useRouter();
   // Controls whats is going to be displayed in card texts e.g. title, description
-  const [cardText, setCardText] = useState<AuthCardScreen>();
   function renderForm() {
     //each state of this machine controls whice form is being displayed inside the card
     switch (true) {
@@ -44,9 +40,6 @@ export default function AuthCard() {
                   send({ type: "REQUEST_EMAIL_VERIFICATION_OTP" }),
               },
             }}
-            onRender={() => {
-              setCardText(AuthCardConfig.login);
-            }}
           />
         );
       case state.matches("register"):
@@ -63,17 +56,11 @@ export default function AuthCard() {
                   }),
               },
             }}
-            onRender={() => {
-              setCardText(AuthCardConfig.register);
-            }}
           />
         );
       case state.matches("forgotPassword"):
         return (
           <ForgotPasswordForm
-            onRender={() => {
-              setCardText(AuthCardConfig.forgotPassword);
-            }}
             actions={{
               callOTP: {
                 callback: () =>
@@ -93,7 +80,6 @@ export default function AuthCard() {
       case state.matches({ otp: "forgotPassword" }):
         return (
           <OTPForm
-            onRender={() => setCardText(OTPCardConfig.forgotPassword)}
             actions={{
               onOTPSuccess: {
                 callback: () => send({ type: "OTP_SUCCESS" }),
@@ -107,7 +93,6 @@ export default function AuthCard() {
       case state.matches({ otp: "register" }):
         return (
           <OTPForm
-            onRender={() => setCardText(OTPCardConfig.register)}
             actions={{
               onOTPSuccess: {
                 callback: () => send({ type: "OTP_SUCCESS" }),

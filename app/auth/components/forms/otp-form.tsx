@@ -15,7 +15,6 @@ import { useMutation } from "@tanstack/react-query";
 import { authClient } from "@/lib/auth/client";
 import { useAuthStore } from "../../config/auth-global-state";
 import { toast } from "sonner";
-import { LucideArrowRight } from "lucide-react";
 import LoadingButton from "../../../../components/ui/loading-button";
 import {
   AuthForm,
@@ -96,13 +95,11 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
   function handleOTPForm(formData: OTPFormSchemaType) {
     OTPFormMutate.mutate(formData);
   }
-  useEffect(() => {
-    if (onRender != undefined) {
-      onRender();
-    }
-  }, []);
   return (
-    <AuthForm onSubmit={form.handleSubmit(handleOTPForm)} name="verificationCode">
+    <AuthForm
+      onSubmit={form.handleSubmit(handleOTPForm)}
+      name="verificationCode"
+    >
       <AuthHeader>
         <AuthHeaderTitle>Verification code</AuthHeaderTitle>
         <AuthHeaderDescription>

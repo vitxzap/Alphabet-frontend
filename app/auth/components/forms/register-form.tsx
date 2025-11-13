@@ -2,11 +2,9 @@
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LucideArrowRight } from "lucide-react";
 import { authClient } from "@/lib/auth/client";
 import { RegisterDto } from "../../config/dtos/register-dto";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { useAuthStore } from "../../config/auth-global-state";
 import LoadingButton from "../../../../components/ui/loading-button";
@@ -68,7 +66,6 @@ export default function RegisterForm({
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        callbackURL: "http://localhost:3000/auth/",
       });
       if (c.error) {
         throw c.error;
@@ -85,11 +82,6 @@ export default function RegisterForm({
   function handleRegisterForm(formData: RegisterDto) {
     registerMutation.mutate(formData);
   } //function to handle with data and submit
-  useEffect(() => {
-    if (onRender != undefined) {
-      onRender();
-    }
-  }, []);
   return (
     <AuthForm onSubmit={form.handleSubmit(handleRegisterForm)} name="register">
       <AuthHeader>

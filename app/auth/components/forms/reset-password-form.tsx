@@ -5,13 +5,6 @@ import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { ResetPasswordDto } from "../../config/dtos/reset-password-dto";
 import { authClient } from "@/lib/auth/client";
-import { Button } from "@/components/ui/button";
-import {
-  LucideArrowRight,
-  LucideCircleX,
-  LucideUserRoundCheck,
-} from "lucide-react";
-import { Spinner } from "@/components/ui/spinner";
 import { useAuthStore } from "../../config/auth-global-state";
 import { AuthMachineComponentProps } from "../../config/auth-machine";
 import { toast } from "sonner";
@@ -70,7 +63,10 @@ export default function ResetPasswordForm({
     resetPasswordMutate.mutate(formData);
   }
   return (
-    <AuthForm onSubmit={form.handleSubmit(handleResetPasswordSubmit)} name="resetPassword">
+    <AuthForm
+      onSubmit={form.handleSubmit(handleResetPasswordSubmit)}
+      name="resetPassword"
+    >
       <AuthHeader>
         <AuthHeaderTitle>Changing your password</AuthHeaderTitle>
         <AuthHeaderDescription>
