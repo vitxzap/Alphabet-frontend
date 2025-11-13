@@ -12,7 +12,7 @@ import { useAuthStore } from "../../config/auth-global-state";
 import LoadingButton from "../../../../components/ui/loading-button";
 import { useRouter } from "next/navigation";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
-import LoginProviders from "../login-providers";
+import LoginProviders from "./login-form-providers";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -26,7 +26,7 @@ import {
   AuthForm,
   AuthFormContent,
   AuthFormContentInputs,
-} from "../form-template";
+} from "./auth-form-template";
 
 const loginSchema = z.object({
   email: z

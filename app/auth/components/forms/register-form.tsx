@@ -21,7 +21,7 @@ import {
   AuthForm,
   AuthFormContent,
   AuthFormContentInputs,
-} from "../form-template";
+} from "./auth-form-template";
 const registerSchema = z
   .object({
     name: z.string({ error: "Invalid: must not be empty" }).min(3),

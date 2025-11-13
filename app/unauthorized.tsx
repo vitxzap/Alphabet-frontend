@@ -10,12 +10,11 @@ import {
 } from "@/components/ui/empty";
 import { ShieldX } from "lucide-react";
 import { useRouter } from "next/navigation";
-
 export default function Unauthorized() {
   const router = useRouter();
   const handleRevoke = async () => {
     await fetch("/api/revoke", { method: "DELETE" });
-    router.push("/auth")
+    router.push("/auth");
   };
   return (
     <div className="flex w-full h-full items-center justify-center">

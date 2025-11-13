@@ -14,7 +14,7 @@ import {
   AuthForm,
   AuthFormContent,
   AuthFormContentInputs,
-} from "../form-template";
+} from "./auth-form-template";
 import { AuthHeader, AuthHeaderDescription, AuthHeaderTitle } from "../header";
 const ForgotPasswordSchema = z.object({
   email: z.email().nonempty(),

@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${jetBrains.variable} antialiased h-dvh w-dvw`}
+        className={`${inter.variable} ${jetBrains.variable} antialiased h-dvh w-dvw flex`}
       >
         <ThemeProvider
           attribute="class"

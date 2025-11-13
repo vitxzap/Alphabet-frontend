@@ -1,8 +1,11 @@
+"use client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div className=" flex w-full h-full ">
-      
-    </div>
-  );
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/auth");
+  }, []);
+  return <div className="">this page is under construction...</div>;
 }

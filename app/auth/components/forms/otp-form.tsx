@@ -1,6 +1,5 @@
 "use client";
 import { AuthMachineComponentProps } from "../../config/auth-machine";
-import { useEffect } from "react";
 import z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +19,7 @@ import {
   AuthForm,
   AuthFormContent,
   AuthFormContentInputs,
-} from "../form-template";
+} from "./auth-form-template";
 import { AuthHeader, AuthHeaderDescription, AuthHeaderTitle } from "../header";
 const OTPFormSchema = z.object({
   otp: z.string().min(6, {
