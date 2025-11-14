@@ -1,17 +1,20 @@
 import z from "zod";
+
+const emailErrorMessage: string = "Invalid: must be an email";
+const emptyErrorMessage: string = "Invalid: must not by empty";
 export const forgotPasswordSchema = z.object({
   email: z
-    .email({ error: "Invalid: must be an email" })
-    .nonempty({ error: "Invalid: must not by empty" }),
+    .email({ error: emailErrorMessage })
+    .nonempty({ error: emptyErrorMessage }),
 });
 
 export const loginSchema = z.object({
   email: z
-    .email({ error: "Invalid: must be an email" })
-    .nonempty({ error: "Invalid: must not by empty" }),
+    .email({ error: emailErrorMessage })
+    .nonempty({ error: emptyErrorMessage }),
   password: z
-    .string({ error: "Invalid: must not by empty" })
-    .nonempty({ error: "Invalid: must not by empty" }),
+    .string({ error: emptyErrorMessage })
+    .nonempty({ error: emptyErrorMessage }),
   rememberMe: z.boolean(),
 });
 
@@ -23,10 +26,10 @@ export const otpFormSchema = z.object({
 
 export const registerSchema = z
   .object({
-    name: z.string({ error: "Invalid: must not be empty" }).min(3),
-    email: z.email({ error: "Invalid: must be an email" }).nonempty(),
-    password: z.string({ error: "Invalid: must not be empty" }).min(8),
-    confirmPassword: z.string({ error: "Invalid: must not be empty" }).min(8),
+    name: z.string({ error: emptyErrorMessage }).min(3),
+    email: z.email({ error: emptyErrorMessage }).nonempty(),
+    password: z.string({ error: emptyErrorMessage }).min(8),
+    confirmPassword: z.string({ error: emptyErrorMessage }).min(8),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: "Invalid: passwords do not match",
@@ -39,5 +42,5 @@ export const registerSchema = z
   });
 
 export const resetPasswordSchema = z.object({
-  newPassword: z.string({ error: "Invalid: must not be empty" }).min(8),
+  newPassword: z.string({ error: emptyErrorMessage }).min(8),
 });
