@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -9,12 +8,12 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { ShieldX } from "lucide-react";
-import { useRouter } from "next/navigation";
-export default function Unauthorized() {
-  const router = useRouter();
+import { redirect } from "next/navigation";
+export default async function Unauthorized() {
   const handleRevoke = async () => {
-    await fetch("/api/revoke", { method: "DELETE" });
-    router.push("/auth");
+    await fetch("/api/revoke", { method: "DELETE" }).then(() =>
+      redirect("/auth")
+    );
   };
   return (
     <div className="flex w-full h-full items-center justify-center">
