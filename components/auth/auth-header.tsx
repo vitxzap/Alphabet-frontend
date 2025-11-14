@@ -3,7 +3,10 @@ import { ComponentProps } from "react";
 
 function AuthHeader({ children, ...props }: ComponentProps<"div">) {
   return (
-    <div className="flex flex-col gap-2 items-center justify-center" {...props}>
+    <div
+      className="flex flex-col gap-2 items-center justify-center w-full"
+      {...props}
+    >
       <div className="flex items-center justify-center flex-col gap-6">
         <SynapseIcon />
       </div>
@@ -36,7 +39,7 @@ function AuthHeaderLink({ ...props }: ComponentProps<"a">) {
 
 function AuthHeaderDivider({ children, ...props }: ComponentProps<"div">) {
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-center gap-2 w-full">
       <div className="flex w-full h-max border-t border-fg-muted" />
       <span className="min-w-max text-muted-fg text-sm">{children}</span>
       <div className="flex w-full h-max border-t border-fg-muted" />

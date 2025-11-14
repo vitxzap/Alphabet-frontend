@@ -3,14 +3,14 @@ import { AnimatePresence, motion } from "motion/react";
 function AuthForm({ children, onSubmit, name }: ComponentProps<"form">) {
   return (
     <motion.form
-      className="grid gap-2 min-w-[25%]"
+      className="flex flex-col items-center justify-center w-full"
       onSubmit={onSubmit}
       noValidate
     >
       <AnimatePresence mode="wait">
         <motion.div
-          key={name} // ou use uma key específica que muda com o conteúdo
-          className="grid gap-4"
+          key={name}
+          className="flex flex-col gap-4 items-center justify-center w-11/12 xl:w-1/4"
           initial={{ opacity: 0, filter: "blur(10px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}
           exit={{ opacity: 0, filter: "blur(10px)" }}
@@ -24,7 +24,7 @@ function AuthForm({ children, onSubmit, name }: ComponentProps<"form">) {
 }
 
 function AuthFormContent({ ...props }: ComponentProps<"div">) {
-  return <div className="flex flex-col gap-4 max-w-full" {...props} />;
+  return <div className="flex flex-col gap-4 w-full" {...props} />;
 }
 function AuthFormContentInputs({ ...props }: ComponentProps<"div">) {
   return <div className="flex flex-col w-full gap-3" {...props} />;
