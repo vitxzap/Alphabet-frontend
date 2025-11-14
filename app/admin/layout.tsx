@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { verifySession } from "@/lib/dal";
 import AppSidebar from "@/components/sidebar/sidebar";
 import { adminSidebarItems } from "@/components/sidebar/items/admin-items";
+import { SettingsDialog } from "@/components/settings/settings";
 
 export default async function AdminLayout({
   children,
@@ -15,6 +16,7 @@ export default async function AdminLayout({
   }
   return (
     <main>
+      <SettingsDialog />
       <SidebarProvider className="p-2 pl-0!">
         <AppSidebar
           session={data.session}

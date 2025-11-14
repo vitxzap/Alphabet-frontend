@@ -3,7 +3,7 @@ import { SettingsDialog } from "@/components/settings/settings";
 import AppSidebar from "@/components/sidebar/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import NavHeader from "@/components/sidebar/header";
-import { redirect, unauthorized } from "next/navigation";
+import { redirect } from "next/navigation";
 import { verifySession } from "@/lib/dal";
 import { userSidebarItems } from "@/components/sidebar/items/user-items";
 export default async function WebLayout({
@@ -15,10 +15,14 @@ export default async function WebLayout({
     redirect("/admin/dashboard");
   }
   return (
-    <main>
+    <main className="flex w-dvw">
       <SettingsDialog />
       <SidebarProvider className="p-2 pl-0!">
-        <AppSidebar user={data.user} session={data.session} items={userSidebarItems} />
+        <AppSidebar
+          user={data.user}
+          session={data.session}
+          items={userSidebarItems}
+        />
         <main className="flex flex-col w-full h-100% bg-background rounded-xl shadow-md">
           <NavHeader />
           {children}
