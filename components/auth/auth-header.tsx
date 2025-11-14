@@ -1,4 +1,4 @@
-import { SynapseIcon } from "@/components/icon";
+import { SynapseIcon } from "@/components/ui/icon";
 import { ComponentProps } from "react";
 
 function AuthHeader({ children, ...props }: ComponentProps<"div">) {

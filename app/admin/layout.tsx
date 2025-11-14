@@ -1,5 +1,5 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import NavHeader from "@/components/web-header/header";
+import NavHeader from "@/components/sidebar/header";
 import { redirect } from "next/navigation";
 import { verifySession } from "@/lib/dal";
 import AppSidebar from "@/components/sidebar/sidebar";

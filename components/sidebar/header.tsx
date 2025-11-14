@@ -3,18 +3,6 @@ import { usePathname } from "next/navigation";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "../ui/breadcrumb";
 import { SidebarTrigger } from "../ui/sidebar";
 import { Separator } from "../ui/separator";
-import { Button } from "../ui/button";
-import { MonitorCog, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 
 export default function NavHeader() {
   let pathname = usePathname();

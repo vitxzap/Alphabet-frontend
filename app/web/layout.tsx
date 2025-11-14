@@ -2,7 +2,7 @@
 import { SettingsDialog } from "@/components/settings/settings";
 import AppSidebar from "@/components/sidebar/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import NavHeader from "@/components/web-header/header";
+import NavHeader from "@/components/sidebar/header";
 import { redirect, unauthorized } from "next/navigation";
 import { verifySession } from "@/lib/dal";
 import { userSidebarItems } from "@/components/sidebar/items/user-items";

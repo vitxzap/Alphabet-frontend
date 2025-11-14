@@ -1,7 +1,7 @@
 "use client";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toast } from "@/components/ui/toast";
 import { TanstackProvider } from "@/components/providers/tanstackProvider";
 
