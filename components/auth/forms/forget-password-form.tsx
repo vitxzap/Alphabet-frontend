@@ -19,8 +19,8 @@ import {
   AuthHeaderDescription,
   AuthHeaderTitle,
 } from "../auth-header";
-import { ForgotPasswordSchemaType } from "../../../lib/auth/types";
-import { forgotPasswordSchema } from "../../../lib/auth/schemas";
+import { ForgotPasswordSchemaType } from "@/lib/auth/types";
+import { forgotPasswordSchema } from "@/lib/auth/schemas";
 
 interface ForgotPasswordFormProps
   extends React.ComponentProps<"div">,
