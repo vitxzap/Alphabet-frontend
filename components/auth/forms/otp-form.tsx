@@ -1,6 +1,5 @@
 "use client";
-import { AuthMachineComponentProps } from "../../config/auth-machine";
-import z from "zod";
+import { AuthMachineComponentProps } from "@/lib/auth/auth-machine";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -12,22 +11,21 @@ import {
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useMutation } from "@tanstack/react-query";
 import { authClient } from "@/lib/auth/client";
-import { useAuthStore } from "../../config/auth-global-state";
+import { useAuthStore } from "@/lib/auth/auth-global-state";
 import { toast } from "sonner";
-import LoadingButton from "../../../../components/ui/loading-button";
+import LoadingButton from "@/components/ui/loading-button";
 import {
   AuthForm,
   AuthFormContent,
   AuthFormContentInputs,
-} from "./auth-form-template";
-import { AuthHeader, AuthHeaderDescription, AuthHeaderTitle } from "../header";
-const OTPFormSchema = z.object({
-  otp: z.string().min(6, {
-    message: "Your verification code must be 6 digits",
-  }),
-});
-
-type OTPFormSchemaType = z.infer<typeof OTPFormSchema>;
+} from "../auth-form-template";
+import {
+  AuthHeader,
+  AuthHeaderDescription,
+  AuthHeaderTitle,
+} from "../auth-header";
+import { otpFormSchema } from "@/lib/auth/schemas";
+import { OTPFormSchemaType } from "@/lib/auth/types";
 
 interface OTPFormProps
   extends React.ComponentProps<"form">,
@@ -42,7 +40,7 @@ interface OTPFormProps
 
 export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
   const form = useForm<OTPFormSchemaType>({
-    resolver: zodResolver(OTPFormSchema),
+    resolver: zodResolver(otpFormSchema),
     defaultValues: {
       otp: "",
     },

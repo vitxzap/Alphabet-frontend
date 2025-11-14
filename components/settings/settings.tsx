@@ -38,9 +38,9 @@ import {
 import { useSettingsDialogStore } from "./settings-global-state";
 import { SettingsMachine } from "./settings-machine";
 import { useMachine } from "@xstate/react";
-import Sessions from "./components/sessions";
-import Profile from "./components/profile";
-import { General } from "./components/general";
+import Sessions from "./pages/sessions";
+import Profile from "./pages/profile";
+import { General } from "./pages/general";
 const data = {
   nav: [
     { name: "General", icon: Settings },

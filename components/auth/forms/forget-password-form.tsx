@@ -2,25 +2,26 @@
 import { authClient } from "@/lib/auth/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import z from "zod";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
-import { AuthMachineComponentProps } from "../../config/auth-machine";
-import { useAuthStore } from "../../config/auth-global-state";
-import LoadingButton from "../../../../components/ui/loading-button";
+import { AuthMachineComponentProps } from "@/lib/auth/auth-machine";
+import { useAuthStore } from "@/lib/auth/auth-global-state";
+import LoadingButton from "@/components/ui/loading-button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import {
   AuthForm,
   AuthFormContent,
   AuthFormContentInputs,
-} from "./auth-form-template";
-import { AuthHeader, AuthHeaderDescription, AuthHeaderTitle } from "../header";
-const ForgotPasswordSchema = z.object({
-  email: z.email().nonempty(),
-});
+} from "../auth-form-template";
+import {
+  AuthHeader,
+  AuthHeaderDescription,
+  AuthHeaderTitle,
+} from "../auth-header";
+import { ForgotPasswordSchemaType } from "../../../lib/auth/types";
+import { forgotPasswordSchema } from "../../../lib/auth/schemas";
 
-type ForgotPasswordSchemaType = z.infer<typeof ForgotPasswordSchema>;
 interface ForgotPasswordFormProps
   extends React.ComponentProps<"div">,
     AuthMachineComponentProps<{
@@ -30,16 +31,12 @@ interface ForgotPasswordFormProps
       backToLoginPage: {
         callback: () => void;
       };
-    }> {} // extends onRender and onSend from AuthMachineComponentProps to be used in the component
-
+    }> {}
 export default function ForgotPasswordForm({
-  className,
-  onRender,
   actions,
-  ...props
 }: ForgotPasswordFormProps) {
   const form = useForm<ForgotPasswordSchemaType>({
-    resolver: zodResolver(ForgotPasswordSchema),
+    resolver: zodResolver(forgotPasswordSchema),
   });
   const authStore = useAuthStore();
   const forgotPasswordMutation = useMutation({

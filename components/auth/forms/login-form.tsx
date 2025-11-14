@@ -1,16 +1,14 @@
 "use client";
 import { Controller, useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PasswordGroup } from "@/components/ui/password-input";
-import { LoginDto } from "../../config/dtos/login-dto";
+import { LoginDto } from "@/lib/auth/dtos/login-dto";
 import { authClient } from "@/lib/auth/client";
 import { useMutation } from "@tanstack/react-query";
-import { AuthMachineComponentProps } from "../../config/auth-machine";
-import { useAuthStore } from "../../config/auth-global-state";
-import LoadingButton from "../../../../components/ui/loading-button";
-import { useRouter } from "next/navigation";
+import { AuthMachineComponentProps } from "@/lib/auth/auth-machine";
+import { useAuthStore } from "@/lib/auth/auth-global-state";
+import LoadingButton from "@/components/ui/loading-button";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import LoginProviders from "./login-form-providers";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
@@ -21,24 +19,15 @@ import {
   AuthHeaderDivider,
   AuthHeaderLink,
   AuthHeaderTitle,
-} from "../header";
+} from "../auth-header";
 import {
   AuthForm,
   AuthFormContent,
   AuthFormContentInputs,
-} from "./auth-form-template";
+} from "../auth-form-template";
+import { LoginTypeSchema } from "../../../lib/auth/types";
+import { loginSchema } from "../../../lib/auth/schemas";
 
-const loginSchema = z.object({
-  email: z
-    .email({ error: "Invalid: must be an email" })
-    .nonempty({ error: "Invalid: must not by empty" }),
-  password: z
-    .string({ error: "Invalid: must not by empty" })
-    .nonempty({ error: "Invalid: must not by empty" }),
-  rememberMe: z.boolean(),
-}); //creating zod login schema to be used in the form
-
-type LoginTypeSchema = z.infer<typeof loginSchema>; //Defining zod type to use within typescript
 interface LoginFormProps
   extends React.ComponentProps<"div">,
     AuthMachineComponentProps<{
@@ -52,7 +41,7 @@ interface LoginFormProps
         callback: () => void;
       };
     }> {}
-export default function LoginForm({ actions, onRender }: LoginFormProps) {
+export default function LoginForm({ actions }: LoginFormProps) {
   const form = useForm<LoginTypeSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -60,7 +49,6 @@ export default function LoginForm({ actions, onRender }: LoginFormProps) {
     },
   });
   const { setEmail, setType } = useAuthStore();
-  const router = useRouter();
   const loginMutation = useMutation({
     mutationFn: async (formData: LoginDto) => {
       const { data, error } = await authClient.signIn.email({
@@ -77,9 +65,6 @@ export default function LoginForm({ actions, onRender }: LoginFormProps) {
           throw error;
       }
       return data;
-    },
-    onSuccess: () => {
-      router.push("/web/classes");
     },
   });
 

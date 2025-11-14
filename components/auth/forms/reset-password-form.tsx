@@ -2,11 +2,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
-import z from "zod";
-import { ResetPasswordDto } from "../../config/dtos/reset-password-dto";
+import { ResetPasswordDto } from "@/lib/auth/dtos/reset-password-dto";
 import { authClient } from "@/lib/auth/client";
-import { useAuthStore } from "../../config/auth-global-state";
-import { AuthMachineComponentProps } from "../../config/auth-machine";
+import { useAuthStore } from "@/lib/auth/auth-global-state";
+import { AuthMachineComponentProps } from "@/lib/auth/auth-machine";
 import { toast } from "sonner";
 import { PasswordGroup } from "@/components/ui/password-input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
@@ -15,23 +14,22 @@ import {
   AuthForm,
   AuthFormContent,
   AuthFormContentInputs,
-} from "./auth-form-template";
-import { AuthHeader, AuthHeaderDescription, AuthHeaderTitle } from "../header";
+} from "../auth-form-template";
+import {
+  AuthHeader,
+  AuthHeaderDescription,
+  AuthHeaderTitle,
+} from "../auth-header";
+import { ResetPasswordSchemaType } from "@/lib/auth/types";
+import { resetPasswordSchema } from "@/lib/auth/schemas";
 
-const resetPasswordSchema = z.object({
-  newPassword: z.string({ error: "Invalid: must not be empty" }).min(8),
-});
-type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
 interface ResetPasswordProps
   extends AuthMachineComponentProps<{
     onNewPassword: {
       callback: () => void;
     };
   }> {}
-export default function ResetPasswordForm({
-  actions,
-  onRender,
-}: ResetPasswordProps) {
+export default function ResetPasswordForm({ actions }: ResetPasswordProps) {
   const { email, otp } = useAuthStore();
   const form = useForm<ResetPasswordSchemaType>({
     resolver: zodResolver(resetPasswordSchema),

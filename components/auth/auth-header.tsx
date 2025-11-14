@@ -1,5 +1,5 @@
 import { SynapseIcon } from "@/components/icon";
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps } from "react";
 
 function AuthHeader({ children, ...props }: ComponentProps<"div">) {
   return (
@@ -18,7 +18,10 @@ function AuthHeaderTitle({ ...props }: ComponentProps<"h1">) {
 
 function AuthHeaderDescription({ ...props }: ComponentProps<"div">) {
   return (
-    <div className="text-center text-sm text-muted-foreground max-w-[80%]" {...props} />
+    <div
+      className="text-center text-sm text-muted-foreground max-w-[80%]"
+      {...props}
+    />
   );
 }
 
@@ -31,7 +34,7 @@ function AuthHeaderLink({ ...props }: ComponentProps<"a">) {
   );
 }
 
-function AuthHeaderDivider({children, ...props}:  ComponentProps<"div">) {
+function AuthHeaderDivider({ children, ...props }: ComponentProps<"div">) {
   return (
     <div className="flex items-center justify-center gap-2">
       <div className="flex w-full h-max border-t border-fg-muted" />
@@ -41,4 +44,10 @@ function AuthHeaderDivider({children, ...props}:  ComponentProps<"div">) {
   );
 }
 
-export { AuthHeader, AuthHeaderTitle, AuthHeaderDescription, AuthHeaderLink, AuthHeaderDivider };
+export {
+  AuthHeader,
+  AuthHeaderTitle,
+  AuthHeaderDescription,
+  AuthHeaderLink,
+  AuthHeaderDivider,
+};

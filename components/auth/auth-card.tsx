@@ -1,23 +1,11 @@
 "use client";
-import RegisterForm from "./forms/register-form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import RegisterForm from "@/components/auth/forms/register-form";
 import { useMachine } from "@xstate/react";
-import OTPForm from "./forms/otp-form";
-import { AuthMachine } from "../config/auth-machine";
-import { useState } from "react";
-import ResetPasswordForm from "./forms/reset-password-form";
-import ForgotPasswordForm from "./forms/forget-password-form";
-import { motion } from "motion/react";
-import { LightRays } from "@/components/ui/light-rays";
-import LoginForm from "./forms/login-form";
-import { useRouter } from "next/navigation";
-import { Label } from "@/components/ui/label";
+import OTPForm from "@/components/auth/forms/otp-form";
+import { AuthMachine } from "@/lib/auth/auth-machine";
+import ResetPasswordForm from "@/components/auth/forms/reset-password-form";
+import ForgotPasswordForm from "@/components/auth/forms/forget-password-form";
+import LoginForm from "@/components/auth/forms/login-form";
 import { toast } from "sonner";
 export default function AuthCard() {
   const [state, send] = useMachine(AuthMachine);
@@ -118,8 +106,8 @@ export default function AuthCard() {
     }
   }
   return (
-    <motion.div className="flex flex-col min-w-full items-center justify-center">
+    <div className="flex flex-col min-w-full items-center justify-center">
       {renderForm()}
-    </motion.div>
+    </div>
   );
 }

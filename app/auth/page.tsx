@@ -1,5 +1,5 @@
 import { LightRays } from "@/components/ui/light-rays";
-import AuthCard from "./components/auth-card";
+import AuthCard from "@/components/auth/auth-card";
 
 export default function AuthPage() {
   return (

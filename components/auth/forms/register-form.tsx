@@ -1,13 +1,12 @@
 "use client";
 import { Controller, useForm } from "react-hook-form";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authClient } from "@/lib/auth/client";
-import { RegisterDto } from "../../config/dtos/register-dto";
+import { RegisterDto } from "@/lib/auth/dtos/register-dto";
 import { useMutation } from "@tanstack/react-query";
-import { AuthMachineComponentProps } from "../../config/auth-machine";
-import { useAuthStore } from "../../config/auth-global-state";
-import LoadingButton from "../../../../components/ui/loading-button";
+import { AuthMachineComponentProps } from "@/lib/auth/auth-machine";
+import { useAuthStore } from "@/lib/auth/auth-global-state";
+import LoadingButton from "@/components/ui/loading-button";
 import { PasswordGroup } from "@/components/ui/password-input";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
@@ -16,30 +15,15 @@ import {
   AuthHeaderDescription,
   AuthHeaderLink,
   AuthHeaderTitle,
-} from "../header";
+} from "../auth-header";
 import {
   AuthForm,
   AuthFormContent,
   AuthFormContentInputs,
-} from "./auth-form-template";
-const registerSchema = z
-  .object({
-    name: z.string({ error: "Invalid: must not be empty" }).min(3),
-    email: z.email({ error: "Invalid: must be an email" }).nonempty(),
-    password: z.string({ error: "Invalid: must not be empty" }).min(8),
-    confirmPassword: z.string({ error: "Invalid: must not be empty" }).min(8),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    error: "Invalid: passwords do not match",
-    path: ["confirmPassword"],
-    when(payload) {
-      return registerSchema
-        .pick({ password: true, confirmPassword: true })
-        .safeParse(payload.value).success;
-    },
-  }); //creating zod register schema to be used in the form
+} from "../auth-form-template";
+import { RegisterTypeSchema } from "@/lib/auth/types";
+import { registerSchema } from "@/lib/auth/schemas";
 
-type RegisterTypeSchema = z.infer<typeof registerSchema>; //Defining zod type to use within typescript
 interface RegisterFormProps
   extends React.ComponentProps<"div">,
     AuthMachineComponentProps<{
@@ -50,16 +34,12 @@ interface RegisterFormProps
         callback: () => void;
       };
     }> {}
-export default function RegisterForm({
-  className,
-  actions,
-  onRender,
-  ...props
-}: RegisterFormProps) {
+export default function RegisterForm({ actions }: RegisterFormProps) {
   const form = useForm<RegisterTypeSchema>({
     resolver: zodResolver(registerSchema),
   });
   const { setEmail, setType } = useAuthStore();
+
   const registerMutation = useMutation({
     mutationFn: async (formData: RegisterDto) => {
       const c = await authClient.signUp.email({
@@ -81,7 +61,7 @@ export default function RegisterForm({
 
   function handleRegisterForm(formData: RegisterDto) {
     registerMutation.mutate(formData);
-  } //function to handle with data and submit
+  }
   return (
     <AuthForm onSubmit={form.handleSubmit(handleRegisterForm)} name="register">
       <AuthHeader>
