@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -8,11 +9,12 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { ShieldX } from "lucide-react";
-import { redirect } from "next/navigation";
-export default async function Unauthorized() {
+import { useRouter } from "next/navigation";
+export default function Unauthorized() {
+  const router = useRouter();
   const handleRevoke = async () => {
-    await fetch("/api/revoke", { method: "DELETE" }).then(() =>
-      redirect("/auth")
+    await fetch("/api/cookies", { method: "DELETE" }).then(() =>
+      router.push("/auth")
     );
   };
   return (
