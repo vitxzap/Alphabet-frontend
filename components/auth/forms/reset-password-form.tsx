@@ -33,6 +33,9 @@ export default function ResetPasswordForm({ actions }: ResetPasswordProps) {
   const { email, otp } = useAuthStore();
   const form = useForm<ResetPasswordSchemaType>({
     resolver: zodResolver(resetPasswordSchema),
+    defaultValues: {
+      newPassword: "",
+    }
   });
 
   const resetPasswordMutate = useMutation({

@@ -46,6 +46,8 @@ export default function LoginForm({ actions }: LoginFormProps) {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       rememberMe: true,
+      
+      password: "",
     },
   });
   const { setEmail, setType } = useAuthStore();

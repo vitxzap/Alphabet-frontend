@@ -1,6 +1,6 @@
 "server-only";
-import { unauthorized } from "next/navigation";
-import { authClient } from "./auth/client";
+import { redirect, unauthorized } from "next/navigation";
+import { authClient } from "../auth/client";
 import { cache } from "react";
 import { headers } from "next/headers";
 
@@ -10,6 +10,7 @@ export const verifySession = cache(async () => {
       headers: await headers(),
     },
   });
+
   const isAdmin = data?.user.role === "admin";
   if (!data) {
     unauthorized();

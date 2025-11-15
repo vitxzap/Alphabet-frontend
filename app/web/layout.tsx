@@ -4,7 +4,7 @@ import AppSidebar from "@/components/sidebar/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import NavHeader from "@/components/sidebar/header";
 import { redirect } from "next/navigation";
-import { verifySession } from "@/lib/dal";
+import { verifySession } from "@/lib/server/dal";
 import { userSidebarItems } from "@/components/sidebar/items/user-items";
 export default async function WebLayout({
   children,
@@ -14,6 +14,7 @@ export default async function WebLayout({
   if (isAdmin === true) {
     redirect("/admin/dashboard");
   }
+
   return (
     <main className="flex w-dvw">
       <SettingsDialog />

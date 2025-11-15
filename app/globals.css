@@ -147,7 +147,7 @@
   --shadow-offset-x: 0px;
   --shadow-offset-y: 2px;
   --letter-spacing: 0em;
-  --spacing: 0.25rem;
+  --spacing: 0.28rem;
   --shadow-2xs: 0px 2px 3px 0px hsl(0 0% 0% / 0.08);
   --shadow-xs: 0px 2px 3px 0px hsl(0 0% 0% / 0.08);
   --shadow-sm: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
@@ -236,7 +236,7 @@
   --sidebar-border: oklch(0.3289 0.0092 268.3843);
   --sidebar-ring: oklch(0.6716 0.1769 250.3961);
   --destructive-foreground: oklch(1 0 0);
-  --radius: 0.55rem;
+  --radius: 0.85rem;
   --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
   --font-serif: Lora, serif;
   --font-mono: JetBrains Mono, ui-monospace, monospace;
@@ -247,7 +247,7 @@
   --shadow-offset-x: 0px;
   --shadow-offset-y: 2px;
   --letter-spacing: 0em;
-  --spacing: 0.25rem;
+  --spacing: 0.28rem;
   --shadow-2xs: 0px 2px 3px 0px hsl(0 0% 0% / 0.08);
   --shadow-xs: 0px 2px 3px 0px hsl(0 0% 0% / 0.08);
   --shadow-sm: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),

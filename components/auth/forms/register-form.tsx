@@ -37,6 +37,12 @@ interface RegisterFormProps
 export default function RegisterForm({ actions }: RegisterFormProps) {
   const form = useForm<RegisterTypeSchema>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
   const { setEmail, setType } = useAuthStore();
 

@@ -37,6 +37,9 @@ export default function ForgotPasswordForm({
 }: ForgotPasswordFormProps) {
   const form = useForm<ForgotPasswordSchemaType>({
     resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: "",
+    },
   });
   const authStore = useAuthStore();
   const forgotPasswordMutation = useMutation({

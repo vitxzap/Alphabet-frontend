@@ -31,7 +31,7 @@ export default function LoadingButton({
       size={size}
       asChild={asChild}
       {...props}
-      className={cn("w-full relative", className)}
+      className={cn("w-full relative corner-shape-squircle", className)}
       disabled={isLoading || disabled}
     >
       {isLoading ? (

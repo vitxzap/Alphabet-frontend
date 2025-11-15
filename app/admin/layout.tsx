@@ -1,7 +1,7 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import NavHeader from "@/components/sidebar/header";
 import { redirect } from "next/navigation";
-import { verifySession } from "@/lib/dal";
+import { verifySession } from "@/lib/server/dal";
 import AppSidebar from "@/components/sidebar/sidebar";
 import { adminSidebarItems } from "@/components/sidebar/items/admin-items";
 import { SettingsDialog } from "@/components/settings/settings";

@@ -9,9 +9,9 @@ interface AuthStoreSchema {
   setEmail: (email: string) => void;
 }
 export const useAuthStore = create<AuthStoreSchema>()((set) => ({
-  email: "",
+  email: " ",
   type: "sign-in",
-  otp: "",
+  otp: " ",
   setType: (type: any) => set({ type: type }),
   setOTP: (otp: string) => set({ otp: otp }),
   setEmail: (email: string) => set({ email: email }),
