@@ -11,8 +11,9 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     authInterrupts: true,
+    typedEnv: true,
   },
+  typedRoutes: true,
   reactCompiler: true,
 };
-
 export default nextConfig;
