@@ -4,12 +4,16 @@ import { SidebarItemsType } from "../types";
 export const userSidebarItems: SidebarItemsType = [
   {
     title: "Classes",
-    url: "/web/classes",
+    url: {
+      pathname: "/web/classes",
+    },
     icon: <House />,
   },
   {
     title: "Resumes",
-    url: "/web/resumes",
+    url: {
+      pathname: "/web/resumes",
+    },
     icon: <Book />,
   },
 ];
