@@ -38,7 +38,7 @@ export function CourseForm() {
                   <InputGroupAddon>
                     <InputGroupButton
                       variant={"ghost"}
-                      size={"icon-sm"}
+                      size={"icon-xs"}
                       aria-label="tooltip"
                     >
                       <HelpCircle />
