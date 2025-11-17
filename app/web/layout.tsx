@@ -6,18 +6,19 @@ import NavHeader from "@/components/sidebar/header";
 import { redirect } from "next/navigation";
 import { verifySession } from "@/lib/server/dal";
 import { userSidebarItems } from "@/components/sidebar/items/user-items";
+import NoCourseDialog from "@/components/web/no-course-dialog";
 export default async function WebLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   // Verifies if the user session is valid
-  const { data, isAdmin } = await verifySession();
+  const { data, isAdmin, isWithoutCourse } = await verifySession();
   if (isAdmin === true) {
     redirect("/admin/dashboard");
   }
-
   return (
     <main className="flex w-dvw">
       <SettingsDialog />
+      <NoCourseDialog isWithoutCourse={isWithoutCourse} />
       <SidebarProvider className="p-2 pl-0!">
         <AppSidebar
           user={data.user}

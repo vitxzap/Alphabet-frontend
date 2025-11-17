@@ -1,10 +1,15 @@
 "server-only";
-import { redirect, unauthorized } from "next/navigation";
-import { authClient } from "../auth/client";
+import { unauthorized } from "next/navigation";
+import { authClient, Session } from "../auth/client";
 import { cache } from "react";
 import { headers } from "next/headers";
 
-export const verifySession = cache(async () => {
+type VerifySessionType = {
+  data: Session;
+  isAdmin: boolean;
+  isWithoutCourse: boolean;
+};
+export const verifySession = cache(async (): Promise<VerifySessionType> => {
   const { data } = await authClient.getSession({
     fetchOptions: {
       headers: await headers(),
@@ -12,8 +17,13 @@ export const verifySession = cache(async () => {
   });
 
   const isAdmin = data?.user.role === "admin";
+  const isWithoutCourse = data?.user.course === null ? true : false;
   if (!data) {
     unauthorized();
   }
-  return { authenticated: true, data: data, isAdmin: isAdmin };
+  return {
+    data: data,
+    isWithoutCourse: isWithoutCourse,
+    isAdmin: isAdmin,
+  };
 });
