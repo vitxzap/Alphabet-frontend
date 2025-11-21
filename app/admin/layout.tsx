@@ -25,7 +25,7 @@ export default async function AdminLayout({
         />
         <main className="flex flex-col w-full h-100% bg-background rounded-xl shadow-md">
           <NavHeader />
-          {children}
+          <div className="p-4 h-full w-full">{children}</div>
         </main>
       </SidebarProvider>
     </main>

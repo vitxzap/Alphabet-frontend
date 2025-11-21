@@ -9,8 +9,7 @@ import {
 import { LucideGrid2x2 } from "lucide-react";
 
 
-export default async function Classes() {
-
+export default async function Dashboard() {
   return (
     <div className="flex w-full h-full items-center justify-center">
       <Empty>

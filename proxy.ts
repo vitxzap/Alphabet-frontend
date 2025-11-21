@@ -9,9 +9,11 @@ export default async function proxy(req: NextRequest) {
   const session = getSessionCookie(req);
   const path = req.nextUrl.pathname;
   const isAdminRoute = adminRoutes.includes(path);
-
   const isProtectedRoute = protectedRoutes.includes(path);
   const isPublicRoute = publicRoutes.includes(path);
+  if (process.env.DISABLE_AUTHENTICATION === 'true') {
+    return NextResponse.next();
+  }
   if (!session && isProtectedRoute) {
     return NextResponse.redirect(new URL("/auth", req.nextUrl));
   }

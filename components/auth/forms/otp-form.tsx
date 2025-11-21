@@ -143,7 +143,7 @@ export default function OTPForm({ actions, onRender, ...props }: OTPFormProps) {
           </LoadingButton>
           <LoadingButton
             disabled={!form.formState.isReady}
-            variant={"ghost"}
+            variant={"outline"}
             type="button"
             isLoading={requestNewOTPCode.isPending}
             onClick={() => requestNewOTPCode.mutate()}

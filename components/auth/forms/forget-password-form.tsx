@@ -100,7 +100,7 @@ export default function ForgotPasswordForm({
             Recover my password
           </LoadingButton>
           <Button
-            variant={"ghost"}
+            variant={"outline"}
             onClick={actions?.backToLoginPage.callback}
             className="w-full relative font-semibold"
           >
