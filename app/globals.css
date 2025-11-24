@@ -10,7 +10,7 @@
   --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
   --font-mono: JetBrains Mono, ui-monospace, monospace;
   --font-serif: Alegreya SC, ui-serif, serif;
-  --radius: 0.9rem;
+  --radius: 1rem;
   --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
   --tracking-tight: calc(var(--tracking-normal) - 0.025em);
   --tracking-wide: calc(var(--tracking-normal) + 0.025em);
@@ -105,7 +105,7 @@
 }
 
 :root {
-  --radius: 0.9rem;
+  --radius: 1rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -191,7 +191,7 @@
   --sidebar-fg: oklch(0.141 0.005 285.823);
   --sidebar-primary-fg: oklch(1 0 0);
   --sidebar-accent-fg: oklch(0.141 0.005 285.823);
-  --radius-lg: 0.9rem;
+  --radius-lg: 1rem;
   --radius-xs: calc(var(--radius-lg) * 0.5);
   --radius-sm: calc(var(--radius-lg) * 0.75);
   --radius-md: calc(var(--radius-lg) * 0.9);
@@ -234,7 +234,7 @@
   --sidebar-border: oklch(0.275 0 0);
   --sidebar-ring: oklch(0.439 0 0);
   --destructive-foreground: oklch(0.985 0 0);
-  --radius: 0.9rem;
+  --radius: 1rem;
   --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
   --font-serif: Alegreya SC, ui-serif, serif;
   --font-mono: JetBrains Mono, ui-monospace, monospace;
