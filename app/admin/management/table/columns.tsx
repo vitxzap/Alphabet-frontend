@@ -1,27 +1,36 @@
-"use client"
+import { Session } from "@/lib/auth/client";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import z, { ZodType } from "zod";
 
-import { ColumnDef } from "@tanstack/react-table"
+export const userSchema = z.object({
+  name: z.string(),
+  email: z.email(),
+  emailVerified: z.boolean().optional(),
+  createdAt: z.date(),
+  courseName: z.string(),
+  updatedAt: z.date(),
+}) satisfies ZodType<Partial<Session["user"]>>;
+export type User = z.infer<typeof userSchema>;
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<User>[] = [
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "name",
+    header: "Name",
   },
   {
     accessorKey: "email",
     header: "Email",
   },
   {
-    accessorKey: "amount",
-    header: "Amount",
+    accessorKey: "courseName",
+    header: "Course",
   },
-]
+  {
+    accessorKey: "createdAt",
+    header: "Created at",
+  },
+  {
+    accessorKey: "updatedAt",
+    header: "Updated at",
+  },
+];

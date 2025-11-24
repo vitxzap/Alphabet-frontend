@@ -1,5 +1,5 @@
 "use client";
-import { Session } from "@/lib/auth/client";
+import { authClient, Session } from "@/lib/auth/client";
 import {
   Sidebar,
   SidebarContent,
@@ -17,11 +17,11 @@ import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 import { SidebarItemsType } from "./types";
 
-type AppSidebarProps = Session & {
+type AppSidebarProps = {
   items: SidebarItemsType;
 };
 
-export default function AppSidebar({ user, session, items }: AppSidebarProps) {
+export default function AppSidebar({ items }: AppSidebarProps) {
   const path = usePathname();
   return (
     <Sidebar collapsible="icon" variant="inset">
@@ -34,7 +34,7 @@ export default function AppSidebar({ user, session, items }: AppSidebarProps) {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    isActive={item.title.toLowerCase() === path.slice(5)}
+                    isActive={path === item.url.pathname}
                   >
                     <Link href={item.url}>
                       {item.icon}
@@ -49,7 +49,7 @@ export default function AppSidebar({ user, session, items }: AppSidebarProps) {
       </SidebarContent>
       <Suspense fallback={<>loading...</>}>
         <SidebarFooter>
-          <UserFooter user={user} session={session} />
+          <UserFooter />
         </SidebarFooter>
       </Suspense>
     </Sidebar>

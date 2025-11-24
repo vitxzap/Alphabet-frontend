@@ -14,16 +14,11 @@ export default async function WebLayout({
   if (isAdmin === true) {
     redirect("/admin/dashboard");
   }
-
   return (
     <main className="flex w-dvw">
       <SettingsDialog />
       <SidebarProvider className="p-2 pl-0!">
-        <AppSidebar
-          user={data.user}
-          session={data.session}
-          items={userSidebarItems}
-        />
+        <AppSidebar items={userSidebarItems} />
         <main className="flex flex-col w-full h-100% bg-background rounded-xl shadow-md">
           <NavHeader />
           {children}

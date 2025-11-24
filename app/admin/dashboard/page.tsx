@@ -1,4 +1,3 @@
-
 import {
   Empty,
   EmptyDescription,
@@ -6,10 +5,12 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { verifySession } from "@/lib/server/dal";
 import { LucideGrid2x2 } from "lucide-react";
 
 
 export default async function Dashboard() {
+  const { authenticated } = await verifySession();
   return (
     <div className="flex w-full h-full items-center justify-center">
       <Empty>

@@ -13,7 +13,7 @@ export const adminSidebarItems: SidebarItemsType = [
     title: "User Management",
     icon: <Wrench />,
     url: {
-      pathname: "/admin/management"
-    }
-  }
+      pathname: "/admin/management",
+    },
+  },
 ];
