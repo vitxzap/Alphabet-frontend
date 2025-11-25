@@ -33,6 +33,125 @@ export default async function UserManagement() {
       email: "marcelo@email.com",
       emailVerified: false
     },
+    {
+      name: "Jonh Doe",
+      courseName: "Analysis and system development",
+      email: "jonhdoe@email.com",
+      emailVerified: false
+    },
+    {
+      name: "Victor Santos",
+      courseName: "Gastronomy",
+      email: "victor@email.com",
+      emailVerified: true
+    },
+    {
+      name: "kalel Rodrigues",
+      courseName: "Software engineer",
+      email: "kalel@email.com",
+      emailVerified: true
+    },
+    {
+      name: "Marcelo Cardoso",
+      courseName: "Analysis and system development",
+      email: "marcelo@email.com",
+      emailVerified: false
+    },
+    {
+      name: "Jonh Doe",
+      courseName: "Analysis and system development",
+      email: "jonhdoe@email.com",
+      emailVerified: false
+    },
+    {
+      name: "Victor Santos",
+      courseName: "Gastronomy",
+      email: "victor@email.com",
+      emailVerified: true
+    },
+    {
+      name: "kalel Rodrigues",
+      courseName: "Software engineer",
+      email: "kalel@email.com",
+      emailVerified: true
+    },
+    {
+      name: "Marcelo Cardoso",
+      courseName: "Analysis and system development",
+      email: "marcelo@email.com",
+      emailVerified: false
+    },
+    {
+      name: "Jonh Doe",
+      courseName: "Analysis and system development",
+      email: "jonhdoe@email.com",
+      emailVerified: false
+    },
+    {
+      name: "Victor Santos",
+      courseName: "Gastronomy",
+      email: "victor@email.com",
+      emailVerified: true
+    },
+    {
+      name: "kalel Rodrigues",
+      courseName: "Software engineer",
+      email: "kalel@email.com",
+      emailVerified: true
+    },
+    {
+      name: "Marcelo Cardoso",
+      courseName: "Analysis and system development",
+      email: "marcelo@email.com",
+      emailVerified: false
+    },
+    {
+      name: "Jonh Doe",
+      courseName: "Analysis and system development",
+      email: "jonhdoe@email.com",
+      emailVerified: false
+    },
+    {
+      name: "Victor Santos",
+      courseName: "Gastronomy",
+      email: "victor@email.com",
+      emailVerified: true
+    },
+    {
+      name: "kalel Rodrigues",
+      courseName: "Software engineer",
+      email: "kalel@email.com",
+      emailVerified: true
+    },
+    {
+      name: "Marcelo Cardoso",
+      courseName: "Analysis and system development",
+      email: "marcelo@email.com",
+      emailVerified: false
+    },{
+      name: "Jonh Doe",
+      courseName: "Analysis and system development",
+      email: "jonhdoe@email.com",
+      emailVerified: false
+    },
+    {
+      name: "Victor Santos",
+      courseName: "Gastronomy",
+      email: "victor@email.com",
+      emailVerified: true
+    },
+    {
+      name: "kalel Rodrigues",
+      courseName: "Software engineer",
+      email: "kalel@email.com",
+      emailVerified: true
+    },
+    {
+      name: "Marcelo Cardoso",
+      courseName: "Analysis and system development",
+      email: "marcelo@email.com",
+      emailVerified: false
+    },
   ];
   return (
     <div className="flex w-full h-full flex-col">

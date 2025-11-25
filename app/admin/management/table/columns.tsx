@@ -53,7 +53,7 @@ export const columns = [
     cell: (info) => (
       <Badge variant={info.getValue() ? "verified" : "destructive"}>
         {" "}
-        {info.getValue() ? "Active" : "Unactive"}
+        {info.getValue() ? "Active" : "Pending"}
       </Badge>
     ),
   }),
