@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import { UrlObject } from "url";
-
 import z from "zod";
 const sidebarSchema = z.object({
   title: z.string().nonempty(),
