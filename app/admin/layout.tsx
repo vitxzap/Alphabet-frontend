@@ -18,11 +18,7 @@ export default async function AdminLayout({
     <main>
       <SettingsDialog />
       <SidebarProvider className="p-2 pl-0!">
-        <AppSidebar
-          session={data.session}
-          user={data.user}
-          items={adminSidebarItems}
-        />
+        <AppSidebar items={adminSidebarItems} />
         <main className="flex flex-col w-full h-100% bg-background rounded-xl shadow-md">
           <NavHeader />
           <div className="p-4 h-full w-full">{children}</div>

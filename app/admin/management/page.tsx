@@ -13,29 +13,25 @@ export default async function UserManagement() {
       name: "Jonh Doe",
       courseName: "Analysis and system development",
       email: "jonhdoe@email.com",
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      emailVerified: false
     },
     {
       name: "Victor Santos",
       courseName: "Gastronomy",
       email: "victor@email.com",
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      emailVerified: true
     },
     {
       name: "kalel Rodrigues",
       courseName: "Software engineer",
       email: "kalel@email.com",
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      emailVerified: true
     },
     {
       name: "Marcelo Cardoso",
       courseName: "Analysis and system development",
       email: "marcelo@email.com",
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      emailVerified: false
     },
   ];
   return (
