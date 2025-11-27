@@ -32,8 +32,12 @@ const fakeData: Session = {
 export async function verifySession() {
   //This will not be used in prod, only in development stages
   if (process.env.DISABLE_AUTHENTICATION == "true") {
-    return { authenticated: true, data: fakeData, isAdmin: true };
-  } 
+    return {
+      authenticated: true,
+      data: fakeData,
+      isAdmin: fakeData.user.role == "admin",
+    };
+  }
   const { data, error } = await authClient.getSession({
     fetchOptions: {
       headers: await headers(),
@@ -47,5 +51,3 @@ export async function verifySession() {
 
   return { authenticated: true, isAdmin: isAdmin };
 }
-
-
