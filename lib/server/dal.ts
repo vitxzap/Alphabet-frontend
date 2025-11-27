@@ -47,3 +47,5 @@ export async function verifySession() {
 
   return { authenticated: true, isAdmin: isAdmin };
 }
+
+

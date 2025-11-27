@@ -1,5 +1,5 @@
-import { SynapseIcon } from "@/components/ui/icon";
 import { ComponentProps } from "react";
+import { Logo } from "../ui/logo";
 
 function AuthHeader({ children, ...props }: ComponentProps<"div">) {
   return (
@@ -8,7 +8,7 @@ function AuthHeader({ children, ...props }: ComponentProps<"div">) {
       {...props}
     >
       <div className="flex items-center justify-center flex-col gap-6">
-        <SynapseIcon />
+        <Logo height={48} width={48} />
       </div>
       {children}
     </div>
