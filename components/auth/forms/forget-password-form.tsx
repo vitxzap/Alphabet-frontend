@@ -93,7 +93,7 @@ export default function ForgotPasswordForm({
         </AuthFormContentInputs>
         <div className="flex flex-col w-full gap-2">
           <LoadingButton
-            disabled={!form.formState.isReady}
+            disabled={!form.formState.isValid}
             isLoading={forgotPasswordMutation.isPending}
             type="submit"
           >

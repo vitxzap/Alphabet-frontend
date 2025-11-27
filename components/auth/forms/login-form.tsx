@@ -27,6 +27,7 @@ import {
 } from "../auth-form-template";
 import { LoginTypeSchema } from "../../../lib/auth/types";
 import { loginSchema } from "../../../lib/auth/schemas";
+import { toast } from "sonner";
 
 interface LoginFormProps
   extends React.ComponentProps<"div">,
@@ -68,6 +69,7 @@ export default function LoginForm({ actions }: LoginFormProps) {
       }
       return data;
     },
+    
   });
 
   //Handle with data and submit from forms
@@ -144,6 +146,7 @@ export default function LoginForm({ actions }: LoginFormProps) {
           ></Controller>
         </AuthFormContentInputs>
         <LoadingButton
+          type="submit"
           isLoading={loginMutation.isPending}
           disabled={!form.formState.isValid}
         >

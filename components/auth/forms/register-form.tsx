@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authClient } from "@/lib/auth/client";
@@ -156,6 +156,7 @@ export default function RegisterForm({ actions }: RegisterFormProps) {
           />
         </AuthFormContentInputs>
         <LoadingButton
+          type="submit"
           isLoading={registerMutation.isPending}
           disabled={!form.formState.isValid}
         >

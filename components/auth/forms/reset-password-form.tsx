@@ -35,7 +35,7 @@ export default function ResetPasswordForm({ actions }: ResetPasswordProps) {
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       newPassword: "",
-    }
+    },
   });
 
   const resetPasswordMutate = useMutation({
@@ -91,6 +91,7 @@ export default function ResetPasswordForm({ actions }: ResetPasswordProps) {
           />
         </AuthFormContentInputs>
         <LoadingButton
+          type="submit"
           disabled={!form.formState.isReady}
           isLoading={resetPasswordMutate.isPending}
         >

@@ -5,7 +5,7 @@ import { cache } from "react";
 import { headers } from "next/headers";
 
 // Used only when DISABLE_AUTHENTICATION = true
-// to improve development on protected routes
+// to improve development speed on protected routes
 const fakeData: Session = {
   user: {
     email: "fake@email.com",
@@ -14,7 +14,7 @@ const fakeData: Session = {
     banned: false,
     createdAt: new Date(),
     emailVerified: true,
-    role: "admin",
+    role: "user",
     updatedAt: new Date(),
     name: "Fake user",
   },
@@ -30,9 +30,10 @@ const fakeData: Session = {
 
 // Verifies the current user session and returns if the user is authenticated and if is an admin.
 export async function verifySession() {
+  //This will not be used in prod, only in development stages
   if (process.env.DISABLE_AUTHENTICATION == "true") {
     return { authenticated: true, data: fakeData, isAdmin: true };
-  }
+  } 
   const { data, error } = await authClient.getSession({
     fetchOptions: {
       headers: await headers(),
