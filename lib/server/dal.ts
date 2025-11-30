@@ -14,7 +14,7 @@ const fakeData: Session = {
     banned: false,
     createdAt: new Date(),
     emailVerified: true,
-    role: "user",
+    role: "admin",
     updatedAt: new Date(),
     name: "Fake user",
   },
@@ -31,7 +31,7 @@ const fakeData: Session = {
 // Verifies the current user session and returns if the user is authenticated and if is an admin.
 export async function verifySession() {
   //This will not be used in prod, only in development stages
-  if (process.env.DISABLE_AUTHENTICATION == "true") {
+  if (process.env.NEXT_PUBLIC_DISABLE_AUTHENTICATION == "true") {
     return {
       authenticated: true,
       data: fakeData,

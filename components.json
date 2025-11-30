@@ -21,6 +21,7 @@
   "registries": {
     "@magicui": "https://magicui.design/r/{name}.json",
     "@intentui": "https://intentui.com/r/{name}",
-    "@hextaui": "https://hextaui.com/r/{name}.json"
+    "@hextaui": "https://hextaui.com/r/{name}.json",
+    "@blocks": "https://blocks.so/r/{name}.json"
   }
 }

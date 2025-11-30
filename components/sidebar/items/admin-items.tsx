@@ -1,5 +1,5 @@
 import { SidebarItemsType } from "@/components/sidebar/types";
-import { LucideGrid2x2, UserCheckIcon, Wrench } from "lucide-react";
+import { LucideGrid2x2, User, UserCheckIcon, Wrench } from "lucide-react";
 
 export const adminSidebarItems: SidebarItemsType = [
   {
@@ -10,10 +10,24 @@ export const adminSidebarItems: SidebarItemsType = [
     },
   },
   {
-    title: "User Management",
+    title: "Manage",
     icon: <Wrench />,
-    url: {
-      pathname: "/admin/management",
+    subs: {
+      basePath: "/admin/manage",
+      items: [
+        {
+          title: "Users",
+          url: {
+            pathname: "/admin/manage/users",
+          },
+        },
+        {
+          title: "Teachers",
+          url: {
+            pathname: "/admin/manage/teachers"
+          }
+        }
+      ],
     },
   },
 ];
