@@ -125,7 +125,6 @@ export function Filter() {
                       {...field}
                       autoCapitalize="true"
                     />
-                    Input
                   </InputGroup>
                 )}
               />
