@@ -36,7 +36,7 @@ export function Filter() {
     <div className="flex w-max">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant={"ghost"} className="text-muted-fg">
+          <Button variant={"ghost"} className="text-muted-fg rounded-full">
             {" "}
             <Plus /> Add filter
           </Button>
