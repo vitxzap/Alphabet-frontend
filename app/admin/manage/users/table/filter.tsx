@@ -91,7 +91,7 @@ export function Filter() {
             {" "}
             <CircleUserRound />{" "}
             {form.getValues("filter") == "" ? (
-              <>Name</>
+              <>Student</>
             ) : (
               <>{filterValue}</>
             )}{" "}
@@ -101,7 +101,7 @@ export function Filter() {
         <PopoverContent>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <h4 className="leading-none font-medium">Filtering name</h4>
+              <h4 className="leading-none font-medium">Filtering student</h4>
               <span className="text-muted-fg text-sm">
                 This field will filter all students by name
               </span>
