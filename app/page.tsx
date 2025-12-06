@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Home() {
-  if (process.env.DISABLE_AUTHENTICATION === "true") {
+  if (process.env.NEXT_PUBLIC_DISABLE_AUTHENTICATION === "true") {
     return (
       <div className="flex flex-col w-full h-full items-center justify-center gap-2">
         <Button asChild>

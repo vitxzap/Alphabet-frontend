@@ -8,7 +8,6 @@ import {
   PaginationState,
   useReactTable,
 } from "@tanstack/react-table";
-
 import {
   Table,
   TableBody,
@@ -17,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -35,6 +33,26 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { SelectGroup, SelectValue } from "@radix-ui/react-select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import {
+  CircleAlert,
+  CircleDashed,
+  CircleUserRound,
+  Notebook,
+  Plus,
+  UserCircle,
+  UsersRound,
+} from "lucide-react";
+import { Filter } from "./filter";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
@@ -55,29 +73,8 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   });
 
   return (
-    <div className="flex flex-col gap-6 w-full h-max">
-      <div className="flex gap-2 items-center">
-        <span className="text-sm text-muted-fg">Showing</span>
-        <Select
-          onValueChange={(e) => table.setPageSize(Number(e))}
-          defaultValue="5"
-        >
-          <SelectTrigger>
-            <SelectValue placeholder={"Rows"} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Displaying rows</SelectLabel>
-              {[2, 5, 10, 20].map((size) => (
-                <SelectItem key={size} value={String(size)}>
-                  {size}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <span className="text-sm text-muted-fg">entries</span>
-      </div>
+    <div className="flex flex-col gap-2 w-full h-max">
+      <Filter />
       <div className="overflow-hidden rounded-md border w-full h-min">
         <Table>
           <TableHeader>
@@ -131,18 +128,42 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           </TableBody>
         </Table>
       </div>
-      <Pagination>
-        <PaginationContent>
-          <PaginationPrevious
-            onClick={table.previousPage}
-            disabled={!table.getCanPreviousPage()}
-          />
-          <PaginationNext
-            onClick={table.nextPage}
-            disabled={!table.getCanNextPage()}
-          />
-        </PaginationContent>
-      </Pagination>
+      <div className="flex justify-between w-full">
+        <Pagination>
+          <PaginationContent>
+            <PaginationPrevious
+              onClick={table.previousPage}
+              disabled={!table.getCanPreviousPage()}
+            />
+            <PaginationNext
+              onClick={table.nextPage}
+              disabled={!table.getCanNextPage()}
+            />
+          </PaginationContent>
+        </Pagination>
+        <div className="flex gap-2 items-center">
+          <span className="text-sm text-muted-fg">Showing</span>
+          <Select
+            onValueChange={(e) => table.setPageSize(Number(e))}
+            defaultValue="5"
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={"Rows"} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Displaying rows</SelectLabel>
+                {[2, 5, 10, 20].map((size) => (
+                  <SelectItem key={size} value={String(size)}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <span className="text-sm text-muted-fg">entries</span>
+        </div>
+      </div>
     </div>
   );
 }

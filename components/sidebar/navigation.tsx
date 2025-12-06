@@ -79,7 +79,7 @@ export function SidebarNavigation({ items }: { items: SidebarItemsType }) {
                             <Link
                               href={subRoute.url}
                               prefetch={true}
-                              className="flex items-center rounded-md px-4 py-1.5 text-sm font-medium text-muted-foreground hover:bg-sidebar-muted hover:text-foreground"
+                              className="flex items-center rounded-md px-2.5 py-1.5 text-sm font-medium text-muted-foreground hover:bg-sidebar-muted hover:text-foreground"
                             >
                               <div className="flex items-center gap-1">
                                 {subRoute.title}
