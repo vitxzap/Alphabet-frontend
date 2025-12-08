@@ -34,25 +34,18 @@ import {
 } from "@/components/ui/select";
 import { SelectGroup, SelectValue } from "@radix-ui/react-select";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import {
   CircleAlert,
+  CircleCheck,
   CircleDashed,
   CircleUserRound,
+  CircleX,
   Notebook,
   Plus,
   UserCircle,
   UsersRound,
 } from "lucide-react";
-import { Filter } from "./filter";
+import { TextFilter } from "./filters/text-filter";
+import { SelectFilter } from "./filters/select-filter";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
@@ -74,7 +67,40 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
 
   return (
     <div className="flex flex-col gap-2 w-full h-max">
-      <Filter />
+      <div className="flex gap-1 w-max">
+        <TextFilter
+          filterName="Student"
+          description="This field will filter all students by name"
+          title="Filtering student"
+          icon={<CircleUserRound />}
+        />
+        <TextFilter
+          filterName="Course"
+          description="This field will filter all courses by name"
+          title="Filtering course"
+          icon={<Notebook />}
+        />
+        <SelectFilter
+          title="Status filtering"
+          filterName="Status"
+          icon={<Notebook />}
+          items={[
+            {
+              title: "Verified",
+              icon: <CircleCheck />,
+            },
+            {
+              title: "Unverified",
+              icon: <CircleX />,
+            },
+            {
+              title: "Both",
+              icon: <CircleDashed />
+            },
+          ]}
+          description="Filter your data by their status"
+        />
+      </div>
       <div className="overflow-hidden rounded-md border w-full h-min">
         <Table>
           <TableHeader>

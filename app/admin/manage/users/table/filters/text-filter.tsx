@@ -1,19 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
@@ -24,47 +11,27 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ArrowDown,
   ChevronDown,
-  CircleDashed,
-  CircleUserRound,
-  Notebook,
-  Plus,
-  UserRoundCheck,
-  UserRoundX,
-  X,
 } from "lucide-react";
 import { FormEvent, ReactNode, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
-import { motion } from "motion/react";
-interface FilterProps extends React.ComponentProps<"form"> {
-  filterName: string;
-  title: string;
-  description: string;
-  icon: ReactNode;
-}
+import { FilterProps } from "./types";
+import { FilterTriggerButton } from "./trigger-button";
 
 const filterSchema = z.object({
-  filter: z
-    .string()
-    .nonempty()
-    .max(32)
-    .regex(/^[a-zA-Z\s]+$/, "Only letters are allowed"),
+  filter: z.string().nonempty().max(64),
 });
 type FilterType = z.infer<typeof filterSchema>;
-export function Filter() {
+
+export function TextFilter({
+  title,
+  icon,
+  filterName,
+  description,
+}: FilterProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [filterValue, setFilterValue] = useState<FilterType["filter"]>("");
   const form = useForm<FilterType>({
@@ -81,30 +48,13 @@ export function Filter() {
     <div className="flex w-max gap-2">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
-            variant={filterValue ? "default" : "outline"}
-            className={`rounded-full text-sm ${
-              filterValue ? "" : "text-muted-fg"
-            }`}
-            size={"sm"}
-          >
-            {" "}
-            <CircleUserRound />{" "}
-            {form.getValues("filter") == "" ? (
-              <>Student</>
-            ) : (
-              <>{filterValue}</>
-            )}{" "}
-            <ChevronDown />{" "}
-          </Button>
+          <FilterTriggerButton filterName={filterName} filterValue={filterValue} icon={icon}/>
         </PopoverTrigger>
         <PopoverContent>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <h4 className="leading-none font-medium">Filtering student</h4>
-              <span className="text-muted-fg text-sm">
-                This field will filter all students by name
-              </span>
+              <h4 className="leading-none font-medium">{title}</h4>
+              <span className="text-muted-fg text-sm">{description}</span>
             </div>
 
             <form
@@ -118,7 +68,7 @@ export function Filter() {
                 render={({ field, fieldState }) => (
                   <InputGroup>
                     <InputGroupAddon>
-                      <CircleUserRound />
+                      {icon}
                     </InputGroupAddon>
                     <InputGroupInput
                       placeholder="Enter filter..."
