@@ -18,7 +18,7 @@ import {
 import { FormEvent, ReactNode, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
-import { FilterProps } from "./types";
+import { FilterProps } from "../../lib/filters/types";
 import { FilterTriggerButton } from "./trigger-button";
 
 const filterSchema = z.object({

@@ -7,18 +7,12 @@ interface FilterProps extends React.ComponentProps<"form"> {
   icon: ReactNode;
 }
 
-interface SelectFilterProps extends FilterProps {
-  /**
-   * Define all select items.
-   * @param {string} title - the item's string that will be shown
-   * @param {string} icon - the item's icon.
-   */
+interface SelectFilterProps extends Omit<FilterProps, "title" | "description"> {
   items: Array<{
     title: string;
     icon?: ReactNode;
   }>;
 }
-
 interface FilterTriggerButton extends React.ComponentProps<"button"> {
   icon: ReactNode;
   filterName: string;

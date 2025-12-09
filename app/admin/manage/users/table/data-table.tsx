@@ -4,6 +4,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   PaginationState,
   useReactTable,
@@ -44,8 +45,8 @@ import {
   UserCircle,
   UsersRound,
 } from "lucide-react";
-import { TextFilter } from "./filters/text-filter";
-import { SelectFilter } from "./filters/select-filter";
+import { TextFilter } from "../../../../../components/filters/text-filter";
+import { SelectFilter } from "../../../../../components/filters/select-filter";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
@@ -58,6 +59,8 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    // Using server-side filtering for performance
+    manualFiltering: true,
     initialState: {
       pagination: {
         pageSize: 5,
@@ -74,16 +77,22 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           title="Filtering student"
           icon={<CircleUserRound />}
         />
-        <TextFilter
+        <SelectFilter
           filterName="Course"
-          description="This field will filter all courses by name"
-          title="Filtering course"
           icon={<Notebook />}
+          items={[
+            {
+              title: "Analysis and System Development",
+            },
+            { title: "Gastronomy" },
+            { title: "Software Engineer" },
+            { title: "Civil Engineer" },
+            { title: "Administration" },
+          ]}
         />
         <SelectFilter
-          title="Status filtering"
           filterName="Status"
-          icon={<Notebook />}
+          icon={<CircleDashed />}
           items={[
             {
               title: "Verified",
@@ -93,12 +102,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
               title: "Unverified",
               icon: <CircleX />,
             },
-            {
-              title: "Both",
-              icon: <CircleDashed />
-            },
           ]}
-          description="Filter your data by their status"
         />
       </div>
       <div className="overflow-hidden rounded-md border w-full h-min">
