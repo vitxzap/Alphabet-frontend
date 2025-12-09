@@ -70,7 +70,7 @@ export const columns: ColumnDef<User>[] = [
       <div className="text-right">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant={"ghost"}>
+            <Button variant={"ghost"} size={"icon-sm"}>
               <Ellipsis />
             </Button>
           </DropdownMenuTrigger>
