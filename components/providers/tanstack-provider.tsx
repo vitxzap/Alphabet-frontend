@@ -14,9 +14,7 @@ const clientOptions: QueryClientConfig = {
   defaultOptions: {
     mutations: {
       onError(err) {
-        toast.error("Oops...", {
-          description: err.message,
-        });
+        toast.error(err.message);
       },
     },
   },
